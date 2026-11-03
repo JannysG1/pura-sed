@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 294 76" width="100%" height="100%">
+  <!-- CRESCENT MOON (Centrada en la mitad exacta: x=147) -->
+  <g id="moon" transform="rotate(-15 147 12)">
+    <!-- White crescent base -->
+    <circle cx="147" cy="12" r="10.5" fill="#FFFFFF" />
+    <!-- Black cutout sphere giving crescent shape -->
+    <circle cx="150.2" cy="12" r="8.8" fill="#000000" />
+  </g>
+
+  <!-- COLONIAL ARCH (R) & STEPS -->
+  <!-- Black colonial depth & shadow steps -->
+  <path d="M 62 36 L 68 31 L 70 33 L 70 66 L 62 66 Z" fill="#000000" />
+  <path d="M 48 67 L 72 67 L 72 71 L 52 71 L 52 75 L 75 75 L 75 76 L 48 76 Z" fill="#000000" />
+  
+  <!-- Amber Arch -->
+  <path d="M 43 67 L 43 38 A 9.5 9.5 0 0 1 62 38 L 62 67 Z" fill="#F8AD00" />
+  
+  <!-- White R inside arch -->
+  <path d="M 47.5 44 L 54 44 C 57 44 58.5 45.5 58.5 48 C 58.5 50.2 57 51.5 54.5 51.8 L 59 62 L 55 62 L 51.2 53.5 L 50.5 53.5 L 50.5 62 L 47.5 62 Z M 50.5 46.5 L 50.5 51 L 53.5 51 C 55 51 55.8 50.2 55.8 48.8 C 55.8 47.2 55 46.5 53.5 46.5 Z" fill="#FFFFFF" />
+
+  <!-- SERENO INLINE LETTERS (Gold #F8AD00) -->
+  <!-- S (Filled multi-contour with inlines) -->
+  <path fill="#F8AD00" fill-rule="evenodd" d="M 9.5 37 C 14.5 37 17 39.5 17 43.5 L 14.5 43.5 C 14.5 41 12.8 39 9.5 39 C 5.5 39 3.5 41 3.5 44 C 3.5 47 6 48.5 10 50 C 14.5 51.5 17 53.5 17 57.5 C 17 61.5 13.5 62 9.5 62 C 5 62 1.5 60.5 1.5 55.5 L 4 55.5 C 4 58.5 6 60 9.5 60 C 13 60 14.5 58.5 14.5 57.5 C 14.5 55 12.5 53.5 8 52 C 3.5 50.5 1 48 1 44 C 1 39.5 4.5 37 9.5 37 Z M 9.5 41 C 11.5 41 12.5 42 12.5 43.5 L 11 43.5 C 11 42.5 10.5 42 9.5 42 C 8 42 7.2 42.6 7.2 43.5 C 7.2 44.5 8 45.2 9.5 45.8 L 8.5 47 C 6.5 46.2 5.5 45 5.5 43.5 C 5.5 41.8 7.2 41 9.5 41 Z M 9.5 58 C 7.5 58 6.5 57 6.5 55.5 L 8 55.5 C 8 56.5 8.5 57 9.5 57 C 11 57 11.8 56.4 11.8 55.5 C 11.8 54.5 11 53.8 9.5 53.2 L 10.5 52 C 12.5 52.8 13.5 54 13.5 55.5 C 13.5 57.2 11.8 58 9.5 58 Z" />
+
+  <!-- First E -->
+  <g stroke="#F8AD00" fill="none">
+    <path d="M 35 38.5 L 22.5 38.5 L 22.5 61.5 L 35 61.5 M 22.5 50 L 32 50" stroke-width="2.6" stroke-linecap="square" />
+    <path d="M 33 41.5 L 25.5 41.5 L 25.5 58.5 L 33 58.5 M 25.5 50 L 30 50" stroke-width="1.2" stroke-linecap="square" />
+  </g>
+
+  <!-- Second E -->
+  <g stroke="#F8AD00" fill="none">
+    <path d="M 82 38.5 L 69.5 38.5 L 69.5 61.5 L 82 61.5 M 69.5 50 L 79 50" stroke-width="2.6" stroke-linecap="square" />
+    <path d="M 80 41.5 L 72.5 41.5 L 72.5 58.5 L 80 58.5 M 72.5 50 L 77 50" stroke-width="1.2" stroke-linecap="square" />
+  </g>
+
+  <!-- N -->
+  <g stroke="#F8AD00" fill="none">
+    <path d="M 90 61.5 L 90 38.5 L 106 61.5 L 106 38.5" stroke-width="2.6" stroke-linecap="square" />
+    <path d="M 93 58.5 L 93 42.5 L 103 57.5 L 103 41.5" stroke-width="1.2" stroke-linecap="square" />
+  </g>
+
+  <!-- O (Concentric rings) -->
+  <g stroke="#F8AD00" fill="none">
+    <circle cx="125.5" cy="50" r="11.5" stroke-width="2.6" />
+    <circle cx="125.5" cy="50" r="6" stroke-width="1.4" />
+  </g>
+
+  <!-- MORENO SOLID BADGE -->
+  <!-- Black Container Box -->
+  <rect x="150" y="32" width="144" height="34" fill="#000000" />
+
+  <!-- Pure Vector Geometric Paths for MORENO in White #FFFFFF -->
+  <g id="moreno-letters" fill="#FFFFFF">
+    <!-- M -->
+    <path d="M 154 37 L 158.5 37 L 165.5 52.5 L 172.5 37 L 177 37 L 177 60 L 173 60 L 173 43.5 L 167 56.5 L 164 56.5 L 158 43.5 L 158 60 L 154 60 Z" />
+
+    <!-- First O (outer circle minus inner hole) -->
+    <path fill-rule="evenodd" d="M 192 37 C 198.6 37 204 42.4 204 48.5 C 204 54.6 198.6 60 192 60 C 185.4 60 180 54.6 180 48.5 C 180 42.4 185.4 37 192 37 Z M 192 41.5 C 188 41.5 184.8 44.7 184.8 48.5 C 184.8 52.3 188 55.5 192 55.5 C 196 55.5 199.2 52.3 199.2 48.5 C 199.2 44.7 196 41.5 192 41.5 Z" />
+
+    <!-- R -->
+    <path fill-rule="evenodd" d="M 207 37 L 217.5 37 C 221 37 223 39 223 42.5 C 223 45.2 221.2 47.2 218 47.8 L 223.5 60 L 218.8 60 L 214 49 L 211.2 49 L 211.2 60 L 207 60 Z M 211.2 41.2 L 211.2 45.5 L 216.5 45.5 C 218 45.5 218.8 44.7 218.8 43.4 C 218.8 42 218 41.2 216.5 41.2 Z" />
+
+    <!-- E -->
+    <path d="M 227 37 L 241 37 L 241 41.5 L 231.5 41.5 L 231.5 46.5 L 239.5 46.5 L 239.5 50.5 L 231.5 50.5 L 231.5 55.5 L 241 55.5 L 241 60 L 227 60 Z" />
+
+    <!-- N -->
+    <path d="M 245 37 L 249.5 37 L 259.5 53.5 L 259.5 37 L 263.5 37 L 263.5 60 L 259 60 L 249 43.5 L 249 60 L 245 60 Z" />
+
+    <!-- Second O (outer circle minus inner hole) -->
+    <path fill-rule="evenodd" d="M 279 37 C 285.6 37 291 42.4 291 48.5 C 291 54.6 285.6 60 279 60 C 272.4 60 267 54.6 267 48.5 C 267 42.4 272.4 37 279 37 Z M 279 41.5 C 275 41.5 271.8 44.7 271.8 48.5 C 271.8 52.3 275 55.5 279 55.5 C 283 55.5 286.2 52.3 286.2 48.5 C 286.2 44.7 283 41.5 279 41.5 Z" />
+  </g>
+</svg>
