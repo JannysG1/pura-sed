@@ -1,0 +1,2349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>PuraSed &bull; Sereno Moreno — Presentación Completa (Auditada)</title>
+
+  <!-- Google Fonts: 2 familias consolidadas (Bebas Neue para display, Space Grotesk para interfaz y datos) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+
+    :root {
+        --bg-dark: #0a0d0c;
+        --bg-surface: #111614;
+        --bg-card: #151b18;
+        --amber-gold: #F5A623;
+        --punk-magenta: #FF007F;
+        --neon-cyan: #00E5FF;
+        --sereno-gold: #E5A93C;
+        --chalk-white: #EDEDED;
+        --chalk-muted: #9EABA3;
+        --border-subtle: rgba(255, 255, 255, 0.12);
+        --font-display: 'Bebas Neue', sans-serif;
+        --font-body: 'Space Grotesk', -apple-system, sans-serif;
+        --font-mono: 'Space Grotesk', monospace;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html, body {
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
+        background-color: var(--bg-dark);
+        color: var(--chalk-white);
+        user-select: none;
+    }
+
+    /* ILUSTRACIONES DE TIZA ANDINA (OPACIDAD AUDITADA 0.38) */
+    .chalk-illustrations-bg {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        pointer-events: none;
+        z-index: 1;
+        overflow: hidden;
+    }
+
+    .chalk-draw {
+        position: absolute;
+        opacity: 0.38;
+        filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.7)) brightness(1.25);
+        mix-blend-mode: screen;
+        pointer-events: none;
+    }
+
+    .draw-diablo-huma { top: 60px; left: -25px; width: 290px; transform: rotate(-4deg); }
+    .draw-danzante { top: 100px; right: 15px; width: 270px; transform: rotate(6deg); }
+    .draw-drinker { bottom: 25px; left: 14%; width: 240px; opacity: 0.40; }
+    .draw-corn { top: 30px; left: 46%; width: 160px; opacity: 0.35; }
+    .draw-pig { bottom: 70px; left: -20px; width: 240px; opacity: 0.36; }
+    .draw-bottle { bottom: 100px; left: 38%; width: 105px; opacity: 0.38; }
+    .draw-rooster { top: 38%; right: 20px; width: 200px; opacity: 0.36; }
+
+    .chalkboard-grid-overlay {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+        background-size: 24px 24px;
+        pointer-events: none;
+        z-index: 2;
+    }
+
+    /* FASE 1: BIENVENIDA - REDISENO INDIE ARTESANAL CENTRALIZADO */
+    .welcome-screen {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: clamp(1rem, 2.5vh, 2rem) 1.5rem;
+        background: transparent;
+        z-index: 10;
+        overflow: hidden;
+    }
+
+    .welcome-central-container {
+        max-width: 720px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(1.4rem, 2.8vh, 2.2rem);
+        z-index: 20;
+        margin-top: -3vh;
+    }
+
+    .welcome-top-brand {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .welcome-official-logo {
+        width: clamp(280px, 34vw, 460px);
+        max-height: 16vh;
+        object-fit: contain;
+        filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.7));
+    }
+
+    .welcome-mesa-stamp {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 0.2rem;
+    }
+
+    .mesa-flourish {
+        color: #E59F38;
+        font-size: 1.4rem;
+        font-weight: 300;
+        opacity: 0.7;
+    }
+
+    .mesa-title-text {
+        font-family: var(--font-display);
+        font-size: clamp(2.6rem, 4.2vw, 3.8rem);
+        letter-spacing: 6px;
+        line-height: 1;
+        color: #F5EADB;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    }
+
+    .welcome-center-cta {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(1rem, 2vh, 1.4rem);
+        width: 100%;
+    }
+
+    .btn-start-experience {
+        background: #E59F38;
+        color: #121614;
+        border: 2px solid #E59F38;
+        font-family: var(--font-display);
+        font-size: clamp(1.3rem, 1.8vw, 1.65rem);
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        min-height: 56px;
+        padding: 0 clamp(2.5rem, 4vw, 3.8rem);
+        border-radius: 3px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.45);
+        user-select: none;
+        transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+    }
+
+    .btn-start-experience:hover {
+        background: #F5EADB;
+        border-color: #F5EADB;
+        color: #121614;
+        transform: translateY(-2px);
+    }
+
+    .btn-start-experience:active {
+        transform: translateY(0);
+    }
+
+    .btn-start-experience:focus-visible {
+        outline: 2px dashed #F5EADB;
+        outline-offset: 4px;
+    }
+
+    .welcome-sub-meta {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px 10px;
+        max-width: 680px;
+    }
+
+    .welcome-category-ticket {
+        font-family: var(--font-display);
+        font-size: clamp(0.95rem, 1.15vw, 1.1rem);
+        font-weight: 700;
+        letter-spacing: 1.8px;
+        text-transform: uppercase;
+        background: rgba(18, 22, 20, 0.85);
+        color: #F5EADB;
+        border: 1px solid rgba(245, 234, 219, 0.22);
+        padding: 4px 14px;
+        border-radius: 2px;
+        box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        outline: none;
+        user-select: none;
+        transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+    }
+
+    .welcome-category-ticket:hover,
+    .welcome-category-ticket:focus-visible {
+        background: #E59F38;
+        border-color: #E59F38;
+        color: #121614;
+        transform: translateY(-2px);
+    }
+
+    .welcome-maiz-quote-box {
+        max-width: 580px;
+        padding: 0 1rem;
+        margin-top: 0.2rem;
+    }
+
+    .welcome-maiz-phrase {
+        font-family: var(--font-body);
+        font-size: clamp(0.88rem, 1.1vw, 1.05rem);
+        line-height: 1.5;
+        color: #C2CBC5;
+        font-style: italic;
+        letter-spacing: 0.4px;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    /* FASE 2: LOADER CULTURAL */
+    .loader-overlay {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(10, 13, 12, 0.98);
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .loader-face-box {
+        width: 190px; height: 190px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
+
+    .loader-face-img {
+        width: 140px; height: 140px;
+        object-fit: contain;
+        filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.85));
+        animation: maskBreathing 1.4s ease-in-out infinite alternate;
+        z-index: 2;
+    }
+
+    @keyframes maskBreathing {
+        0% { transform: scale(0.93) rotate(-3deg); }
+        100% { transform: scale(1.07) rotate(3deg); }
+    }
+
+    .loader-text {
+        font-family: var(--font-display);
+        font-size: 2.4rem;
+        letter-spacing: 2px;
+        color: var(--chalk-white);
+        margin-bottom: 0.6rem;
+    }
+
+    .loader-subtext {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--amber-gold);
+        letter-spacing: 0.5px;
+        margin-bottom: 1.8rem;
+    }
+
+    .loader-progress-track {
+        width: 280px; height: 6px;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 999px;
+        overflow: hidden;
+    }
+
+    .loader-progress-bar {
+        height: 100%;
+        background: var(--amber-gold);
+        transition: width 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    /* FASE 3: 3 COLUMNAS A PANTALLA COMPLETA */
+    .columns-viewport {
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        z-index: 10;
+    }
+
+    .columns-track {
+        display: flex;
+        width: 500vw;
+        height: 100vh;
+        height: 100dvh;
+        transition: transform 0.65s cubic-bezier(0.25, 1, 0.35, 1);
+        will-change: transform;
+    }
+
+    .pillar-col {
+        width: 33.333333vw;
+        height: 100vh;
+        height: 100dvh;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        padding: clamp(82px, 9.5vh, 100px) 2vw 4.5vh 2vw;
+        cursor: pointer;
+        overflow: hidden;
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
+        border-left: 1px solid rgba(255, 255, 255, 0.04);
+        transition: filter 0.3s ease;
+        color: var(--chalk-white);
+    }
+
+    .pillar-col:not(.active-col) {
+        filter: brightness(0.72);
+    }
+
+    .pillar-col:not(.active-col):hover {
+        filter: brightness(0.92);
+    }
+
+    .col-header {
+        width: 100%;
+        text-align: center;
+        z-index: 10;
+        margin-top: 1vh;
+    }
+
+    .col-category-tag {
+        font-size: 0.88rem;
+        font-weight: 800;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+        display: inline-block;
+        padding: 0 !important;
+        border-radius: 0 !important;
+        background: none !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .col-title {
+        font-family: var(--font-display);
+        font-size: clamp(2.4rem, 4.4vw, 4.8rem);
+        line-height: 0.92;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--chalk-white);
+        text-shadow: 0 4px 15px rgba(0, 0, 0, 0.85);
+        margin-top: 6px;
+    }
+
+    .col-hero-center {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%; height: 38vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 15;
+        pointer-events: none;
+    }
+
+    .floating-object-wrap {
+        position: relative;
+        width: 100%; height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: floatObject 3.6s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatObject {
+        0%   { transform: translateY(-6px) rotate(-0.5deg); }
+        100% { transform: translateY(8px) rotate(1deg); }
+    }
+
+    .floating-img {
+        max-height: 85%;
+        max-width: 80%;
+        object-fit: contain;
+        user-select: none;
+        filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.8));
+        transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    /* BOTELLA HEROICA MUCHA CHICHA - TAMAÑO EQUILIBRADO, SIN TAPAR TÍTULO */
+    .floating-img.bottle-img {
+        max-height: 94%;
+        max-width: 75%;
+        transform: rotate(-18deg);
+        filter: drop-shadow(14px 22px 30px rgba(0, 0, 0, 0.75));
+    }
+
+    /* PLATOS DE FOGÓN (LOCRITO DE PAPA) - SIN SALIRSE DEL BORDE NI TAPAR TEXTO */
+    .floating-img.plate-img {
+        max-height: 82%;
+        max-width: 76%;
+        transform: scale(1.0);
+        filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.82));
+    }
+
+    /* CARNES AL VACÍO (COSTILLAS PRECOCIDAS) */
+    .floating-img.vacuum-img {
+        max-height: 85%;
+        max-width: 72%;
+        transform: scale(1.0);
+        filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.8));
+    }
+
+    /* MERCH OFICIAL (CAMISETA VERDE) */
+    .floating-img.merch-img {
+        max-height: 85%;
+        max-width: 72%;
+        transform: scale(1.0);
+        filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.78));
+    }
+
+    /* MÁSCARA ANCESTRAL DIABLO HUMA */
+    .floating-img.mask-img {
+        max-height: 85%;
+        max-width: 70%;
+        transform: scale(1.0);
+        filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.85));
+    }
+
+    .floor-soft-shadow {
+        position: absolute;
+        bottom: 0%;
+        width: clamp(200px, 15vw, 260px);
+        height: 30px;
+        border-radius: 50%;
+        background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 75%);
+        filter: blur(12px);
+        animation: shadowPulse 3.6s ease-in-out infinite alternate;
+        z-index: 5;
+    }
+
+    @keyframes shadowPulse {
+        0%   { transform: scale(0.92); opacity: 0.65; }
+        100% { transform: scale(1.12); opacity: 0.45; }
+    }
+
+    .col-footer {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        z-index: 20;
+        gap: 0.9vh;
+        margin-bottom: clamp(0.5rem, 1vh, 0.9rem);
+    }
+
+        /* BOTON EXPLORAR SECCION: AFICHE INDIE 'NI TAN JOVEN NI TAN VIEJO'
+       Inspirado en la xilografia y grabado artesanal: bloque de tinta pura de afiche,
+       tipografia hueso/marfil #F5EADB, cero gradientes 3D, esquinas rectas serigraficas (3px) */
+    .btn-reveal-pill {
+        font-family: var(--font-display);
+        font-size: clamp(1.15rem, 1.45vw, 1.35rem);
+        font-weight: 700;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        min-height: 48px;
+        padding: 0 28px;
+        border-radius: 3px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        position: relative;
+        user-select: none;
+        border: 2px solid transparent;
+        transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+    }
+
+    .btn-reveal-pill:hover {
+        transform: translateY(-2px);
+    }
+
+    .btn-reveal-pill:active {
+        transform: translateY(0) scale(0.98);
+    }
+
+    .btn-reveal-pill:focus-visible {
+        outline: 2px dashed #F5EADB;
+        outline-offset: 4px;
+    }
+
+    .pillar-col:not(.active-col) .btn-reveal-pill {
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(8px);
+    }
+
+        /* BOTONES EXPLORAR SECCION: CALIBRACION INDIE SEGUN FONDO
+       - Columnas 0 a 3 (fondos de color): Sello Carbon Basalto (#121614) que tanto gusto en Mucha Chicha
+       - Columna 4 (Oro Ancestral - fondo oscuro): Boton en Oro Inti (#F8AD00) que resalta e ilumina la identidad */
+    .col-chicha .btn-reveal-pill,
+    .col-pidanomas .btn-reveal-pill,
+    .col-lleve .btn-reveal-pill,
+    .col-merch .btn-reveal-pill {
+        background: #121614;
+        color: #F5EADB;
+        border: 2px solid #121614;
+        box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.35);
+    }
+    .col-chicha .btn-reveal-pill:hover,
+    .col-pidanomas .btn-reveal-pill:hover,
+    .col-lleve .btn-reveal-pill:hover,
+    .col-merch .btn-reveal-pill:hover {
+        background: #F5EADB;
+        color: #121614;
+        border-color: #121614;
+    }
+
+    /* 4. ORO ANCESTRAL: Fondo Oro Inti radiante para maximo contraste y armonia sobre basalto oscuro */
+    .col-identidad .btn-reveal-pill {
+        background: #F8AD00;
+        color: #121614;
+        border: 2px solid #F8AD00;
+        font-weight: 800;
+        box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+    }
+    .col-identidad .btn-reveal-pill:hover {
+        background: #F5EADB;
+        color: #121614;
+        border-color: #F5EADB;
+    }
+
+    .col-brand-bottom {
+        font-size: 0.95rem;
+        font-weight: 800;
+        letter-spacing: 3px;
+        color: var(--chalk-muted);
+        opacity: 0.75;
+        text-transform: uppercase;
+    }
+
+    /* Dibujos ancestrales serigráficos de fondo en cada columna */
+    .col-bg-drawing {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 85%;
+        max-height: 75vh;
+        object-fit: contain;
+        pointer-events: none;
+        z-index: 1;
+        filter: brightness(0);
+        opacity: 0.22;
+        transition: opacity 0.3s ease;
+    }
+    .col-bg-drawing.draw-identidad {
+        filter: none !important;
+        opacity: 0.35 !important;
+        mix-blend-mode: screen !important;
+        filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.6)) brightness(1.2) !important;
+    }
+
+    .float-nav-btn { display: none !important;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 52px; height: 52px;
+        border-radius: 50%;
+        background: rgba(21, 27, 24, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: var(--chalk-white);
+        font-size: 1.4rem;
+        font-weight: 900;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 50;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    .float-nav-btn:hover {
+        background: var(--amber-gold);
+        color: var(--bg-dark);
+        border-color: var(--amber-gold);
+        transform: translateY(-50%) scale(1.08);
+    }
+
+    .float-nav-btn:focus-visible {
+        outline: 3px solid #ffffff;
+        outline-offset: 3px;
+    }
+
+    .float-prev { left: 24px; }
+    .float-next { right: 24px; }
+
+        /* FICHA ARTESANAL DE MESA & COMANDA: ESTILO SERENO MORENO
+       Inspirado en el afiche oficial: bloque de tinta oscura de afiche (#1C1008),
+       luna en oro Inti, tipografia Bebas Neue en hueso marfil (#F5EADB) y boton comanda ticket.
+       Elimina la pildora generica, el blur de IA y el punto verde de servidor. */
+    .floating-table-badge {
+        position: fixed;
+        top: clamp(1rem, 2.5vh, 1.8rem);
+        right: clamp(1rem, 2.5vw, 2rem);
+        bottom: auto;
+        left: auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        background: #121614;
+        border: 1.5px solid rgba(255, 255, 255, 0.22);
+        border-radius: 3px;
+        padding: 5px 6px 5px 14px;
+        box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.4);
+        z-index: 100;
+        user-select: none;
+    }
+
+    .table-badge-brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .badge-moon-glyph {
+        font-size: 1.15rem;
+        color: #E59F38;
+        line-height: 1;
+        font-family: serif;
+        font-weight: 700;
+        transform: rotate(-12deg);
+        display: inline-block;
+    }
+
+    .badge-table-num {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        letter-spacing: 2px;
+        color: #F5EADB;
+        line-height: 1;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .badge-craft-sep {
+        width: 1px;
+        height: 20px;
+        background: rgba(245, 234, 219, 0.25);
+    }
+
+    .badge-comanda-trigger {
+        font-family: var(--font-display);
+        font-size: 1.15rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        background: #E59F38;
+        color: #121614;
+        border: 1.5px solid #E59F38;
+        border-radius: 2px;
+        padding: 4px 12px;
+        cursor: pointer;
+        font-weight: 700;
+        line-height: 1.1;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+    }
+
+    .badge-comanda-trigger:hover {
+        background: #F5EADB;
+        border-color: #F5EADB;
+        color: #121614;
+        transform: translateY(-1px);
+    }
+
+    .badge-comanda-trigger:active {
+        transform: translateY(0);
+    }
+
+    .badge-comanda-trigger .comanda-counter-badge {
+        background: #121614;
+        color: #F5EADB;
+        font-size: 0.9rem;
+        padding: 1px 7px;
+        border-radius: 2px;
+        line-height: 1;
+        font-weight: 800;
+    }
+
+    .badge-comanda-trigger:hover .comanda-counter-badge {
+        background: #121614;
+        color: #E59F38;
+    }
+
+.carousel-dots-bottom {
+        position: fixed;
+        bottom: 7px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 6px;
+        z-index: 50;
+    }
+
+    .col-dot-wrap {
+        width: 16px;
+        height: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        background: transparent;
+        border: none;
+        padding: 0;
+    }
+
+    .col-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.35);
+        transition: background-color 0.25s ease, transform 0.25s ease, width 0.25s ease;
+    }
+
+    .col-dot-wrap.active .col-dot {
+        width: 12px;
+        border-radius: 999px;
+        background: var(--amber-gold, #F8AD00);
+        transform: scale(1.0);
+    }
+
+    /* FASE 4: VISTA EXPANDIDA CON TICKET DE PAPEL
+       LAYOUT PERFECCIONADO: TICKET IZQUIERDA, PRODUCTO DERECHA
+       FONDO PERSONALIZADO POR SECCIÓN CON ILUSTRACIÓN SERIGRÁFICA */
+    .expanded-stage {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      background-color: #121614;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.98);
+      transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .expanded-stage.is-active {
+      opacity: 1;
+      pointer-events: all;
+      transform: scale(1);
+    }
+
+    .expanded-stage.is-collapsing {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.97);
+      transition: opacity 0.35s cubic-bezier(0.4, 0, 1, 1), transform 0.35s cubic-bezier(0.4, 0, 1, 1);
+    }
+
+    /* ILUSTRACIÓN SERIGRÁFICA DE FONDO: A LA IZQUIERDA */
+    .expanded-bg-drawing {
+      position: absolute;
+      left: clamp(1vw, 2.5vw, 3.5vw);
+      bottom: clamp(10px, 3vh, 40px);
+      height: clamp(560px, 90vh, 900px);
+      width: auto;
+      object-fit: contain;
+      pointer-events: none;
+      z-index: 4;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      animation: expDrawingIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.1s both;
+    }
+
+    @keyframes expDrawingIn {
+      0% { transform: translateX(-30px); opacity: 0; }
+      100% { transform: translateX(0); opacity: 0.35; }
+    }
+
+    /* CABECERA COMPACTA */
+    .expanded-header {
+      width: 100%;
+      height: 52px;
+      padding: 8px 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 40;
+      flex-shrink: 0;
+      animation: expHeaderIn 0.45s cubic-bezier(0.25, 1, 0.5, 1) 0.05s both;
+    }
+
+    .expanded-stage.is-collapsing .expanded-header {
+      animation: expHeaderOut 0.3s cubic-bezier(0.4, 0, 1, 1) both;
+    }
+
+    @keyframes expHeaderIn {
+      0% { transform: translateY(-25px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes expHeaderOut {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-25px); opacity: 0; }
+    }
+
+    .btn-collapse-back {
+      background: #121614;
+      color: #F5EADB;
+      border: 1px solid rgba(245, 234, 219, 0.3);
+      font-family: var(--font-display, 'Bebas Neue', sans-serif);
+      font-size: 1rem;
+      font-weight: 400;
+      letter-spacing: 1.5px;
+      height: 36px;
+      padding: 0 16px;
+      border-radius: 3px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .btn-collapse-back:hover {
+      background: #E59F38;
+      color: #121614;
+      border-color: #E59F38;
+    }
+
+    .expanded-nav-tabs {
+      display: flex;
+      gap: 4px;
+      background: rgba(18, 22, 20, 0.85);
+      border: 1px solid rgba(245, 234, 219, 0.2);
+      padding: 3px;
+      border-radius: 3px;
+    }
+
+    .expanded-tab-btn {
+      background: transparent;
+      border: none;
+      font-family: var(--font-display, 'Bebas Neue', sans-serif);
+      font-size: 0.95rem;
+      font-weight: 400;
+      letter-spacing: 1px;
+      color: #A39D95;
+      height: 28px;
+      padding: 0 12px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .expanded-tab-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #F5EADB;
+    }
+
+    .expanded-tab-btn.active {
+      background: #E59F38;
+      color: #121614;
+      font-weight: 700;
+    }
+
+    /* CONTENEDOR PRINCIPAL: ALBERGA EL DIBUJO A LA IZQUIERDA, CENTRO Y DERECHA */
+    .expanded-main-content {
+      flex: 1;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 56px; /* Despeje exacto para el dock inferior */
+      z-index: 10;
+    }
+
+    /* ZONA CENTRAL: TÍTULO EN LA MITAD + PRODUCTO EN LA MITAD (GRAN TAMAÑO) */
+    .expanded-center-zone {
+      position: absolute;
+      left: 50%;
+      top: 52%;
+      transform: translate(-50%, -50%);
+      width: clamp(480px, 48vw, 760px);
+      height: 82vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    /* CABECERA DE SECCIÓN PERSONALIZADA (Captura 184701.png) */
+    .expanded-hero-header {
+      position: absolute;
+      top: 0px;
+      left: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      z-index: 25;
+      animation: expTitleIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) 0.1s both;
+    }
+
+    .expanded-category-tag {
+      font-size: 0.88rem;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+      display: inline-block;
+      line-height: 1;
+    }
+
+    .expanded-hero-title {
+      position: relative;
+      text-align: center;
+      font-family: var(--font-display, 'Bebas Neue', sans-serif);
+      font-size: clamp(2.6rem, 4.2vw, 4.5rem);
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin: 0;
+      line-height: 0.92;
+    }
+
+    @keyframes expTitleIn {
+      0% { transform: translateY(-20px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    /* CONTENEDOR DEL PRODUCTO HÉROE EN LA MITAD (GRAN FORMATO) */
+    .hero-large-viewport {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      margin-top: 3.5vh;
+      animation: expHeroIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.15s both;
+    }
+
+    @keyframes expHeroIn {
+      0% { transform: scale(0.9) translateY(20px); opacity: 0; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    .hero-large-img {
+      max-height: clamp(380px, 56vh, 550px);
+      max-width: clamp(440px, 46vw, 680px);
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 25px 45px rgba(0, 0, 0, 0.85));
+      animation: heroFloatLarge 4s ease-in-out infinite alternate;
+      transition: transform 0.35s ease;
+    }
+
+    @keyframes heroFloatLarge {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-12px); }
+    }
+
+    .hero-large-shadow {
+      width: 72%;
+      max-width: 490px;
+      height: 28px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 70%);
+      margin-top: -14px;
+      pointer-events: none;
+      animation: shadowPulseLarge 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes shadowPulseLarge {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(0.92); opacity: 0.6; }
+    }
+
+    /* =========================================================
+       DERECHA: CUADRO BLANCO MEDIANO CON BARRA DE DESPLAZAMIENTO
+       ========================================================= */
+    .paper-ticket-container {
+      position: absolute;
+      right: 3.5vw;
+      top: 50%;
+      transform: translateY(-50%);
+      width: clamp(340px, 27vw, 410px);
+      height: clamp(420px, 54vh, 490px);
+      display: flex;
+      align-items: stretch;
+      z-index: 30;
+      animation: expTicketSlideRight 0.55s cubic-bezier(0.25, 1, 0.5, 1) 0.1s both;
+    }
+
+    @keyframes expTicketSlideRight {
+      0% { transform: translateY(-50%) translateX(60px) rotate(5deg); opacity: 0; }
+      100% { transform: translateY(-50%) translateX(0) rotate(2deg); opacity: 1; }
+    }
+
+    /* TARJETA DE TICKET MEDIANO BLANCO */
+    .paper-ticket-card {
+      width: 100%;
+      height: 100%;
+      background: #FAF7F2;
+      color: #241D17;
+      border: 1px solid #E0D7C8;
+      border-radius: 4px;
+      padding: 16px 16px 14px 16px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.15);
+      transform: rotate(2deg);
+      transform-origin: top right;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: transform 0.25s ease;
+    }
+
+    .paper-ticket-card:hover {
+      transform: rotate(1deg);
+    }
+
+    .ticket-header-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px dashed #D5CDC0;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      flex-shrink: 0;
+    }
+
+    .ticket-title {
+      font-family: var(--font-display, 'Bebas Neue', sans-serif);
+      font-size: 1.35rem;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #1E1712;
+      font-weight: 700;
+    }
+
+    .ticket-stamp {
+      border: 1px solid #BA3C2A;
+      color: #BA3C2A;
+      font-family: var(--font-display, 'Bebas Neue', sans-serif);
+      font-size: 0.88rem;
+      padding: 2px 8px;
+      letter-spacing: 1px;
+      font-weight: 700;
+      border-radius: 2px;
+      transform: rotate(-2deg);
+    }
+
+    /* BARRA DE DESPLAZAMIENTO FLUIDA EN EL CUADRO BLANCO */
+    .ticket-items-list {
+      flex: 1;
+      overflow-y: scroll;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-right: 6px;
+    }
+
+    .ticket-items-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .ticket-items-list::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.06);
+      border-radius: 4px;
+    }
+
+    .ticket-items-list::-webkit-scrollbar-thumb {
+      background: #D5CDC0;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .ticket-items-list::-webkit-scrollbar-thumb:hover {
+      background: #E59F38;
+    }
+
+    /* FILA DE CADA OPCIÓN DENTRO DEL TICKET */
+    .ticket-item-row {
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid #EAE3D5;
+      border-radius: 3px;
+      padding: 9px 11px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.18s ease;
+    }
+
+    .ticket-item-row:hover {
+      background: #FFFFFF;
+      border-color: #E59F38;
+      transform: translateX(-2px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .ticket-item-row.active {
+      background: #FDF3DF;
+      border-color: #E59F38;
+      box-shadow: 0 2px 10px rgba(229, 159, 56, 0.25);
+    }
+
+    .ticket-item-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .ticket-item-name {
+      font-family: var(--font-display, 'Bebas Neue', sans-serif);
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      color: #1E1712;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ticket-item-desc {
+      font-size: 0.75rem;
+      line-height: 1.25;
+      color: #6E645A;
+      margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .ticket-item-action {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+
+    .ticket-item-price {
+      font-family: var(--font-display, 'Bebas Neue', sans-serif);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1E1712;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-ticket-add {
+      background: #121614;
+      color: #F5EADB;
+      border: 1px solid #121614;
+      font-family: var(--font-display, 'Bebas Neue', sans-serif);
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      padding: 4px 10px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-ticket-add:hover {
+      background: #E59F38;
+      color: #121614;
+      border-color: #E59F38;
+      transform: translateY(-1px);
+    }
+
+    /* PIE INFERIOR: BARRA DE COMANDA (CERO COLISIÓN) */
+    .expanded-footer-dock {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 54px;
+      background: #121614;
+      border-top: 1px solid rgba(245, 234, 219, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      z-index: 50;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+      animation: expFooterIn 0.45s cubic-bezier(0.25, 1, 0.5, 1) 0.15s both;
+    }
+
+    .expanded-stage.is-collapsing .expanded-footer-dock {
+      animation: expFooterOut 0.3s cubic-bezier(0.4, 0, 1, 1) both;
+    }
+
+    @keyframes expFooterIn {
+      0% { transform: translateY(40px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes expFooterOut {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(40px); opacity: 0; }
+    }
+
+    .dock-left-summary {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2px;
+    }
+
+    .dock-mesa-label {
+      font-family: var(--font-display, 'Bebas Neue', sans-serif);
+      font-size: 0.85rem;
+      letter-spacing: 1.5px;
+      color: #9E9589;
+      text-transform: uppercase;
+    }
+
+    .dock-items-detail {
+      font-family: var(--font-display, 'Bebas Neue', sans-serif);
+      font-size: 1.15rem;
+      letter-spacing: 1.2px;
+      color: #F5EADB;
+      text-transform: uppercase;
+      max-width: 45vw;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dock-right-action {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .dock-total-wrapper {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .dock-total-label {
+      font-family: var(--font-display, 'Bebas Neue', sans-serif);
+      font-size: 0.95rem;
+      letter-spacing: 1.5px;
+      color: #9E9589;
+    }
+
+    .dock-total-amount {
+      font-family: var(--font-display, 'Bebas Neue', sans-serif);
+      font-size: 1.85rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: #E59F38;
+    }
+
+    .btn-dispatch-order {
+      background: #E59F38;
+      color: #121614;
+      border: 1px solid #E59F38;
+      font-family: var(--font-display, 'Bebas Neue', sans-serif);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      height: 38px;
+      padding: 0 20px;
+      border-radius: 3px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.4);
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .btn-dispatch-order:hover {
+      background: #F5EADB;
+      border-color: #F5EADB;
+      color: #121614;
+      transform: translateY(-1px);
+    }
+
+    @@media (prefers-reduced-motion: reduce) {
+        *, ::before, ::after {
+            animation-duration: 0.001ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.001ms !important;
+        }
+        .floating-object-wrap, .expanded-floating-img, .floor-soft-shadow, .loader-face-img {
+            animation: none !important;
+        }
+    }
+
+    /* RESPONSIVE MOBILE / PORTRAIT BREAKPOINT (max 768px) */
+    @@media (max-width: 768px) {
+        .columns-track {
+            width: 500vw;
+        }
+        .pillar-col {
+            width: 85vw;
+            border-right: 2px solid rgba(255, 255, 255, 0.12);
+        }
+        .paper-ticket-card {
+            left: 4vw;
+            top: 2%;
+            width: 92vw;
+            max-height: 42vh;
+        }
+        .expanded-center-product {
+            top: 65%;
+            left: 50%;
+            height: 38vh;
+        }
+    }
+
+    /* ILUSTRACIONES PERIMETRALES LIMPIAS DE BIENVENIDA (Captura 201903.png) */
+    .draw-welcome-left {
+        position: absolute;
+        left: 30px;
+        top: 10%;
+        height: 78vh;
+        width: auto;
+        max-width: 320px;
+        opacity: 0.35;
+        filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.6)) brightness(1.2);
+        mix-blend-mode: screen;
+        pointer-events: none;
+    }
+    .draw-welcome-center {
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 36vh;
+        width: auto;
+        opacity: 0.32;
+        filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.6)) brightness(1.2);
+        mix-blend-mode: screen;
+        pointer-events: none;
+    }
+    .draw-welcome-right {
+        position: absolute;
+        right: 30px;
+        top: 12%;
+        height: 76vh;
+        width: auto;
+        max-width: 300px;
+        opacity: 0.35;
+        filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.6)) brightness(1.2);
+        mix-blend-mode: screen;
+        pointer-events: none;
+    }
+
+    /* PUNTOS DE PAGINACION DE CADA COLUMNA (Capturas 180009.png, 180012.png) */
+    .col-dots-nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin-top: 6px;
+    }
+    .col-dots-nav .col-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: rgba(245, 234, 219, 0.35);
+        display: inline-block;
+    }
+    .col-dots-nav .col-dot.active {
+        width: 18px;
+        height: 6px;
+        border-radius: 3px;
+        background: #F8AD00;
+    }
+    .col-identidad .col-brand-bottom {
+        color: #F8AD00 !important;
+    }
+
+    /* Badge top-right craft afiche (Captura 170723.png) */
+
+
+    /* OVERRIDES SERENO MORENO - PERFECCIÓN REGLAMENTARIA */
+    .pillar-col {
+      padding: clamp(82px, 9.5vh, 100px) 2vw 4.5vh 2vw !important;
+    }
+    .col-header {
+      margin-top: 0 !important;
+    }
+
+    /* TITULOS CHIQUITOS: TIPOGRAFIA PURA SIN FONDOS NI BORDES (Captura 181904.png) */
+    .col-category-tag {
+      font-size: 0.88rem !important;
+      font-weight: 800 !important;
+      letter-spacing: 2.5px !important;
+      text-transform: uppercase !important;
+      margin-bottom: 6px !important;
+      display: inline-block !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      background: none !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+    .col-chicha .col-category-tag    { color: #3D1C06 !important; }
+    .col-pidanomas .col-category-tag { color: #381206 !important; }
+    .col-lleve .col-category-tag     { color: #1B291A !important; }
+    .col-merch .col-category-tag     { color: #13222D !important; }
+    .col-identidad .col-category-tag { color: #F8AD00 !important; }
+
+    /* FONDOS ANDINOS SÓLIDOS Y COHERENTES POR SECCIÓN */
+    .col-chicha {
+      background: radial-gradient(circle at 65% 50%, #E8923E 0%, #D47E2F 55%, #BA6920 100%) !important;
+    }
+    .col-pidanomas {
+      background: radial-gradient(circle at 65% 50%, #B85335 0%, #9E4429 55%, #853720 100%) !important;
+    }
+    .col-lleve {
+      background: radial-gradient(circle at 65% 50%, #637761 0%, #546652 55%, #425240 100%) !important;
+    }
+    .col-merch {
+      background: radial-gradient(circle at 65% 50%, #405A6E 0%, #344B5C 55%, #273A48 100%) !important;
+    }
+    .col-identidad {
+      background: radial-gradient(circle at 65% 50%, #2A312D 0%, #1F2421 55%, #141715 100%) !important;
+    }
+
+    /* TITULOS EN TINTA SERIGRAFICA ARTESANAL */
+    .col-chicha .col-title { color: #241002 !important; text-shadow: none !important; }
+    .col-pidanomas .col-title { color: #1F0802 !important; text-shadow: none !important; }
+    .col-lleve .col-title { color: #0E170C !important; text-shadow: none !important; }
+    .col-merch .col-title { color: #070E14 !important; text-shadow: none !important; }
+    .col-identidad .col-title { color: #F8AD00 !important; text-shadow: 0 4px 20px rgba(0,0,0,0.8) !important; }
+
+    /* DIBUJOS ANCESTRALES SERIGRAFICOS */
+    .col-bg-drawing {
+      position: absolute !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      width: 85% !important;
+      max-height: 75vh !important;
+      object-fit: contain !important;
+      pointer-events: none !important;
+      z-index: 1 !important;
+      filter: brightness(0) !important;
+      opacity: 0.22 !important;
+      transition: opacity 0.3s ease !important;
+    }
+    .col-bg-drawing.draw-identidad {
+      filter: none !important;
+      opacity: 0.35 !important;
+      mix-blend-mode: screen !important;
+      filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.6)) brightness(1.2) !important;
+    }
+
+    /* DESPLAZAMIENTO DE OBJETOS HEROES 3 A 4 CM ABAJO PARA REVELAR LOS DIBUJOS */
+    .col-hero-center {
+      position: absolute !important;
+      top: calc(48% + clamp(100px, 11vh, 135px)) !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      width: 100% !important;
+      height: 44vh !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      z-index: 15 !important;
+      pointer-events: none !important;
+    }
+
+    /* BOTELLA MUCHA CHICHA: GIRADA 45 GRADOS ANTIHORARIO */
+    .floating-img.bottle-img {
+      max-height: 82% !important;
+      max-width: 74% !important;
+      transform: rotate(-45deg) !important;
+      filter: drop-shadow(16px 20px 30px rgba(0, 0, 0, 0.85)) !important;
+    }
+
+    /* PUNTOS INDICADORES CENTRALES EN LA BASE (Captura 184301.png) */
+    .carousel-dots-bottom {
+      position: fixed !important;
+      bottom: 20px !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      z-index: 100 !important;
+      padding: 4px 8px !important;
+      pointer-events: auto !important;
+    }
+
+    .col-dot-wrap {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 6px 3px !important;
+      cursor: pointer !important;
+      background: transparent !important;
+      border: none !important;
+    }
+
+    .col-dot-wrap .col-dot {
+      width: 6px !important;
+      height: 6px !important;
+      border-radius: 50% !important;
+      background: rgba(245, 234, 219, 0.38) !important;
+      display: inline-block !important;
+      transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s ease, border-radius 0.3s ease !important;
+    }
+
+    .col-dot-wrap.active .col-dot {
+      width: 18px !important;
+      height: 6px !important;
+      border-radius: 3px !important;
+      background: #F8AD00 !important;
+    }
+
+    /* FOOTER BRANDING Y BOTONES INDIE */
+    .col-brand-bottom {
+      font-size: 0.78rem !important;
+      letter-spacing: 2px !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+      margin-top: 10px !important;
+      opacity: 0.75 !important;
+    }
+    .col-chicha .col-brand-bottom { color: #3D1C06 !important; }
+    .col-pidanomas .col-brand-bottom { color: #381206 !important; }
+    .col-lleve .col-brand-bottom { color: #1B291A !important; }
+    .col-merch .col-brand-bottom { color: #13222D !important; }
+    .col-identidad .col-brand-bottom { color: #F8AD00 !important; }
+
+    .btn-reveal-pill {
+      background: #121614 !important;
+      color: #F5EADB !important;
+      border: 2px solid #121614 !important;
+      box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.35) !important;
+      border-radius: 4px !important;
+      padding: 10px 24px !important;
+      font-family: 'Bebas Neue', cursive !important;
+      font-size: 1.15rem !important;
+      letter-spacing: 2px !important;
+      cursor: pointer !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      transition: background 0.15s ease, color 0.15s ease !important;
+    }
+    .btn-reveal-pill:hover {
+      background: #F5EADB !important;
+      color: #121614 !important;
+      border-color: #121614 !important;
+    }
+
+      .view-hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+
+
+  <!-- =========================================================
+       FASE 1: PANTALLA DE BIENVENIDA / IDLE SCREEN (MESA 04)
+       ========================================================= -->
+    <section class="view-screen welcome-screen" id="viewWelcome" role="region" aria-label="Pantalla de bienvenida">
+  <!-- =========================================================
+       ILUSTRACIONES DE TIZA ANDINA DE FONDO (SERENO MORENO)
+       ========================================================= -->
+  <div class="chalk-illustrations-bg" aria-hidden="true">
+    <!-- Solo 3 ilustraciones perimetrales sin sobreposicion (Captura 201903.png) -->
+    <img src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/recurso-16.png" class="chalk-draw draw-welcome-left" alt="Diablo Huma ancestral" />
+    <img src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/recurso-20.png" class="chalk-draw draw-welcome-center" alt="Catador de chicha" />
+    <img src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/recurso-17.png" class="chalk-draw draw-welcome-right" alt="Danzante tradicional" />
+  </div>
+
+  <div class="chalkboard-grid-overlay" aria-hidden="true"></div>
+    <div class="welcome-central-container">
+
+      <!-- CABECERA: LOGO OFICIAL SVG Y MESA 04 CON ESTILO DE CARTEL -->
+      <header class="welcome-top-brand">
+        <img src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/logosm.svg" class="welcome-official-logo" alt="Sereno Moreno Bar & Mercado" />
+        <div class="welcome-mesa-stamp">
+          <span class="mesa-flourish" aria-hidden="true">&mdash;</span>
+          <span class="mesa-title-text">MESA 04</span>
+          <span class="mesa-flourish" aria-hidden="true">&mdash;</span>
+        </div>
+      </header>
+
+      <!-- ZONA DE ACCION: BOTON INDIE Y TICKETS DE CATEGORIAS -->
+      <div class="welcome-center-cta">
+        <button class="btn-start-experience" onclick="startExperienceFlow()" aria-label="Iniciar experiencia y entrar al menú">
+          <span>INICIAR EXPERIENCIA</span>
+        </button>
+
+        <div class="welcome-sub-meta" role="list" aria-label="Resumen de la oferta">
+          <span class="welcome-category-ticket" role="listitem">4 FERMENTOS VIVOS</span>
+          <span class="welcome-category-ticket" role="listitem">10 PLATOS DE FOGÓN</span>
+          <span class="welcome-category-ticket" role="listitem">7 CORTES AL VACÍO</span>
+          <span class="welcome-category-ticket" role="listitem">MERCH OFICIAL</span>
+        </div>
+      </div>
+
+      <!-- FRASE ANCESTRAL DEL MAÍZ: UBICADA EN LA ZONA CENTRAL SEGURA -->
+      <div class="welcome-maiz-quote-box">
+        <p class="welcome-maiz-phrase">
+          &ldquo;El maíz denominado el oro ancestral es el protagonista de la mayoría de nuestras recetas.&rdquo;
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================
+       FASE 2: LOADER CULTURAL CON MÁSCARA DIABLO HUMA
+       ========================================================= -->
+  <div class="loader-overlay view-hidden" id="viewLoader" role="status" aria-live="polite">
+    <div class="loader-face-box">
+      <img src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/diablo-huma-emblem.png" class="loader-face-img" alt="Emblema sagrado del Diablo Huma" />
+    </div>
+    <div class="loader-text">SERENO MORENO</div>
+    <div class="loader-subtext" id="loaderMsg">Destapando fermentos ancestrales...</div>
+    <div class="loader-progress-track">
+      <div class="loader-progress-bar" id="loaderBar"></div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       FASE 3: PRESENTACIÓN EN 3 COLUMNAS A PANTALLA COMPLETA
+       ========================================================= -->
+  <main class="view-screen view-hidden" id="viewColumns" role="main" aria-label="Catálogo de tres columnas a pantalla completa">
+    
+    <div class="columns-viewport" id="columnsViewport">
+      <div class="columns-track" id="columnsTrack">
+        
+        <!-- COLUMNA 0: CHICHA -->
+        <article class="pillar-col col-chicha active-col" id="col0" onclick="colClicked(0)" role="button" tabindex="0" aria-label="Sección Mucha Chicha">
+          <header class="col-header">
+            <span class="col-category-tag">FERMENTOS VIVOS</span>
+            <h2 class="col-title">MUCHA<br>CHICHA</h2>
+          </header>
+
+          <img src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/recurso-16.png" class="col-bg-drawing draw-chicha" alt="" />
+          <div class="col-hero-center">
+            <div class="floating-object-wrap">
+              <img src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/fermentos/botella_roja_float.png" class="floating-img bottle-img" alt="Botella de vidrio esmerilado Mucha Chicha" />
+            </div>
+            <div class="floor-soft-shadow"></div>
+          </div>
+
+          <footer class="col-footer">
+            <button class="btn-reveal-pill" onclick="expandPillar(0, event)" aria-label="Explorar sección Mucha Chicha">
+              <span>EXPLORAR SECCIÓN</span>
+            </button>
+            <span class="col-brand-bottom">SERENO MORENO</span>
+            
+          </footer>
+        </article>
+
+        <!-- COLUMNA 1: PIDA NO MÁS -->
+        <article class="pillar-col col-pidanomas" id="col1" onclick="colClicked(1)" role="button" tabindex="0" aria-label="Sección Pida No Más">
+          <header class="col-header">
+            <span class="col-category-tag">COCINA DE PAILA</span>
+            <h2 class="col-title">PIDA<br>NO MÁS</h2>
+          </header>
+
+          <img src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/recurso-20.png" class="col-bg-drawing draw-pida" alt="" />
+          <div class="col-hero-center">
+            <div class="floating-object-wrap">
+              <img src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/pida_no_mas/locrito_de_papa_5.50_float.png" class="floating-img" alt="Cazuela de Locrito de Papa" />
+            </div>
+            <div class="floor-soft-shadow"></div>
+          </div>
+
+          <footer class="col-footer">
+            <button class="btn-reveal-pill" onclick="expandPillar(1, event)" aria-label="Explorar sección Pida No Más">
+              <span>EXPLORAR SECCIÓN</span>
+            </button>
+            <span class="col-brand-bottom">SERENO MORENO</span>
+            
+          </footer>
+        </article>
+
+        <!-- COLUMNA 2: LLEVE LLEVE -->
+        <article class="pillar-col col-lleve" id="col2" onclick="colClicked(2)" role="button" tabindex="0" aria-label="Sección Lleve Lleve">
+          <header class="col-header">
+            <span class="col-category-tag">MERCADO AL VACÍO</span>
+            <h2 class="col-title">LLEVE<br>LLEVE</h2>
+          </header>
+
+          <img src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/recurso-17.png" class="col-bg-drawing draw-lleve" alt="" />
+
+          <div class="col-hero-center">
+            <div class="floating-object-wrap">
+              <img src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/lleve_lleve/costilla_precocida_float.png" class="floating-img" alt="Costilla de cerdo empacada al vacío" />
+            </div>
+            <div class="floor-soft-shadow"></div>
+          </div>
+
+          <footer class="col-footer">
+            <button class="btn-reveal-pill" onclick="expandPillar(2, event)" aria-label="Explorar sección Lleve Lleve">
+              <span>EXPLORAR SECCIÓN</span>
+            </button>
+            <span class="col-brand-bottom">SERENO MORENO</span>
+            
+          </footer>
+        </article>
+
+        <!-- COLUMNA 3: MERCH OFICIAL -->
+        <article class="pillar-col col-merch" id="col3" onclick="colClicked(3)" role="button" tabindex="0" aria-label="Sección Si Hay Si Hay">
+          <header class="col-header">
+            <span class="col-category-tag">ARTE &amp; INDUMENTARIA</span>
+            <h2 class="col-title">SI HAY<br>SI HAY</h2>
+          </header>
+
+          <img src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/recurso-18.png" class="col-bg-drawing draw-merch" alt="" />
+
+          <div class="col-hero-center">
+            <div class="floating-object-wrap">
+              <img src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/si_hay_si_hay/camiseta_verde_float.png" class="floating-img" alt="Camiseta Verde 'Si Hay'" />
+            </div>
+            <div class="floor-soft-shadow"></div>
+          </div>
+
+          <footer class="col-footer">
+            <button class="btn-reveal-pill" onclick="expandPillar(3, event)" aria-label="Explorar sección Si Hay Si Hay">
+              <span>EXPLORAR SECCIÓN</span>
+            </button>
+            <span class="col-brand-bottom">SERENO MORENO</span>
+            
+          </footer>
+        </article>
+
+        <!-- COLUMNA 4: IDENTIDAD -->
+        <article class="pillar-col col-identidad" id="col4" onclick="colClicked(4)" role="button" tabindex="0" aria-label="Sección Oro Ancestral e Identidad">
+          <header class="col-header">
+            <span class="col-category-tag">CULTURA &amp; ORIGEN</span>
+            <h2 class="col-title">ORO<br>ANCESTRAL</h2>
+          </header>
+
+          <img src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/diablo-huma-emblem.png" class="col-bg-drawing draw-identidad" alt="" />
+
+          <div class="col-hero-center">
+            <div class="floating-object-wrap">
+              <img src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/mascara_diablo_huma_float.png" class="floating-img" alt="Máscara sagrada del Diablo Huma" />
+            </div>
+            <div class="floor-soft-shadow"></div>
+          </div>
+
+          <footer class="col-footer">
+            <button class="btn-reveal-pill" onclick="expandPillar(4, event)" aria-label="Explorar sección Oro Ancestral"><span>EXPLORAR SECCIÓN</span></button>
+            <span class="col-brand-bottom">SERENO MORENO</span>
+            
+          </footer>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- Botones flotantes de navegación lateral -->
+    
+
+    <!-- Ficha artesanal de Mesa & Comanda (Captura 170723.png) -->
+    <div class="floating-table-badge" role="region" aria-label="Información de mesa y comanda">
+      <div class="table-badge-brand" onclick="returnToWelcome()" style="cursor: pointer;" title="Volver al inicio / Mesa 04">
+        <span class="badge-moon-glyph" aria-hidden="true">&#9789;</span>
+        <span class="badge-table-num">MESA 04</span>
+      </div>
+      <div class="badge-craft-sep" aria-hidden="true"></div>
+      <div class="badge-comanda-trigger" onclick="expandPillar(currentColIdx)" role="button" tabindex="0" aria-label="Ver comanda">
+        <span class="comanda-txt">COMANDA</span>
+        <span class="comanda-counter-badge" id="bubbleComandaCount">0</span>
+      </div>
+    </div>
+
+    <!-- Puntos de posición en la base con touch targets de 44px -->
+    <div class="carousel-dots-bottom" id="dotsContainer" role="tablist" aria-label="Paginación de columnas">
+      <button class="col-dot-wrap active" id="dotWrap0" onclick="goToColumn(0)" aria-label="Ir a Mucha Chicha"><span class="col-dot"></span></button>
+      <button class="col-dot-wrap" id="dotWrap1" onclick="goToColumn(1)" aria-label="Ir a Pida No Más"><span class="col-dot"></span></button>
+      <button class="col-dot-wrap" id="dotWrap2" onclick="goToColumn(2)" aria-label="Ir a Lleve Lleve"><span class="col-dot"></span></button>
+      <button class="col-dot-wrap" id="dotWrap3" onclick="goToColumn(3)" aria-label="Ir a Si Hay Si Hay"><span class="col-dot"></span></button>
+      <button class="col-dot-wrap" id="dotWrap4" onclick="goToColumn(4)" aria-label="Ir a Oro Ancestral"><span class="col-dot"></span></button>
+    </div>
+  </main>
+
+  <!-- =========================================================
+       FASE 4: VISTA EXPANDIDA EN PANTALLA COMPLETA & TICKET DE PAPEL
+       ========================================================= -->
+  <div class="expanded-stage view-hidden" id="viewExpanded" role="dialog" aria-modal="true" aria-label="Detalle de sección expandida">
+    
+    <!-- Ilustración serigráfica de fondo: a la izquierda, completamente visible -->
+    <img src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/recurso-20.png" class="expanded-bg-drawing" id="expandedBgDrawing" alt="" aria-hidden="true" />
+
+    <!-- Cabecera compacta de la vista expandida -->
+    <header class="expanded-header">
+      <button class="btn-collapse-back" onclick="collapseBackToColumns()" aria-label="Volver al menú de tres columnas">
+        &larr; VOLVER AL MENÚ
+      </button>
+
+      <!-- Selector directo de categorías -->
+      <nav class="expanded-nav-tabs" aria-label="Selector directo de categorías">
+        <button class="expanded-tab-btn" id="tab0" onclick="switchExpandedCategory(0)">CHICHA</button>
+        <button class="expanded-tab-btn" id="tab1" onclick="switchExpandedCategory(1)">PIDA NO MÁS</button>
+        <button class="expanded-tab-btn" id="tab2" onclick="switchExpandedCategory(2)">LLEVE LLEVE</button>
+        <button class="expanded-tab-btn" id="tab3" onclick="switchExpandedCategory(3)">SI HAY SI HAY</button>
+        <button class="expanded-tab-btn" id="tab4" onclick="switchExpandedCategory(4)">IDENTIDAD</button>
+      </nav>
+
+      <!-- Ficha artesanal de Mesa & Comanda -->
+      <div class="floating-table-badge" style="position: static; margin: 0; box-shadow: none;" role="region" aria-label="Información de mesa y comanda">
+        <div class="table-badge-brand" onclick="returnToWelcome()" style="cursor: pointer;" title="Volver al inicio / Mesa 04">
+          <span class="badge-moon-glyph" aria-hidden="true">&#9789;</span>
+          <span class="badge-table-num">MESA 04</span>
+        </div>
+        <div class="badge-craft-sep" aria-hidden="true"></div>
+        <div class="badge-comanda-trigger" style="cursor: default;" aria-label="Comanda actual">
+          <span class="comanda-txt">COMANDA</span>
+          <span class="comanda-counter-badge" id="expandedHeaderCounter">0</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Contenedor Principal: Izquierda (Dibujo) | Centro (Título y Producto Grande) | Derecha (Ticket Mediano con Scroll) -->
+    <div class="expanded-main-content">
+      
+      <!-- ZONA CENTRAL: TÍTULO EN LA MITAD + PRODUCTO HÉROE EN LA MITAD (GRAN FORMATO) -->
+      <main class="expanded-center-zone">
+        
+        <!-- CABECERA DE SECCIÓN CON TAG Y TÍTULO PERSONALIZADOS (Captura 184701.png) -->
+        <header class="expanded-hero-header">
+          <span class="expanded-category-tag" id="expandedHeroTag">FERMENTOS VIVOS</span>
+          <h1 class="expanded-hero-title" id="expandedHeroTitle">MUCHA<br>CHICHA</h1>
+        </header>
+
+        <!-- CONTENEDOR DEL PRODUCTO HÉROE EN LA MITAD -->
+        <div class="hero-large-viewport">
+          <img src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/pida_no_mas/locrito_de_papa_5.50_float.png" class="hero-large-img" id="heroLargeImg" alt="Producto de la sección" onerror="this.onerror=null; this.src='../../../PuraSed.Client/wwwroot/catalogo_imagenes/pida_no_mas/locrito_de_papa_5.50_float.png';" />
+          <div class="hero-large-shadow"></div>
+        </div>
+
+      </main>
+
+      <!-- DERECHA: TICKET BLANCO MEDIANO CON BARRA DE DESPLAZAMIENTO -->
+      <aside class="paper-ticket-container">
+        <div class="paper-ticket-card" id="paperTicketCard">
+          
+          <!-- Cabecera del ticket con sello de mesa -->
+          <div class="ticket-header-line">
+            <span class="ticket-title" id="ticketSectionTitle">PLATOS DE FOGÓN</span>
+            <span class="ticket-stamp">MESA 04</span>
+          </div>
+
+          <!-- Lista de opciones del menú con botón de compra dentro del ticket (con scrollbar) -->
+          <div class="ticket-items-list" id="ticketItemsList" role="list">
+            <!-- Inyectado dinámicamente -->
+          </div>
+
+        </div>
+      </aside>
+
+    </div>
+
+    <!-- Pie inferior: Barra de comanda (completamente despejada, separada por margen) -->
+    <footer class="expanded-footer-dock">
+      <div class="dock-left-summary">
+        <span class="dock-mesa-label">COMANDA MESA 04</span>
+        <span class="dock-items-detail" id="footerItemsSummary">Sin productos añadidos</span>
+      </div>
+      <div class="dock-right-action">
+        <div class="dock-total-wrapper">
+          <span class="dock-total-label">TOTAL:</span>
+          <span class="dock-total-amount" id="footerOrderTotal">$0.00</span>
+        </div>
+        <button class="btn-dispatch-order" onclick="dispatchComandaToKitchen()" aria-label="Despachar comanda a cocina y barra">
+          MANDAR A COCINA / BARRA &rarr;
+        </button>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- =========================================================
+       LÓGICA JAVASCRIPT DE INTERACCIÓN Y NAVEGACIÓN
+       ========================================================= -->
+    <script>
+    const viewWelcome = document.getElementById('viewWelcome');
+    const viewLoader = document.getElementById('viewLoader');
+    const viewColumns = document.getElementById('viewColumns');
+    const viewExpanded = document.getElementById('viewExpanded');
+
+    const pillarData = [
+      {
+        id: 0,
+        title: "MUCHA CHICHA",
+        titleFormatted: "MUCHA<br>CHICHA",
+        tag: "FERMENTOS VIVOS",
+        tagColor: "#3D1C06",
+        titleColor: "#241002",
+        titleShadow: "none",
+        bgGradient: "radial-gradient(circle at 65% 50%, #E8923E 0%, #D47E2F 55%, #BA6920 100%)",
+        drawingBlend: "multiply",
+        drawingOpacity: "0.25",
+        bgDrawing: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/recurso-16.png",
+        heroImg: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/fermentos/botella_roja_float.png",
+        ticketTitle: "CARTA DE FERMENTOS",
+        items: [
+          { name: "Mucha Chicha Maíz (Roja / Morado)", desc: "Bebida de maíz morado fermentada. 6.0% Vol. Alc. 330 ml.", price: 4.00, img: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/fermentos/botella_roja_float.png" },
+          { name: "Mucha Chicha Maíz (Amarilla / Clásica)", desc: "Bebida de maíz clásico fermentada. 4.5% v/v. 330 ml.", price: 4.00, img: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/fermentos/botella_amarilla_float.png" },
+          { name: "Mucha Chicha Morocho (Lata 500ml)", desc: "Fermento de maíz morocho con notas cítricas. 4.5% v/v. 500 ml.", price: 5.50, img: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/fermentos/lata_morocho_float.png" },
+          { name: "Mucha Chicha Maíz Morado (Lata 500ml)", desc: "Fermento artesanal de maíz morado. 6.0% v/v. 500 ml.", price: 5.50, img: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/fermentos/lata_morado_float.png" },
+          { name: "Mucha Chicha Yuca (Lata 500ml)", desc: "Fermento amazónico de yuca viva. 7.0% v/v. 500 ml.", price: 5.50, img: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/fermentos/lata_yuca_float.png" }
+        ]
+      },
+      {
+        id: 1,
+        title: "PIDA NO MÁS",
+        titleFormatted: "PIDA<br>NO MÁS",
+        tag: "COCINA DE PAILA",
+        tagColor: "#381206",
+        titleColor: "#1F0802",
+        titleShadow: "none",
+        bgGradient: "radial-gradient(circle at 65% 50%, #B85335 0%, #9E4429 55%, #853720 100%)",
+        drawingBlend: "multiply",
+        drawingOpacity: "0.25",
+        bgDrawing: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/recurso-20.png",
+        heroImg: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/pida_no_mas/locrito_de_papa_5.50_float.png",
+        ticketTitle: "PLATOS DE FOGÓN",
+        items: [
+          { name: "Locrito de Papa", desc: "Locro cremoso de papa chola con queso de hoja y aguacate.", price: 5.50, img: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/pida_no_mas/locrito_de_papa_5.50_float.png" },
+          { name: "Hongos Portobello", desc: "Portobellos andinos salteados al ajillo con chicha y panela.", price: 8.50, img: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/pida_no_mas/hongos_portobello_float.png" },
+          { name: "Ceviche de Coco", desc: "Leche de coco biche fresca con palmito, choclo y chifles.", price: 5.50, img: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/pida_no_mas/ceviche_de_coco_float.png" },
+          { name: "Choclo Papa con Queso", desc: "Choclo tierno desgranado con papas chauchas y salsa criolla.", price: 4.75, img: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/pida_no_mas/choclopapaconqueso_float.png" },
+          { name: "Maduro con Queso", desc: "Maduro asado en fogón con queso tierno de hacienda.", price: 3.50, img: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/pida_no_mas/maduroconqueso_float.png" }
+        ]
+      },
+      {
+        id: 2,
+        title: "LLEVE LLEVE",
+        titleFormatted: "LLEVE<br>LLEVE",
+        tag: "MERCADO AL VACÍO",
+        tagColor: "#1B291A",
+        titleColor: "#0E170C",
+        titleShadow: "none",
+        bgGradient: "radial-gradient(circle at 65% 50%, #637761 0%, #546652 55%, #425240 100%)",
+        drawingBlend: "multiply",
+        drawingOpacity: "0.22",
+        bgDrawing: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/recurso-17.png",
+        heroImg: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/lleve_lleve/costilla_precocida_float.png",
+        ticketTitle: "CORTES AL VACÍO",
+        items: [
+          { name: "Costilla Precocida", desc: "Costilla de cerdo sellada al vacío, lista para dorar en paila.", price: 12.00, img: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/lleve_lleve/costilla_precocida_float.png" },
+          { name: "Codillo Glaseado", desc: "Codillo tierno ahumado con panela y especias de la serranía.", price: 11.50, img: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/lleve_lleve/codillo_precocido_float.png" },
+          { name: "Muchines de Yuca (Pack)", desc: "Empaque de 6 unidades congeladas para freír en casa.", price: 6.50, img: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/lleve_lleve/muchines_yuca_float.png" },
+          { name: "Queso de Hoja Artesanal", desc: "Queso de pasta hilada envuelto en hoja de achira.", price: 3.75, img: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/lleve_lleve/queso_hoja_float.png" }
+        ]
+      },
+      {
+        id: 3,
+        title: "SI HAY SI HAY",
+        titleFormatted: "SI HAY<br>SI HAY",
+        tag: "ARTE & INDUMENTARIA",
+        tagColor: "#13222D",
+        titleColor: "#070E14",
+        titleShadow: "none",
+        bgGradient: "radial-gradient(circle at 65% 50%, #2E4553 0%, #243743 55%, #1A2832 100%)",
+        drawingBlend: "multiply",
+        drawingOpacity: "0.22",
+        bgDrawing: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/recurso-18.png",
+        heroImg: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/si_hay_si_hay/camiseta_verde_float.png",
+        ticketTitle: "COLECCIÓN SERENO",
+        items: [
+          { name: "Camiseta Verde 'Si Hay'", desc: "Algodón orgánico peinado con serigrafía tradicional a mano.", price: 20.00, img: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/si_hay_si_hay/camiseta_verde_float.png" },
+          { name: "Gorra Trucker Sereno", desc: "Gorra estructurada con parche bordado de la luna creciente.", price: 15.00, img: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/si_hay_si_hay/gorra_sereno_float.png" },
+          { name: "Tote Bag Linografía", desc: "Bolso de lona gruesa con grabado botánico de maíz y chicha.", price: 12.00, img: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/si_hay_si_hay/totebag_linografia_float.png" },
+          { name: "Vaso Cervecero Artesanal", desc: "Cristal templado serigrafiado 'Ni Tan Joven Ni Tan Viejo'.", price: 8.00, img: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/si_hay_si_hay/vaso_artesanal_float.png" }
+        ]
+      },
+      {
+        id: 4,
+        title: "ORO ANCESTRAL",
+        titleFormatted: "ORO<br>ANCESTRAL",
+        tag: "CULTURA & ORIGEN",
+        tagColor: "#F8AD00",
+        titleColor: "#F8AD00",
+        titleShadow: "0 4px 20px rgba(0, 0, 0, 0.8)",
+        bgGradient: "radial-gradient(circle at 65% 50%, #2A312D 0%, #1F2421 55%, #141715 100%)",
+        drawingBlend: "screen",
+        drawingOpacity: "0.35",
+        bgDrawing: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/diablo-huma-emblem.png",
+        heroImg: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/mascara_diablo_huma_float.png",
+        ticketTitle: "MANIFIESTO & IDENTIDAD",
+        items: [
+          { name: "El Oro Ancestral (Maíz)", desc: "Tributo a las variedades nativas andinas que dan vida a nuestras fermentaciones.", price: 0.00, img: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/mascara_diablo_huma_float.png" },
+          { name: "Filosofía del Fuego", desc: "Cocción lenta en pailas de bronce conservando técnicas culinarias precolombinas.", price: 0.00, img: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/mascara_diablo_huma_float.png" },
+          { name: "Espíritu Sereno Moreno", desc: "Ni tan joven ni tan viejo: punto exacto entre tradición viva y alquimia contemporánea.", price: 0.00, img: "../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/mascara_diablo_huma_float.png" }
+        ]
+      }
+    ];
+
+    let currentColIdx = 0;
+    const totalCols = pillarData.length;
+    const columnsTrack = document.getElementById('columnsTrack');
+
+    function startExperienceFlow() {
+      const welcome = document.getElementById('viewWelcome');
+      const loader = document.getElementById('viewLoader');
+      const columns = document.getElementById('viewColumns');
+      const loaderBar = document.getElementById('loaderBar');
+      const loaderMsg = document.getElementById('loaderMsg');
+
+      if (welcome) welcome.classList.add('view-hidden');
+      if (loader) {
+        loader.classList.remove('view-hidden');
+        if (loaderBar) loaderBar.style.width = '20%';
+        if (loaderMsg) loaderMsg.innerText = 'Destapando fermentos ancestrales...';
+
+        setTimeout(() => {
+          if (loaderBar) loaderBar.style.width = '60%';
+          if (loaderMsg) loaderMsg.innerText = 'Alistando leña y pailas de cobre...';
+        }, 300);
+
+        setTimeout(() => {
+          if (loaderBar) loaderBar.style.width = '100%';
+          if (loaderMsg) loaderMsg.innerText = '¡Bienvenido a Sereno Moreno!';
+        }, 650);
+
+        setTimeout(() => {
+          loader.classList.add('view-hidden');
+          if (columns) columns.classList.remove('view-hidden');
+          updateColumnsTransform();
+        }, 950);
+      } else {
+        if (columns) columns.classList.remove('view-hidden');
+        updateColumnsTransform();
+      }
+    }
+
+    function returnToWelcome() {
+      if (viewExpanded) {
+        viewExpanded.classList.remove('is-active');
+        viewExpanded.classList.add('view-hidden');
+      }
+      if (viewColumns) viewColumns.classList.add('view-hidden');
+      if (viewWelcome) viewWelcome.classList.remove('view-hidden');
+    }
+
+    function updateColumnsTransform() {
+      let offset = (currentColIdx - 1) * 33.333333;
+      if (currentColIdx === 0) offset = 0;
+      if (currentColIdx === totalCols - 1) offset = (totalCols - 3) * 33.333333;
+
+      columnsTrack.style.transform = `translateX(-${offset}vw)`;
+
+      for (let i = 0; i < totalCols; i++) {
+        const colEl = document.getElementById(`col${i}`);
+        if (colEl) colEl.classList.toggle('active-col', i === currentColIdx);
+        const dotWrap = document.getElementById(`dotWrap${i}`);
+        if (dotWrap) dotWrap.classList.toggle('active', i === currentColIdx);
+      }
+    }
+
+    function goToColumn(idx) {
+      currentColIdx = Math.max(0, Math.min(totalCols - 1, idx));
+      updateColumnsTransform();
+    }
+
+    function nextColumn() {
+      if (currentColIdx < totalCols - 1) {
+        currentColIdx++;
+      } else {
+        currentColIdx = 0;
+      }
+      updateColumnsTransform();
+    }
+
+    function prevColumn() {
+      if (currentColIdx > 0) {
+        currentColIdx--;
+      } else {
+        currentColIdx = totalCols - 1;
+      }
+      updateColumnsTransform();
+    }
+
+    function colClicked(idx) {
+      if (idx === currentColIdx) {
+        expandPillar(idx);
+      } else {
+        goToColumn(idx);
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') nextColumn();
+      if (e.key === 'ArrowLeft') prevColumn();
+      if (e.key === 'Escape') collapseBackToColumns();
+    });
+
+    let currentSelectedItemIdx = 0;
+
+    function renderExpandedStage() {
+      const data = pillarData[currentColIdx];
+      if (!data) return;
+
+      // 1. Fondo dinámico de la sección
+      viewExpanded.style.background = data.bgGradient;
+      const bgDrawEl = document.getElementById('expandedBgDrawing');
+      if (bgDrawEl && data.bgDrawing) {
+        bgDrawEl.src = data.bgDrawing;
+      }
+
+      // 2. Título y Tag con color y formato de la sección (Captura 184701.png)
+      const tagEl = document.getElementById('expandedHeroTag');
+      if (tagEl) {
+        tagEl.innerText = data.tag;
+        tagEl.style.color = data.tagColor || '#3D1C06';
+      }
+      const titleEl = document.getElementById('expandedHeroTitle');
+      if (titleEl) {
+        titleEl.innerHTML = data.titleFormatted || data.title;
+        titleEl.style.color = data.titleColor || '#241002';
+        titleEl.style.textShadow = data.titleShadow || 'none';
+      }
+
+      if (bgDrawEl) {
+        if (currentColIdx === 4) {
+          // Oro Ancestral (fondo oscuro): dibujo de tiza blanca
+          bgDrawEl.style.filter = 'none';
+          bgDrawEl.style.opacity = '0.35';
+          bgDrawEl.style.mixBlendMode = 'screen';
+        } else {
+          // Columnas con color andino (Chicha, Pida, Lleve, Merch): serigrafía de tinta oscura artesanal
+          bgDrawEl.style.filter = 'brightness(0)';
+          bgDrawEl.style.opacity = '0.22';
+          bgDrawEl.style.mixBlendMode = 'normal';
+        }
+      }
+
+      // 3. Pestañas de categoría de la cabecera
+      for (let i = 0; i < totalCols; i++) {
+        const tab = document.getElementById(`tab${i}`);
+        if (tab) tab.classList.toggle('active', i === currentColIdx);
+      }
+
+      // 4. Título del ticket
+      document.getElementById('ticketSectionTitle').innerText = data.ticketTitle;
+
+      // 5. Inyectar las opciones del menú DENTRO del ticket blanco
+      const ticketList = document.getElementById('ticketItemsList');
+      ticketList.innerHTML = '';
+
+      data.items.forEach((item, itemIdx) => {
+        const row = document.createElement('div');
+        row.className = `ticket-item-row ${itemIdx === currentSelectedItemIdx ? 'active' : ''}`;
+        row.role = 'listitem';
+        row.onclick = () => selectTicketItem(itemIdx);
+
+        row.innerHTML = `
+          <div class="ticket-item-info">
+            <h4 class="ticket-item-name">${item.name}</h4>
+            <p class="ticket-item-desc">${item.desc}</p>
+          </div>
+          <div class="ticket-item-action">
+            <span class="ticket-item-price">${item.price > 0 ? `$${item.price.toFixed(2)}` : 'ORIGEN'}</span>
+            ${item.price > 0 ? `<button type="button" class="btn-ticket-add" onclick="addItemToOrder('${item.name}', ${item.price}, event)">+ Comanda</button>` : ''}
+          </div>
+        `;
+        ticketList.appendChild(row);
+      });
+
+      // 6. Actualizar el producto grande en la zona derecha
+      const activeItem = data.items[currentSelectedItemIdx] || data.items[0];
+      const heroLargeImg = document.getElementById('heroLargeImg');
+      if (heroLargeImg && activeItem && activeItem.img) {
+        heroLargeImg.src = activeItem.img;
+        heroLargeImg.alt = activeItem.name;
+      }
+    }
+
+    function selectTicketItem(itemIdx) {
+      currentSelectedItemIdx = itemIdx;
+      const data = pillarData[currentColIdx];
+      if (!data) return;
+
+      const rows = document.querySelectorAll('.ticket-item-row');
+      rows.forEach((r, idx) => {
+        r.classList.toggle('active', idx === itemIdx);
+      });
+
+      const activeItem = data.items[itemIdx];
+      const heroLargeImg = document.getElementById('heroLargeImg');
+      if (heroLargeImg && activeItem && activeItem.img) {
+        heroLargeImg.src = activeItem.img;
+        heroLargeImg.alt = activeItem.name;
+      }
+    }
+
+    function expandPillar(idx, event) {
+      if (event) event.stopPropagation();
+      currentColIdx = idx;
+      currentSelectedItemIdx = 0;
+      renderExpandedStage();
+
+      viewExpanded.classList.remove('view-hidden');
+      viewExpanded.classList.remove('is-collapsing');
+      requestAnimationFrame(() => {
+        viewExpanded.classList.add('is-active');
+      });
+    }
+
+    function collapseBackToColumns() {
+      viewExpanded.classList.add('is-collapsing');
+      viewExpanded.classList.remove('is-active');
+      setTimeout(() => {
+        viewExpanded.classList.add('view-hidden');
+        viewExpanded.classList.remove('is-collapsing');
+        updateColumnsTransform();
+      }, 350);
+    }
+
+    function switchExpandedCategory(idx) {
+      currentColIdx = idx;
+      currentSelectedItemIdx = 0;
+      renderExpandedStage();
+    }
+
+    let orderList = [];
+    let orderTotalAmount = 0.0;
+
+    function addItemToOrder(name, price, event) {
+      if (event) event.stopPropagation();
+      orderList.push({ name, price });
+      orderTotalAmount += price;
+
+      const countEl = document.getElementById('bubbleComandaCount');
+      if (countEl) countEl.innerText = `${orderList.length}`;
+      const expHeadCount = document.getElementById('expandedHeaderCounter');
+      if (expHeadCount) expHeadCount.innerText = `${orderList.length}`;
+
+      document.getElementById('footerOrderTotal').innerText = `$${orderTotalAmount.toFixed(2)}`;
+      const summary = orderList.length === 1 
+        ? `${orderList[0].name}` 
+        : `${orderList[orderList.length - 1].name} (+${orderList.length - 1} más)`;
+      document.getElementById('footerItemsSummary').innerText = summary;
+    }
+
+    function dispatchComandaToKitchen() {
+      if (orderList.length === 0) {
+        alert("Agrega al menos un producto a la comanda antes de mandar a cocina o barra.");
+        return;
+      }
+      alert(`Comanda enviada a Cocina y Barra (PuraSed Hub):\nTotal: $${orderTotalAmount.toFixed(2)} (${orderList.length} productos).\nMesa 04 • Estado: Creado.`);
+      orderList = [];
+      orderTotalAmount = 0.0;
+      document.getElementById('bubbleComandaCount').innerText = "0";
+      document.getElementById('footerOrderTotal').innerText = "$0.00";
+      document.getElementById('footerItemsSummary').innerText = "Sin productos añadidos";
+    }
+
+    updateColumnsTransform();
+
+    // Soporte para apertura directa y navegación
+    const urlParams = new URLSearchParams(window.location.search);
+    const hash = window.location.hash.toLowerCase();
+    if (urlParams.get('view') === 'columns' || hash === '#columns') {
+      const welcome = document.getElementById('viewWelcome');
+      const columns = document.getElementById('viewColumns');
+      if (welcome) welcome.classList.add('view-hidden');
+      if (columns) columns.classList.remove('view-hidden');
+      if (urlParams.get('col')) {
+        currentColIdx = parseInt(urlParams.get('col'), 10) || 0;
+      }
+      updateColumnsTransform();
+    } else if (urlParams.get('view') === 'expanded' || hash.startsWith('#expanded') || hash.startsWith('#col')) {
+      let col = parseInt(urlParams.get('col') || '1');
+      if (hash.startsWith('#col')) col = parseInt(hash.replace('#col', '')) || 1;
+      const item = parseInt(urlParams.get('item') || '0');
+      expandPillar(col);
+      if (item > 0 && typeof selectTicketItem === 'function') selectTicketItem(item);
+    } else {
+      // VISTA POR DEFECTO: Iniciar en la pantalla de bienvenida oficial (Mesa 04)
+      const welcome = document.getElementById('viewWelcome');
+      const columns = document.getElementById('viewColumns');
+      if (welcome) welcome.classList.remove('view-hidden');
+      if (columns) columns.classList.add('view-hidden');
+    }
+
+  </script>
+</body>
+</html>
