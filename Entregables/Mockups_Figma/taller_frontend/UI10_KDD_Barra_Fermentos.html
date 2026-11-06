@@ -1,0 +1,1014 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KDD Barra &amp; Fermentos | PuraSed · Sereno Moreno</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================================================================
+       MANUAL OFICIAL PURASED — CAPÍTULO 0: MUCHA CHICHA / BARRA & FERMENTOS
+       Estilo: Taller Indie Craft & Herencia Andina (Centro Histórico de Quito)
+       ========================================================================== */
+    :root {
+      /* Fondos Estructurales Oficiales */
+      --bg-dark-base: #121614;       /* Carbón basalto profundo */
+      --bg-slate-charcoal: #1F2421;  /* Pizarra andina */
+      --bg-ticket-paper: #FFFDF9;    /* Papel artesanal blanco tiza para tickets */
+      --border-line: #333d37;
+
+      /* Textos y Tintas Serigráficas */
+      --text-chalk: #F5EADB;         /* Blanco tiza andina */
+      --text-muted: #adb7af;         /* Tiza atenuada para datos secundarios */
+      --text-dark-ink: #1A201C;      /* Tinta serigráfica negra sobre ticket */
+      --text-ticket-subtle: #5a645d; /* Tinta secundaria para variantes y notas */
+
+      /* Paleta del Capítulo: Mucha Chicha */
+      --gold-inti: #E59F38;          /* Oro Inti / Maíz ancestral */
+      --gold-highlight: #F8AD00;     /* Oro radiante */
+      --chicha-amber: #E8923E;       /* Ámbar fermento vivo */
+      --chicha-terracotta: #BA6920;  /* Tostado andino */
+      --status-ready: #94b783;       /* Verde hierba andina */
+      --status-alert: #d97758;       /* Terracota alerta */
+
+      /* Tipografía Oficial */
+      --font-display: "Bebas Neue", Impact, sans-serif;
+      --font-body: "Space Grotesk", -apple-system, sans-serif;
+
+      --touch-min: 48px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background-color: var(--bg-dark-base); color: var(--text-chalk); }
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      background: var(--bg-dark-base);
+      font-family: var(--font-body);
+      color: var(--text-chalk);
+      position: relative;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Linograbado ancestral de fondo (Catador de Chicha) */
+    .bg-watermark {
+      position: fixed;
+      right: -80px;
+      bottom: -60px;
+      width: 480px;
+      height: 480px;
+      opacity: 0.055;
+      pointer-events: none;
+      z-index: 0;
+      background: url("../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/recurso-20.png") no-repeat center / contain;
+      filter: invert(1);
+    }
+
+    button { font: inherit; }
+    button:focus-visible, a:focus-visible {
+      outline: 3px solid var(--gold-highlight);
+      outline-offset: 3px;
+    }
+
+    .app-shell {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Bar con Logo Oficial Sereno Moreno */
+    .topbar {
+      min-height: 82px;
+      padding: 12px 32px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      border-bottom: 2px solid var(--border-line);
+      background: #0d110f;
+    }
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand-logo-img {
+      height: 48px;
+      width: auto;
+      display: block;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    }
+    .station-badge {
+      display: flex;
+      flex-direction: column;
+      padding-left: 16px;
+      border-left: 1px solid var(--border-line);
+    }
+    .category-tag {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gold-inti);
+      line-height: 1;
+    }
+    .station-title {
+      font-family: var(--font-display);
+      font-size: 32px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      line-height: 0.95;
+      color: var(--text-chalk);
+      margin-top: 4px;
+    }
+
+    .top-actions {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .live-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--status-ready);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .live-pulse {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--status-ready);
+      box-shadow: 0 0 0 4px rgba(148, 183, 131, 0.2);
+      animation: pulse 2s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.7; }
+    }
+
+    .station-clock {
+      font-family: var(--font-display);
+      font-size: 24px;
+      letter-spacing: 2px;
+      color: var(--gold-highlight);
+      padding-left: 16px;
+      border-left: 1px solid var(--border-line);
+      font-variant-numeric: tabular-nums;
+    }
+    .audio-btn {
+      width: var(--touch-min);
+      height: var(--touch-min);
+      border: 1px solid var(--border-line);
+      background: var(--bg-slate-charcoal);
+      color: var(--text-chalk);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .audio-btn:hover { border-color: var(--gold-inti); color: var(--gold-inti); }
+    .audio-btn svg { width: 22px; height: 22px; fill: currentColor; }
+
+    /* Workspace */
+    .workspace {
+      width: min(1560px, 100%);
+      margin: 0 auto;
+      padding: 28px 32px 48px;
+      flex: 1;
+    }
+
+    .workspace-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .workspace-banner h2 {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 4vw, 48px);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      line-height: 0.92;
+    }
+    .workspace-banner p {
+      color: var(--text-muted);
+      font-size: 13px;
+      max-width: 440px;
+      line-height: 1.45;
+      text-align: right;
+    }
+    .workspace-banner p strong { color: var(--text-chalk); }
+
+    /* Metrics Bar con diseño serigráfico */
+    .summary-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .summary-card {
+      background: var(--bg-slate-charcoal);
+      border-left: 4px solid var(--border-line);
+      padding: 16px 20px;
+      position: relative;
+    }
+    .summary-card.amber  { border-left-color: var(--gold-inti); }
+    .summary-card.alert  { border-left-color: var(--status-alert); }
+    .summary-card.ready  { border-left-color: var(--status-ready); }
+    .summary-card span {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+    }
+    .summary-card strong {
+      display: block;
+      margin-top: 6px;
+      font-family: var(--font-display);
+      font-size: 42px;
+      line-height: 0.92;
+      letter-spacing: 2px;
+      color: var(--text-chalk);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Toolbar de filtros */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .filter-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip {
+      min-height: 42px;
+      padding: 0 18px;
+      border: 1px solid var(--border-line);
+      background: var(--bg-slate-charcoal);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.15s ease;
+    }
+    .chip:hover, .chip[aria-pressed="true"] {
+      border-color: var(--gold-inti);
+      background: var(--gold-inti);
+      color: var(--text-dark-ink);
+    }
+    .chip-count {
+      padding: 2px 6px;
+      background: rgba(0,0,0,0.22);
+      font-size: 11px;
+      font-variant-numeric: tabular-nums;
+    }
+    .sync-note {
+      color: var(--text-muted);
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Kanban Board */
+    .board-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      align-items: start;
+    }
+    .lane-col {
+      background: var(--bg-slate-charcoal);
+      border: 1px solid var(--border-line);
+    }
+    .lane-head {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 3px solid var(--border-line);
+      background: #181d1a;
+    }
+    .lane-col[data-status="pending"]   .lane-head { border-bottom-color: var(--status-alert); }
+    .lane-col[data-status="preparing"] .lane-head { border-bottom-color: var(--gold-inti); }
+    .lane-col[data-status="ready"]     .lane-head { border-bottom-color: var(--status-ready); }
+
+    .lane-head h3 {
+      font-family: var(--font-display);
+      font-size: 26px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    .lane-badge-num {
+      font-family: var(--font-display);
+      font-size: 20px;
+      background: var(--bg-dark-base);
+      color: var(--gold-inti);
+      padding: 2px 10px;
+      letter-spacing: 1px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .ticket-stack {
+      padding: 16px;
+      display: grid;
+      gap: 18px;
+      min-height: 200px;
+    }
+
+    /* ==========================================================================
+       EL TICKET DE PAPEL ARTESANAL — NORMA DE DISEÑO PURASED (ROTACIÓN 1.2°)
+       ========================================================================== */
+    .ticket {
+      position: relative;
+      background: var(--bg-ticket-paper);
+      color: var(--text-dark-ink);
+      padding: 20px 20px 16px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      /* Ligera rotación física artesanal */
+      transform: rotate(0.8deg);
+    }
+    .ticket:nth-child(even) {
+      transform: rotate(-1.1deg);
+    }
+    .ticket:hover {
+      transform: scale(1.02) rotate(0deg);
+      box-shadow: 0 16px 32px -6px rgba(0, 0, 0, 0.65);
+      z-index: 5;
+    }
+
+    /* Línea de corte / zigzag artesanal superior */
+    .ticket::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: repeating-linear-gradient(90deg, var(--gold-inti) 0, var(--gold-inti) 8px, transparent 8px, transparent 12px);
+    }
+
+    .ticket-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px dashed #dcd6c7;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+    }
+    .ticket-id {
+      font-family: var(--font-display);
+      font-size: 30px;
+      letter-spacing: 2px;
+      line-height: 0.92;
+      color: var(--text-dark-ink);
+    }
+    .ticket-table {
+      font-family: var(--font-display);
+      font-size: 18px;
+      background: var(--text-dark-ink);
+      color: var(--bg-ticket-paper);
+      padding: 2px 8px;
+      letter-spacing: 1px;
+      display: inline-block;
+      margin-top: 4px;
+    }
+    .ticket-time {
+      font-size: 12px;
+      color: var(--text-ticket-subtle);
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+    }
+
+    /* Lista de ítems con fotos transparentes de producto */
+    .ticket-items {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .ticket-item {
+      display: grid;
+      grid-template-columns: 32px 42px 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+    .item-qty {
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: var(--text-dark-ink);
+      background: #eee8db;
+      text-align: center;
+      line-height: 32px;
+      font-variant-numeric: tabular-nums;
+    }
+    .item-thumb {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+    }
+    .item-info strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--text-dark-ink);
+    }
+    .item-info span {
+      display: block;
+      font-size: 12px;
+      color: var(--text-ticket-subtle);
+      margin-top: 2px;
+    }
+
+    /* Notas de comanda */
+    .ticket-note {
+      background: #f4efe4;
+      border-left: 3px solid var(--chicha-amber);
+      padding: 8px 10px;
+      font-size: 12px;
+      color: #3f4741;
+      margin-bottom: 14px;
+      line-height: 1.35;
+    }
+    .ticket-note strong {
+      color: var(--text-dark-ink);
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+
+    /* Botón de acción física del ticket */
+    .ticket-advance-btn {
+      width: 100%;
+      min-height: 50px;
+      border: 0;
+      background: var(--text-dark-ink);
+      color: var(--text-chalk);
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-size: 21px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .ticket-advance-btn:hover {
+      background: var(--gold-inti);
+      color: var(--text-dark-ink);
+    }
+    .ticket-advance-btn:active {
+      transform: translateY(1px);
+    }
+    .ticket[data-state="ready"] .ticket-advance-btn {
+      background: #25402c;
+    }
+    .ticket[data-state="ready"] .ticket-advance-btn:hover {
+      background: var(--status-ready);
+      color: var(--text-dark-ink);
+    }
+
+    /* Estado vacío */
+    .empty-lane {
+      padding: 36px 16px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+    .empty-lane strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 26px;
+      color: var(--text-chalk);
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+    }
+
+    /* Footer */
+    footer.station-footer {
+      border-top: 1px solid var(--border-line);
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+      font-size: 12px;
+      margin-top: auto;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    footer.station-footer strong { color: var(--text-chalk); }
+
+    @media (max-width: 990px) {
+      .board-grid { grid-template-columns: 1fr; }
+      .summary-bar { grid-template-columns: repeat(2, 1fr); }
+      .station-badge { display: none; }
+    }
+    @media (max-width: 600px) {
+      .topbar { padding: 12px 16px; }
+      .workspace { padding: 16px 16px 32px; }
+      .summary-bar { grid-template-columns: 1fr 1fr; }
+      .summary-card strong { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Linograbado ancestral watermark de fondo -->
+  <div class="bg-watermark" aria-hidden="true"></div>
+
+  <main class="app-shell">
+    <!-- Encabezado Oficial con Logos y Metadatos de la Estación -->
+    <header class="topbar">
+      <a class="brand-wrap" href="./index.html" title="Volver al Hub Central">
+        <img class="brand-logo-img" src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/logosm.svg" alt="Sereno Moreno Bar &amp; Mercado" />
+      </a>
+      <div class="station-badge">
+        <span class="category-tag">Estación de Barra · Despacho en Vivo</span>
+        <h1 class="station-title">Barra &amp; Fermentos (KDD)</h1>
+      </div>
+
+      <div class="top-actions">
+        <div class="live-status" aria-label="Conexión en tiempo real activa">
+          <span class="live-pulse" aria-hidden="true"></span>
+          <span>SignalR Vivo</span>
+        </div>
+        <time class="station-clock" id="liveClock" datetime="2026-11-05T21:45">21:45</time>
+        <button class="audio-btn" id="soundBtn" type="button" aria-pressed="true" aria-label="Silenciar alertas de comanda" title="Alertas sonoras">
+          <svg id="soundSvg" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Espacio Principal de Trabajo -->
+    <section class="workspace" aria-labelledby="screenHeading">
+      <div class="workspace-banner">
+        <div>
+          <span class="category-tag">Gestión Desacoplada · Turno Noche</span>
+          <h2 id="screenHeading">Comandas de Bebidas</h2>
+        </div>
+        <p>
+          <strong>Enrutamiento automático desde el salón.</strong><br>
+          Las comandas se atienden por riguroso orden de llegada (FIFO) para preservar la temperatura y servicio.
+        </p>
+      </div>
+
+      <!-- Métricas Serigráficas -->
+      <section class="summary-bar" aria-label="Resumen operativo de barra">
+        <div class="summary-card alert">
+          <span>En Cola</span>
+          <strong id="numPending">2</strong>
+        </div>
+        <div class="summary-card amber">
+          <span>En Preparación</span>
+          <strong id="numPreparing">2</strong>
+        </div>
+        <div class="summary-card ready">
+          <span>Listas en Barra</span>
+          <strong id="numReady">1</strong>
+        </div>
+        <div class="summary-card">
+          <span>Tiempo Medio Despacho</span>
+          <strong>08′</strong>
+        </div>
+      </section>
+
+      <!-- Barra de Filtros -->
+      <div class="toolbar">
+        <div class="filter-chips" role="group" aria-label="Filtrar tickets">
+          <button class="chip" type="button" data-filter="all" aria-pressed="true">
+            <span>Todos los tickets</span>
+            <span class="chip-count" id="totalTickets">5</span>
+          </button>
+          <button class="chip" type="button" data-filter="pending" aria-pressed="false">
+            <span>En Cola</span>
+          </button>
+          <button class="chip" type="button" data-filter="preparing" aria-pressed="false">
+            <span>En Preparación</span>
+          </button>
+          <button class="chip" type="button" data-filter="ready" aria-pressed="false">
+            <span>Listos</span>
+          </button>
+        </div>
+        <span class="sync-note" id="syncTag" role="status" aria-live="polite">Sincronizado vía Hub: hace unos segundos</span>
+      </div>
+
+      <!-- Tablero Kanban con Tickets de Papel Artesanal (Rotación 1.2°) -->
+      <section class="board-grid" aria-label="Tablero de preparación de bebidas">
+        <!-- Carril 1: En Cola -->
+        <section class="lane-col" data-status="pending" aria-labelledby="col-pending-title">
+          <header class="lane-head">
+            <h3 id="col-pending-title">En Cola</h3>
+            <span class="lane-badge-num" id="colPendingCount">2</span>
+          </header>
+          <div class="ticket-stack" id="listPending" role="region" aria-label="Comandas en cola">
+            <!-- Ticket SM-184 -->
+            <article class="ticket" data-order="SM-184" data-state="pending">
+              <div class="ticket-header">
+                <div>
+                  <h4 class="ticket-id">SM-184</h4>
+                  <span class="ticket-table">Mesa 04</span>
+                </div>
+                <div class="ticket-time">
+                  <time datetime="2026-11-05T21:38">21:38</time><br>hace 07 min
+                </div>
+              </div>
+
+              <div class="ticket-items">
+                <div class="ticket-item">
+                  <span class="item-qty">2</span>
+                  <img class="item-thumb" src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/fermentos/botella_roja_float.png" alt="Mucha Chicha Roja" />
+                  <div class="item-info">
+                    <strong>Mucha Chicha Maíz Rojo</strong>
+                    <span>Botella 330 ml · Enfriador central</span>
+                  </div>
+                </div>
+                <div class="ticket-item">
+                  <span class="item-qty">1</span>
+                  <img class="item-thumb" src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/fermentos/lata_morocho_float.png" alt="Chicha de Morocho" />
+                  <div class="item-info">
+                    <strong>Chicha de Morocho</strong>
+                    <span>Lata 500 ml · Canela andina · Sin hielo</span>
+                  </div>
+                </div>
+              </div>
+
+              <p class="ticket-note">
+                <strong>Instrucción:</strong> Entregar junto con entradas calientes de cocina.
+              </p>
+
+              <button class="ticket-advance-btn" type="button" data-next="preparing">
+                Comenzar Preparación →
+              </button>
+            </article>
+
+            <!-- Ticket SM-185 -->
+            <article class="ticket" data-order="SM-185" data-state="pending">
+              <div class="ticket-header">
+                <div>
+                  <h4 class="ticket-id">SM-185</h4>
+                  <span class="ticket-table">Mesa 07</span>
+                </div>
+                <div class="ticket-time">
+                  <time datetime="2026-11-05T21:42">21:42</time><br>hace 03 min
+                </div>
+              </div>
+
+              <div class="ticket-items">
+                <div class="ticket-item">
+                  <span class="item-qty">1</span>
+                  <img class="item-thumb" src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/fermentos/botella_amarilla_float.png" alt="Mucha Chicha Amarilla" />
+                  <div class="item-info">
+                    <strong>Mucha Chicha Amarilla</strong>
+                    <span>Botella 330 ml · Clásica fermentada</span>
+                  </div>
+                </div>
+                <div class="ticket-item">
+                  <span class="item-qty">1</span>
+                  <img class="item-thumb" src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/fermentos/lata_yuca_float.png" alt="Chicha de Yuca" />
+                  <div class="item-info">
+                    <strong>Mucha Chicha Yuca Viva</strong>
+                    <span>500 ml · Servir en vaso de barro</span>
+                  </div>
+                </div>
+              </div>
+
+              <button class="ticket-advance-btn" type="button" data-next="preparing">
+                Comenzar Preparación →
+              </button>
+            </article>
+          </div>
+        </section>
+
+        <!-- Carril 2: En Preparación -->
+        <section class="lane-col" data-status="preparing" aria-labelledby="col-prep-title">
+          <header class="lane-head">
+            <h3 id="col-prep-title">En Preparación</h3>
+            <span class="lane-badge-num" id="colPrepCount">2</span>
+          </header>
+          <div class="ticket-stack" id="listPrep" role="region" aria-label="Comandas en preparación">
+            <!-- Ticket SM-181 -->
+            <article class="ticket" data-order="SM-181" data-state="preparing">
+              <div class="ticket-header">
+                <div>
+                  <h4 class="ticket-id">SM-181</h4>
+                  <span class="ticket-table">Mesa 02</span>
+                </div>
+                <div class="ticket-time">
+                  <time datetime="2026-11-05T21:29">21:29</time><br>hace 16 min
+                </div>
+              </div>
+
+              <div class="ticket-items">
+                <div class="ticket-item">
+                  <span class="item-qty">3</span>
+                  <img class="item-thumb" src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/fermentos/lata_morado_float.png" alt="Mucha Chicha Morada" />
+                  <div class="item-info">
+                    <strong>Mucha Chicha Maíz Morado</strong>
+                    <span>Lata artesanal 500 ml · Bien fría</span>
+                  </div>
+                </div>
+              </div>
+
+              <p class="ticket-note">
+                <strong>Alerta Bodega:</strong> Quedan 4 latas disponibles en enfriador.
+              </p>
+
+              <button class="ticket-advance-btn" type="button" data-next="ready">
+                Marcar como Lista ✓
+              </button>
+            </article>
+
+            <!-- Ticket SM-183 -->
+            <article class="ticket" data-order="SM-183" data-state="preparing">
+              <div class="ticket-header">
+                <div>
+                  <h4 class="ticket-id">SM-183</h4>
+                  <span class="ticket-table">Mesa 09</span>
+                </div>
+                <div class="ticket-time">
+                  <time datetime="2026-11-05T21:34">21:34</time><br>hace 11 min
+                </div>
+              </div>
+
+              <div class="ticket-items">
+                <div class="ticket-item">
+                  <span class="item-qty">1</span>
+                  <img class="item-thumb" src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/fermentos/lata_morocho_float.png" alt="Chicha de Morocho" />
+                  <div class="item-info">
+                    <strong>Chicha de Morocho</strong>
+                    <span>500 ml · Hielo picado y naranja</span>
+                  </div>
+                </div>
+                <div class="ticket-item">
+                  <span class="item-qty">1</span>
+                  <img class="item-thumb" src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/fermentos/lata_yuca_float.png" alt="Chicha de Yuca" />
+                  <div class="item-info">
+                    <strong>Chicha de Yuca</strong>
+                    <span>500 ml · Sin azúcar agregada</span>
+                  </div>
+                </div>
+              </div>
+
+              <button class="ticket-advance-btn" type="button" data-next="ready">
+                Marcar como Lista ✓
+              </button>
+            </article>
+          </div>
+        </section>
+
+        <!-- Carril 3: Listas para Entrega -->
+        <section class="lane-col" data-status="ready" aria-labelledby="col-ready-title">
+          <header class="lane-head">
+            <h3 id="col-ready-title">Listas en Barra</h3>
+            <span class="lane-badge-num" id="colReadyCount">1</span>
+          </header>
+          <div class="ticket-stack" id="listReady" role="region" aria-label="Comandas listas para retirar">
+            <!-- Ticket SM-179 -->
+            <article class="ticket" data-order="SM-179" data-state="ready">
+              <div class="ticket-header">
+                <div>
+                  <h4 class="ticket-id">SM-179</h4>
+                  <span class="ticket-table">Mesa 01</span>
+                </div>
+                <div class="ticket-time">
+                  <time datetime="2026-11-05T21:22">21:22</time><br>hace 23 min
+                </div>
+              </div>
+
+              <div class="ticket-items">
+                <div class="ticket-item">
+                  <span class="item-qty">2</span>
+                  <img class="item-thumb" src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/fermentos/botella_roja_float.png" alt="Mucha Chicha Roja" />
+                  <div class="item-info">
+                    <strong>Mucha Chicha Maíz Rojo</strong>
+                    <span>Botella 330 ml · Servidas con copas frías</span>
+                  </div>
+                </div>
+              </div>
+
+              <p class="ticket-note">
+                <strong>Notificación enviada:</strong> Mesero notificado en su tablet.
+              </p>
+
+              <button class="ticket-advance-btn" type="button" data-next="delivered">
+                Entregada · Retirar Ticket ✕
+              </button>
+            </article>
+          </div>
+        </section>
+      </section>
+
+      <footer class="station-footer">
+        <div>
+          <strong>Terminal:</strong> Barra &amp; Fermentos · Sereno Moreno
+        </div>
+        <div>
+          SignalR WebSocket · Conectado en tiempo real al Hub Central
+        </div>
+      </footer>
+    </section>
+  </main>
+
+  <script>
+    /* ==========================================================================
+       PURASED INTERACTION ENGINE — UI-10 KDD BARRA & FERMENTOS
+       Gestión de tickets Kanban, alertas sonoras y despacho ágil de chichas.
+       ========================================================================== */
+    (() => {
+      const lists = {
+        pending: document.querySelector("#listPending"),
+        preparing: document.querySelector("#listPrep"),
+        ready: document.querySelector("#listReady")
+      };
+      const counts = {
+        pending: document.querySelector("#colPendingCount"),
+        preparing: document.querySelector("#colPrepCount"),
+        ready: document.querySelector("#colReadyCount")
+      };
+      const totals = {
+        pending: document.querySelector("#numPending"),
+        preparing: document.querySelector("#numPreparing"),
+        ready: document.querySelector("#numReady")
+      };
+      const labels = {
+        pending: "Comenzar Preparación →",
+        preparing: "Marcar como Lista ✓",
+        ready: "Entregada · Retirar Ticket ✕"
+      };
+
+      let audioCtx = null;
+      let soundEnabled = true;
+
+      /**
+       * Emite un aviso sonoro mediante Web Audio API con frecuencia variable según el tipo de evento:
+       * Tono ascendente brillante para ticket listo ('ready') o tono breve para avance regular ('step').
+       * @param {string} type - Tipo de sonido ('ready' | 'step').
+       */
+      function playChime(type) {
+        if (!soundEnabled) return;
+        try {
+          if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          if (audioCtx.state === 'suspended') audioCtx.resume();
+          const now = audioCtx.currentTime;
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+
+          if (type === 'ready') {
+            osc.frequency.setValueAtTime(587.33, now);
+            osc.frequency.exponentialRampToValueAtTime(880, now + 0.15);
+            gain.gain.setValueAtTime(0.12, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+            osc.start(now);
+            osc.stop(now + 0.4);
+          } else {
+            osc.frequency.setValueAtTime(440, now);
+            gain.gain.setValueAtTime(0.08, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+            osc.start(now);
+            osc.stop(now + 0.2);
+          }
+        } catch (e) {}
+      }
+
+      /**
+       * Verifica si una columna Kanban quedó sin comandas para inyectar o retirar el placeholder visual de carril vacío.
+       * @param {HTMLElement} list - Contenedor DOM de la columna de tickets.
+       * @param {string} stateName - Identificador del carril ('pending' | 'preparing' | 'ready').
+       */
+      function checkEmptyState(list, stateName) {
+        const hasTickets = list.querySelectorAll(".ticket").length > 0;
+        let empty = list.querySelector(".empty-lane");
+        if (!hasTickets) {
+          if (!empty) {
+            empty = document.createElement("div");
+            empty.className = "empty-lane";
+            empty.innerHTML = `<strong>Sin Tickets</strong>${stateName === "ready" ? "No hay bebidas pendientes de retiro." : "La barra está al día."}`;
+            list.appendChild(empty);
+          }
+        } else if (empty) {
+          empty.remove();
+        }
+      }
+
+      /**
+       * Recuenta la cantidad de comandas en cada carril del KDD y refresca los contadores numéricos y de cabecera.
+       */
+      function refreshMetrics() {
+        Object.keys(lists).forEach((key) => {
+          const tickets = lists[key].querySelectorAll(".ticket");
+          counts[key].textContent = tickets.length;
+          totals[key].textContent = tickets.length;
+          checkEmptyState(lists[key], key);
+        });
+        const total = Object.values(lists).reduce((sum, el) => sum + el.querySelectorAll(".ticket").length, 0);
+        document.querySelector("#totalTickets").textContent = total;
+      }
+
+      /**
+       * Transiciona el estado del ticket en el tablero Kanban (Pendiente → En Preparación → Lista → Entregada),
+       * actualiza el texto y acción del botón, y reproduce la retroalimentación auditiva correspondiente.
+       * @param {HTMLElement} ticket - Elemento DOM del ticket artesanal (.ticket).
+       * @param {string} nextState - Siguiente estado objetivo ('preparing' | 'ready' | 'delivered').
+       */
+      function advanceTicket(ticket, nextState) {
+        ticket.dataset.state = nextState;
+        const btn = ticket.querySelector(".ticket-advance-btn");
+
+        if (nextState === "delivered") {
+          ticket.style.opacity = "0";
+          ticket.style.transform = "scale(0.95)";
+          window.setTimeout(() => {
+            ticket.remove();
+            refreshMetrics();
+            playChime("step");
+          }, 150);
+        } else {
+          btn.dataset.next = nextState === "pending" ? "preparing" : nextState === "preparing" ? "ready" : "delivered";
+          btn.textContent = labels[nextState];
+          lists[nextState].appendChild(ticket);
+          refreshMetrics();
+          playChime(nextState === "ready" ? "ready" : "step");
+        }
+        document.querySelector("#syncTag").textContent = "Sincronizado vía Hub: ahora mismo";
+      }
+
+      // Delegación de eventos para el avance de tickets al presionar su botón de acción
+      document.querySelector(".board-grid").addEventListener("click", (e) => {
+        const btn = e.target.closest(".ticket-advance-btn");
+        if (!btn) return;
+        advanceTicket(btn.closest(".ticket"), btn.dataset.next);
+      });
+
+      // Filtrado visual de columnas (Todos, Pendientes, En Preparación, Listas para Retiro)
+      document.querySelector(".filter-chips").addEventListener("click", (e) => {
+        const chip = e.target.closest(".chip");
+        if (!chip) return;
+        document.querySelectorAll(".chip").forEach((c) => c.setAttribute("aria-pressed", String(c === chip)));
+        const filter = chip.dataset.filter;
+        document.querySelectorAll(".lane-col").forEach((col) => {
+          col.hidden = filter !== "all" && col.dataset.status !== filter;
+        });
+      });
+
+      // Control de activación/silenciamiento del sistema de audio Web Audio API
+      const soundBtn = document.querySelector("#soundBtn");
+      const soundSvg = document.querySelector("#soundSvg");
+      soundBtn.addEventListener("click", () => {
+        soundEnabled = !soundEnabled;
+        soundBtn.setAttribute("aria-pressed", String(soundEnabled));
+        soundBtn.setAttribute("aria-label", soundEnabled ? "Silenciar alertas" : "Activar alertas");
+        if (soundEnabled) {
+          soundSvg.innerHTML = `<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>`;
+          playChime("step");
+        } else {
+          soundSvg.innerHTML = `<path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>`;
+        }
+      });
+
+      /**
+       * Actualiza el reloj en tiempo real en la cabecera en formato 24 horas (hora de Ecuador).
+       */
+      function updateClock() {
+        const now = new Date();
+        document.querySelector("#liveClock").textContent = now.toLocaleTimeString("es-EC", { hour: "2-digit", minute: "2-digit", hour12: false });
+      }
+      updateClock();
+      window.setInterval(updateClock, 30000);
+      refreshMetrics();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UI-13 · Mapa de mesas y agenda | PuraSed</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#121614;--surface:#1f2421;--surface-2:#29312c;--paper:#fffdf9;--ink:#1a201c;--chalk:#f0eee7;--muted:#a7afa8;--line:#3a433d;--gold:#e59f38;--bright:#f8ad00;--green:#94b783;--green-deep:#314b38;--red:#d97758;--blue:#6c96a6;--display:"Bebas Neue",Impact,sans-serif;--body:"Space Grotesk",Arial,sans-serif}
+    *{box-sizing:border-box}html{background:var(--bg);color:var(--chalk)}body{margin:0;min-width:320px;background:var(--bg);font-family:var(--body)}button,input,select{font:inherit}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--bright);outline-offset:3px}.shell{min-height:100vh;display:flex;flex-direction:column}
+    .topbar{min-height:78px;padding:14px 28px;display:flex;align-items:center;gap:26px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:12px;min-width:224px}.mark{width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--gold);color:var(--gold);font:28px/1 var(--display)}.brand-name{font:24px/.85 var(--display);letter-spacing:2px}.brand-name small{display:block;margin-top:5px;color:var(--muted);font:11px/1 var(--body)}.station{flex:1}.station h1{margin:0;font:32px/.9 var(--display);letter-spacing:2px}.station p{margin:6px 0 0;color:var(--muted);font-size:13px}.live{display:flex;align-items:center;gap:8px;color:var(--green);font-size:13px;font-weight:600}.dot{width:9px;height:9px;border-radius:50%;background:var(--green)}
+    .page{width:min(1500px,100%);margin:auto;padding:24px 28px 34px}.head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:22px}.context-label{margin:0 0 7px;color:var(--gold);font-size:13px;font-weight:700}.head h2{margin:0;font:42px/.9 var(--display);letter-spacing:2px}.head-note{max-width:380px;color:var(--muted);font-size:13px;line-height:1.45;text-align:right}.head-note strong{color:var(--chalk)}
+    .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:20px}.date-control{height:46px;padding:0 12px;border:1px solid var(--line);background:var(--surface);color:var(--chalk)}.control-button{min-height:46px;padding:0 16px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;font-size:13px;font-weight:600}.control-button:hover,.control-button.primary{border-color:var(--gold);background:var(--gold);color:var(--ink)}.control-spacer{flex:1}.sync{color:var(--muted);font-size:12px}
+    .overview{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}.metric{padding:14px 17px;background:var(--surface);border-left:4px solid var(--line);font-variant-numeric:tabular-nums}.metric.free{border-color:var(--green)}.metric.booked{border-color:var(--gold)}.metric.busy{border-color:var(--red)}.metric-label{color:var(--muted);font-size:13px}.metric-value{display:block;margin-top:4px;font:34px/1 var(--display)}
+    .content{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(370px,.85fr);gap:16px;align-items:start}.panel{background:var(--surface);min-width:0}.panel-head{padding:17px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line)}.panel-head h3{margin:0;font:25px/1 var(--display);letter-spacing:1.3px}.panel-head span{color:var(--muted);font-size:12px}
+    .map-area{padding:20px;min-height:450px;background:#1a201d;position:relative;overflow:hidden}.map-grid{position:absolute;inset:20px;border:1px solid #26302a}.room-label{position:absolute;top:31px;left:34px;color:#66736a;font-size:11px}.bar-label{position:absolute;right:34px;bottom:30px;color:#66736a;font-size:11px}.table{position:absolute;display:flex;align-items:center;justify-content:center;min-width:78px;height:58px;border:2px solid var(--green);background:rgba(148,183,131,.14);color:var(--chalk);cursor:pointer;font:21px/1 var(--display);letter-spacing:1px;transition:transform .15s,background .15s}.table:hover,.table.selected{transform:scale(1.05);background:var(--green-deep)}.table.booked{border-color:var(--gold);background:rgba(229,159,56,.17)}.table.busy{border-color:var(--red);background:rgba(217,119,88,.18)}.table.t1{top:92px;left:13%}.table.t2{top:92px;left:40%}.table.t3{top:92px;left:68%}.table.t4{top:225px;left:20%}.table.t5{top:225px;left:50%}.table.t6{top:225px;left:76%}.table.t7{top:355px;left:35%}.table.t8{top:355px;left:66%}.legend{display:flex;gap:18px;flex-wrap:wrap;padding:16px 20px;color:var(--muted);font-size:12px}.legend span{display:flex;align-items:center;gap:7px}.swatch{width:12px;height:12px;border:2px solid var(--green);background:rgba(148,183,131,.14)}.swatch.booked{border-color:var(--gold);background:rgba(229,159,56,.17)}.swatch.busy{border-color:var(--red);background:rgba(217,119,88,.18)}
+    .agenda{display:grid;gap:0}.reservation{padding:16px 18px;border-bottom:1px solid #303932;display:grid;grid-template-columns:65px 1fr auto;gap:14px;align-items:center}.reservation:last-child{border-bottom:0}.reservation-time{font:25px/1 var(--display);letter-spacing:1px}.reservation-name{font-size:14px;font-weight:700}.reservation-detail{margin-top:4px;color:var(--muted);font-size:12px}.status{padding:6px 8px;font-size:11px;font-weight:700}.status.confirmed{background:rgba(229,159,56,.2);color:var(--gold)}.status.arrived{background:rgba(148,183,131,.2);color:var(--green)}.status.pending{background:rgba(108,150,166,.2);color:#9bc0cc}.reservation-actions{grid-column:2 / -1;display:flex;gap:8px}.small-action{min-height:38px;padding:0 11px;border:1px solid #4a544c;background:transparent;color:var(--chalk);cursor:pointer;font-size:12px}.small-action:hover{border-color:var(--gold);color:var(--gold)}.small-action.cancel:hover{border-color:var(--red);color:var(--red)}
+    .empty{padding:28px 18px;color:var(--muted);text-align:center}.empty strong{display:block;margin-bottom:5px;color:var(--chalk);font:23px/1 var(--display)}
+    .toast{position:fixed;right:24px;bottom:24px;display:none;padding:14px 17px;background:var(--paper);color:var(--ink);font-size:13px}.toast.visible{display:block}
+    .modal-backdrop{position:fixed;inset:0;z-index:5;display:none;place-items:center;padding:20px;background:rgba(18,22,20,.78)}.modal-backdrop.visible{display:grid}.modal{width:min(520px,100%);background:var(--paper);color:var(--ink);padding:24px}.modal-head{display:flex;align-items:start;justify-content:space-between;gap:14px;margin-bottom:20px}.modal h3{margin:0;font:32px/.9 var(--display);letter-spacing:1.2px}.modal-close{width:42px;height:42px;border:1px solid #bbb8ae;background:transparent;color:var(--ink);cursor:pointer;font-size:20px}.modal-close:hover{border-color:var(--red);color:var(--red)}.modal-form{display:grid;gap:14px}.modal-field{display:grid;gap:6px}.modal-field label{font-size:13px;font-weight:700}.modal-field input,.modal-field select{height:46px;padding:0 10px;border:1px solid #c9c7c0;background:#fff;color:var(--ink)}.modal-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}.modal-actions button{min-height:44px;padding:0 15px;border:1px solid #bbb8ae;background:transparent;color:var(--ink);cursor:pointer;font-size:13px;font-weight:700}.modal-actions .save{border-color:var(--ink);background:var(--ink);color:var(--chalk)}.modal-actions .save:hover{border-color:var(--gold);background:var(--gold);color:var(--ink)}
+    .detail-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;margin:0;background:#d9d5cc}.detail-item{padding:12px;background:var(--paper)}.detail-item dt{color:#687069;font-size:12px}.detail-item dd{margin:4px 0 0;font-size:14px;font-weight:700}.detail-note{margin:16px 0 0;padding:12px;background:#f2eee7;color:#4a514c;font-size:13px;line-height:1.4}
+    @media(max-width:980px){.content{grid-template-columns:1fr}.map-area{min-height:420px}.overview{grid-template-columns:repeat(4,minmax(130px,1fr));overflow-x:auto}.metric{min-width:130px}}
+    @media(max-width:620px){.topbar{padding:12px 18px}.brand{min-width:auto}.brand-name,.live{display:none}.station h1{font-size:27px}.station p{font-size:12px}.page{padding:20px 16px 28px}.head{align-items:start;flex-direction:column}.head h2{font-size:37px}.head-note{text-align:left}.controls{align-items:stretch}.date-control{flex:1;min-width:145px}.control-spacer{display:none}.sync{width:100%}.overview{grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible}.metric{min-width:0}.map-area{min-height:390px;padding:12px}.map-grid{inset:12px}.table{min-width:62px;height:48px;font-size:18px}.table.t1{top:74px}.table.t2{top:74px}.table.t3{top:74px}.table.t4{top:190px}.table.t5{top:190px}.table.t6{top:190px}.table.t7{top:305px}.table.t8{top:305px}.room-label{top:21px;left:22px}.bar-label{right:22px;bottom:20px}.reservation{grid-template-columns:55px 1fr;gap:10px}.status{grid-column:2}.reservation-actions{grid-column:1 / -1}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar"><div class="brand"><div class="mark" aria-hidden="true">P</div><div class="brand-name">PuraSed<small>Sereno Moreno</small></div></div><div class="station"><h1>Recepción &amp; reservas</h1><p>Agenda y mapa de mesas · Asistente</p></div><div class="live"><span class="dot"></span>En línea</div></header>
+    <section class="page">
+      <div class="head"><div><p class="context-label">Jueves de noviembre · turno noche</p><h2>Mapa de mesas y agenda</h2></div><p class="head-note"><strong>Vista operativa del local.</strong><br>Los cambios de la asistente se reflejan en la agenda y liberan la mesa automáticamente.</p></div>
+      <div class="controls"><input class="date-control" id="agenda-date" type="date" value="2026-11-05" aria-label="Fecha de agenda"><button class="control-button primary" id="today" type="button">Hoy</button><button class="control-button" id="new-booking" type="button">Nueva reserva</button><select class="date-control" id="status-filter" aria-label="Filtrar reservas"><option value="all">Todos los estados</option><option value="confirmed">Confirmadas</option><option value="pending">Por llegar</option><option value="arrived">En mesa</option></select><div class="control-spacer"></div><span class="sync">Sincronizado hace unos segundos</span></div>
+      <section class="overview" aria-label="Resumen de mesas"><div class="metric free"><span class="metric-label">Mesas libres</span><strong class="metric-value" id="free-total">3</strong></div><div class="metric booked"><span class="metric-label">Reservadas</span><strong class="metric-value" id="booked-total">3</strong></div><div class="metric busy"><span class="metric-label">Ocupadas</span><strong class="metric-value" id="busy-total">2</strong></div><div class="metric"><span class="metric-label">Personas esperadas</span><strong class="metric-value">12</strong></div></section>
+      <div class="content">
+        <section class="panel" aria-labelledby="map-title"><header class="panel-head"><h3 id="map-title">Estado del salón</h3><span>8 mesas · capacidad 34</span></header><div class="map-area"><div class="map-grid"></div><span class="room-label">Entrada</span><span class="bar-label">Barra</span><!-- taste-skill-ignore: los números son identificadores reales de mesa --><button class="table t1" data-state="free" type="button">01</button><button class="table t2 booked" data-state="booked" type="button">02</button><button class="table t3 busy" data-state="busy" type="button">03</button><button class="table t4 booked" data-state="booked" type="button">04</button><button class="table t5 free" data-state="free" type="button">05</button><button class="table t6 busy" data-state="busy" type="button">06</button><button class="table t7 booked" data-state="booked" type="button">07</button><button class="table t8 free" data-state="free" type="button">08</button></div><div class="legend"><span><i class="swatch"></i>Libre</span><span><i class="swatch booked"></i>Reservada</span><span><i class="swatch busy"></i>Ocupada</span></div></section>
+        <section class="panel" aria-labelledby="agenda-title"><header class="panel-head"><h3 id="agenda-title">Agenda del día</h3><span id="agenda-count">3 reservas</span></header><div class="agenda" id="agenda"><article class="reservation" data-reservation-id="r-ana" data-status="confirmed"><time class="reservation-time">19:00</time><div><div class="reservation-name">Ana Torres</div><div class="reservation-detail">Mesa 02 · 4 personas · 099 123 4567</div></div><span class="status confirmed">Confirmada</span><div class="reservation-actions"><button class="small-action" type="button">Modificar</button><button class="small-action cancel" type="button">Cancelar</button></div></article><article class="reservation" data-reservation-id="r-carlos" data-status="arrived"><time class="reservation-time">19:30</time><div><div class="reservation-name">Carlos Mena</div><div class="reservation-detail">Mesa 04 · 2 personas · 098 555 0182</div></div><span class="status arrived">En mesa</span><div class="reservation-actions"><button class="small-action" type="button">Ver detalle</button></div></article><article class="reservation" data-reservation-id="r-maria" data-status="pending"><time class="reservation-time">20:30</time><div><div class="reservation-name">María Cárdenas</div><div class="reservation-detail">Mesa 07 · 6 personas · maria@email.com</div></div><span class="status pending">Por llegar</span><div class="reservation-actions"><button class="small-action" type="button">Modificar</button><button class="small-action cancel" type="button">Cancelar</button></div></article></div></section>
+      </div>
+    </section>
+    <div class="modal-backdrop" id="booking-modal" aria-hidden="true">
+      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-head"><h3 id="modal-title">Nueva reserva</h3><button class="modal-close" id="close-modal" type="button" aria-label="Cerrar">×</button></div>
+        <form class="modal-form" id="booking-form">
+          <div class="modal-field"><label for="guest-name">Nombre completo</label><input id="guest-name" required placeholder="Ej. Ana Torres"></div>
+          <div class="modal-field"><label for="guest-contact">Teléfono o correo</label><input id="guest-contact" required placeholder="Ej. 099 123 4567"></div>
+          <div class="modal-row"><div class="modal-field"><label for="booking-time">Hora</label><select id="booking-time" required><option value="">Selecciona</option><option>18:00</option><option>19:00</option><option>20:00</option><option>21:00</option><option>22:00</option><option>23:00</option></select></div><div class="modal-field"><label for="booking-guests">Personas</label><select id="booking-guests" required><option value="">Selecciona</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div></div>
+          <div class="modal-field"><label for="booking-table">Mesa</label><select id="booking-table" required><option value="">Asignación automática</option><option>Mesa 01</option><option>Mesa 05</option><option>Mesa 08</option></select></div>
+          <div class="modal-actions"><button id="cancel-modal" type="button">Volver</button><button class="save" type="submit">Guardar reserva</button></div>
+        </form>
+      </section>
+    </div>
+    <div class="modal-backdrop" id="detail-modal" aria-hidden="true">
+      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+        <div class="modal-head"><h3 id="detail-title">Detalle de reserva</h3><button class="modal-close" id="close-detail" type="button" aria-label="Cerrar">×</button></div>
+        <dl class="detail-list">
+          <div class="detail-item"><dt>Cliente</dt><dd id="detail-name">Sin registrar</dd></div>
+          <div class="detail-item"><dt>Estado</dt><dd id="detail-status">Sin registrar</dd></div>
+          <div class="detail-item"><dt>Contacto</dt><dd id="detail-contact">Sin registrar</dd></div>
+          <div class="detail-item"><dt>Mesa</dt><dd id="detail-table">Sin registrar</dd></div>
+          <div class="detail-item"><dt>Hora</dt><dd id="detail-time">Sin registrar</dd></div>
+          <div class="detail-item"><dt>Personas</dt><dd id="detail-guests">Sin registrar</dd></div>
+        </dl>
+        <p class="detail-note" id="detail-note">Reserva registrada desde la agenda del asistente.</p>
+        <div class="modal-actions"><button id="close-detail-action" type="button">Cerrar</button><button class="save" id="detail-edit" type="button">Modificar reserva</button></div>
+      </section>
+    </div>
+    <div class="toast" id="toast" role="status"></div>
+  </main>
+  <script>
+    (() => {
+      const toast = document.querySelector("#toast");
+      const modal = document.querySelector("#booking-modal");
+      const bookingForm = document.querySelector("#booking-form");
+      const modalTitle = document.querySelector("#modal-title");
+      const detailModal = document.querySelector("#detail-modal");
+      const agenda = document.querySelector("#agenda");
+      const showToast = (message) => { toast.textContent = message; toast.classList.add("visible"); window.setTimeout(() => toast.classList.remove("visible"), 2600); };
+      const closeModal = () => { modal.classList.remove("visible"); modal.setAttribute("aria-hidden", "true"); bookingForm.reset(); };
+      const closeDetail = () => { detailModal.classList.remove("visible"); detailModal.setAttribute("aria-hidden", "true"); };
+      const openDetail = (reservation) => {
+        const detail = reservation.querySelector(".reservation-detail").textContent.split("·").map((part) => part.trim());
+        const status = reservation.querySelector(".status").textContent;
+        document.querySelector("#detail-name").textContent = reservation.querySelector(".reservation-name").textContent;
+        document.querySelector("#detail-status").textContent = status;
+        document.querySelector("#detail-contact").textContent = detail[detail.length - 1] || "No registrado";
+        document.querySelector("#detail-table").textContent = detail[0] || "Asignación automática";
+        document.querySelector("#detail-time").textContent = reservation.querySelector(".reservation-time").textContent;
+        document.querySelector("#detail-guests").textContent = detail.find((part) => part.includes("personas")) || "No indicado";
+        document.querySelector("#detail-note").textContent = status === "En mesa" ? "La llegada fue registrada. La mesa se encuentra activa." : "Reserva registrada desde la agenda del asistente.";
+        detailModal.dataset.reservationId = reservation.dataset.reservationId || "";
+        detailModal.classList.add("visible");
+        detailModal.setAttribute("aria-hidden", "false");
+      };
+      const openModal = (reservation) => {
+        modalTitle.textContent = reservation ? "Modificar reserva" : "Nueva reserva";
+        bookingForm.dataset.editing = reservation ? "true" : "false";
+        bookingForm.dataset.reservationId = reservation ? reservation.dataset.reservationId : "";
+        if (reservation) {
+          document.querySelector("#guest-name").value = reservation.querySelector(".reservation-name").textContent;
+          document.querySelector("#guest-contact").value = reservation.querySelector(".reservation-detail").textContent.split("·").pop().trim();
+          document.querySelector("#booking-time").value = reservation.querySelector(".reservation-time").textContent;
+          const guestMatch = reservation.querySelector(".reservation-detail").textContent.match(/\d+(?= personas)/);
+          document.querySelector("#booking-guests").value = guestMatch ? guestMatch[0] : "";
+        }
+        modal.classList.add("visible");
+        modal.setAttribute("aria-hidden", "false");
+        document.querySelector("#guest-name").focus();
+      };
+      const updateCount = () => {
+        const visible = agenda.querySelectorAll(".reservation:not([hidden])").length;
+        document.querySelector("#agenda-count").textContent = visible + (visible === 1 ? " reserva" : " reservas");
+      };
+      document.querySelector("#today").addEventListener("click", () => { document.querySelector("#agenda-date").value = "2026-11-05"; showToast("Agenda de hoy cargada"); });
+      document.querySelector("#new-booking").addEventListener("click", () => openModal());
+      document.querySelector("#close-modal").addEventListener("click", closeModal);
+      document.querySelector("#cancel-modal").addEventListener("click", closeModal);
+      modal.addEventListener("click", (event) => { if (event.target === modal) closeModal(); });
+      document.querySelector("#close-detail").addEventListener("click", closeDetail);
+      document.querySelector("#close-detail-action").addEventListener("click", closeDetail);
+      detailModal.addEventListener("click", (event) => { if (event.target === detailModal) closeDetail(); });
+      document.querySelector("#detail-edit").addEventListener("click", () => {
+        const reservation = document.querySelector(`[data-reservation-id="${detailModal.dataset.reservationId}"]`);
+        closeDetail();
+        if (reservation) openModal(reservation);
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") return;
+        if (modal.classList.contains("visible")) closeModal();
+        if (detailModal.classList.contains("visible")) closeDetail();
+      });
+      document.querySelector("#status-filter").addEventListener("change", (event) => {
+        const filter = event.target.value;
+        agenda.querySelectorAll(".reservation").forEach((reservation) => { reservation.hidden = filter !== "all" && reservation.dataset.status !== filter; });
+        updateCount();
+      });
+      bookingForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!bookingForm.reportValidity()) return;
+        const editing = bookingForm.dataset.editing === "true";
+        if (editing && bookingForm.dataset.reservationId) {
+          const reservation = document.querySelector(`[data-reservation-id="${bookingForm.dataset.reservationId}"]`);
+          reservation.querySelector(".reservation-name").textContent = document.querySelector("#guest-name").value;
+          reservation.querySelector(".reservation-time").textContent = document.querySelector("#booking-time").value;
+          reservation.querySelector(".reservation-detail").textContent = `Mesa 02 · ${document.querySelector("#booking-guests").value} personas · ${document.querySelector("#guest-contact").value}`;
+        } else {
+          const reservation = document.createElement("article");
+          reservation.className = "reservation";
+          reservation.dataset.status = "confirmed";
+          reservation.dataset.reservationId = `local-${Date.now()}`;
+          reservation.innerHTML = `<time class="reservation-time">${document.querySelector("#booking-time").value}</time><div><div class="reservation-name">${document.querySelector("#guest-name").value}</div><div class="reservation-detail">Asignación automática · ${document.querySelector("#booking-guests").value} personas · ${document.querySelector("#guest-contact").value}</div></div><span class="status confirmed">Confirmada</span><div class="reservation-actions"><button class="small-action" type="button">Modificar</button><button class="small-action cancel" type="button">Cancelar</button></div>`;
+          agenda.appendChild(reservation);
+        }
+        updateCount();
+        closeModal();
+        showToast(editing ? "Reserva actualizada" : "Reserva creada y confirmada");
+      });
+      agenda.addEventListener("click", (event) => {
+        const action = event.target.closest(".small-action");
+        if (!action) return;
+        const card = action.closest(".reservation");
+        if (action.classList.contains("cancel")) {
+          if (!window.confirm(`¿Cancelar la reserva de ${card.querySelector(".reservation-name").textContent}?`)) return;
+          card.remove();
+          updateCount();
+          showToast("Reserva cancelada · la mesa quedó libre");
+        } else if (action.textContent === "Modificar") {
+          bookingForm.dataset.reservationId = card.dataset.reservationId || "";
+          openModal(card);
+        } else if (action.textContent === "Ver detalle") {
+          openDetail(card);
+        } else showToast(action.textContent + " · " + card.querySelector(".reservation-name").textContent);
+      });
+      document.querySelector(".map-area").addEventListener("click", (event) => {
+        const table = event.target.closest(".table");
+        if (!table) return;
+        document.querySelectorAll(".table").forEach((item) => item.classList.remove("selected"));
+        table.classList.add("selected");
+        const state = table.dataset.state === "free" ? "mesa libre" : table.dataset.state === "booked" ? "mesa reservada" : "mesa ocupada";
+        showToast("Mesa " + table.textContent.trim() + " · " + state + " · seleccionada");
+      });
+      updateCount();
+    })();
+  </script>
+</body>
+</html>

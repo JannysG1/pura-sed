@@ -186,6 +186,7 @@ pura-sed/
 │   ├── PuraSed_Diagrama_ER.svg  # Diagrama entidad-relación del sistema
 │   ├── team/               # Tarjetas vectoriales del Scrum Team
 │   └── icons/              # Iconografía vectorial cromática por sección
+├── retrospective/          # Acualización de semana a semana de como se avanza en el trabajo colaborativo
 │
 ├── PuraSed.WebApi/         # Backend: ASP.NET Core Web API 10.0 (REST & SignalR)
 │   ├── Controllers/        # Controladores RESTful para mesas, pedidos, menú y caja
