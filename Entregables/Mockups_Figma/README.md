@@ -18,8 +18,14 @@ Este directorio es el **taller integral de prototipado frontend y mockups para F
 ```text
 Entregables/Mockups_Figma/
 ├── README.md                      <-- Este documento formal de control y bitácora
+├── Documentacion_Modulos_UI.md    <-- Manual técnico integral de todos los módulos UI
 ├── taller_frontend/               <-- Taller de código para maquetación ágil de pantallas
-│   └── 01_menu_orbital_pos.html   <-- Prototipo interactivo (3 columnas, Mucha Chicha -45°, ticket)
+│   ├── 01_menu_orbital_pos.html   <-- Front-Office: Menú Orbital 3D (Three.js, comanda)
+│   ├── UI-15_Punto_Caja.html      <-- Back-Office: Punto de caja y confirmación de cobros
+│   ├── UI-16_Menu_Promociones.html<-- Back-Office: Editor de catálogo, combos y promociones
+│   ├── UI-17_Personal_Roles.html  <-- Back-Office: Directorio de personal y matriz de roles
+│   ├── UI-18_Bitacora.html        <-- Back-Office: Auditoría inmutable de seguridad
+│   └── UI-19_Reportes.html        <-- Back-Office: Reportes de negocio y exportación Excel
 └── capturas_exportadas/           <-- Capturas oficiales de alta resolución (@2x) para evaluación
     ├── 01_Menu_POS_Principal.png  <-- Vista inicial de 3 columnas y paginador central
     └── 02_Mucha_Chicha_Detalle.png<-- Vista expandida con ticket artesanal y grabado andino
