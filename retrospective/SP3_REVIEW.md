@@ -11,4 +11,4 @@
 
 ### 3. **Plan de acción y mejoras:**
 
-- **Definición de horarios fijos:** Hemos acordado fijar un día y una hora inamovibles para las reuniones del equipo, garantizando la participación de todos los compañeros para alinear avances y resolver dudas en conjunto.
+- **Definición de horarios fijos:** Hemos acordado fijar un día y una hora inamovibles para las reuniones del equipo de manera presencial, garantizando la participación de todos los compañeros para alinear avances y resolver dudas en conjunto.
