@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UI-14 · Control de inventario | PuraSed</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#121614;--surface:#1f2421;--surface-2:#29312c;--paper:#fffdf9;--ink:#1a201c;--chalk:#f0eee7;--muted:#a7afa8;--line:#3a433d;--gold:#e59f38;--bright:#f8ad00;--green:#94b783;--green-deep:#314b38;--red:#d97758;--red-soft:#f2c5b6;--blue:#6c96a6;--display:"Bebas Neue",Impact,sans-serif;--body:"Space Grotesk",Arial,sans-serif}
+    *{box-sizing:border-box}html{background:var(--bg);color:var(--chalk)}body{margin:0;min-width:320px;background:var(--bg);font-family:var(--body)}button,input,select{font:inherit}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--bright);outline-offset:3px}.shell{min-height:100vh;display:flex;flex-direction:column}
+    .topbar{min-height:78px;padding:14px 28px;display:flex;align-items:center;gap:26px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:12px;min-width:224px}.mark{width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--gold);color:var(--gold);font:28px/1 var(--display)}.brand-name{font:24px/.85 var(--display);letter-spacing:2px}.brand-name small{display:block;margin-top:5px;color:var(--muted);font:11px/1 var(--body)}.station{flex:1}.station h1{margin:0;font:32px/.9 var(--display);letter-spacing:2px}.station p{margin:6px 0 0;color:var(--muted);font-size:13px}.live{display:flex;align-items:center;gap:8px;color:var(--green);font-size:13px;font-weight:600}.dot{width:9px;height:9px;border-radius:50%;background:var(--green)}
+    .page{width:min(1500px,100%);margin:auto;padding:24px 28px 34px}.head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:22px}.context-label{margin:0 0 7px;color:var(--gold);font-size:13px;font-weight:700}.head h2{margin:0;font:42px/.9 var(--display);letter-spacing:2px}.head-note{max-width:390px;color:var(--muted);font-size:13px;line-height:1.45;text-align:right}.head-note strong{color:var(--chalk)}
+    .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:20px}.area-select,.search{height:46px;padding:0 12px;border:1px solid var(--line);background:var(--surface);color:var(--chalk)}.search{width:230px}.control-button{min-height:46px;padding:0 16px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;font-size:13px;font-weight:600}.control-button:hover,.control-button.primary{border-color:var(--gold);background:var(--gold);color:var(--ink)}.control-spacer{flex:1}.sync{color:var(--muted);font-size:12px}
+    .overview{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}.metric{padding:14px 17px;background:var(--surface);border-left:4px solid var(--line);font-variant-numeric:tabular-nums}.metric.alert{border-color:var(--red)}.metric.ready{border-color:var(--green)}.metric.movements{border-color:var(--gold)}.metric-label{color:var(--muted);font-size:13px}.metric-value{display:block;margin-top:4px;font:34px/1 var(--display)}
+    .content{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(360px,.85fr);gap:16px;align-items:start}.panel{background:var(--surface);min-width:0}.panel-head{padding:17px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line)}.panel-head h3{margin:0;font:25px/1 var(--display);letter-spacing:1.3px}.panel-head span{color:var(--muted);font-size:12px}
+    .stock-list{display:grid}.stock-row{display:grid;grid-template-columns:minmax(150px,1.3fr) 90px 110px 110px minmax(145px,.8fr);gap:12px;align-items:center;padding:15px 18px;border-bottom:1px solid #303932}.stock-row:last-child{border-bottom:0}.stock-name{font-size:14px;font-weight:700}.stock-detail{display:block;margin-top:4px;color:var(--muted);font-size:12px}.stock-number{font-variant-numeric:tabular-nums;font-size:16px;font-weight:700}.stock-unit{color:var(--muted);font-size:12px}.stock-level{height:7px;background:#303932}.stock-level i{display:block;height:100%;background:var(--green)}.stock-level.low i{background:var(--gold)}.stock-level.empty i{background:var(--red)}.stock-status{display:inline-flex;align-items:center;gap:6px;color:var(--green);font-size:12px;font-weight:700}.stock-status.low{color:var(--gold)}.stock-status.empty{color:var(--red)}.stock-status::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}.stock-actions{display:flex;gap:7px;justify-content:flex-end}.small-action{min-height:38px;padding:0 10px;border:1px solid #4a544c;background:transparent;color:var(--chalk);cursor:pointer;font-size:12px}.small-action:hover{border-color:var(--gold);color:var(--gold)}.small-action.quick-out:hover{border-color:var(--red);color:var(--red)}
+    .movement-list{display:grid}.movement{display:grid;grid-template-columns:66px 1fr auto;gap:12px;align-items:center;padding:16px 18px;border-bottom:1px solid #303932}.movement:last-child{border-bottom:0}.movement-qty{font:23px/1 var(--display);color:var(--green)}.movement-qty.out{color:var(--red)}.movement-name{font-size:13px;font-weight:700}.movement-meta{display:block;margin-top:4px;color:var(--muted);font-size:12px}.movement-time{color:var(--muted);font-size:11px}
+    .empty{padding:28px 18px;color:var(--muted);text-align:center}.empty strong{display:block;margin-bottom:5px;color:var(--chalk);font:23px/1 var(--display)}
+    .modal-backdrop{position:fixed;inset:0;z-index:5;display:none;place-items:center;padding:20px;background:rgba(18,22,20,.78)}.modal-backdrop.visible{display:grid}.modal{width:min(520px,100%);background:var(--paper);color:var(--ink);padding:24px}.modal-head{display:flex;align-items:start;justify-content:space-between;gap:14px;margin-bottom:20px}.modal h3{margin:0;font:32px/.9 var(--display);letter-spacing:1.2px}.modal-close{width:42px;height:42px;border:1px solid #bbb8ae;background:transparent;color:var(--ink);cursor:pointer;font-size:20px}.modal-close:hover{border-color:var(--red);color:var(--red)}.modal-form{display:grid;gap:14px}.modal-field{display:grid;gap:6px}.modal-field label{font-size:13px;font-weight:700}.modal-field input,.modal-field select{height:46px;padding:0 10px;border:1px solid #c9c7c0;background:#fff;color:var(--ink)}.modal-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}.modal-actions button{min-height:44px;padding:0 15px;border:1px solid #bbb8ae;background:transparent;color:var(--ink);cursor:pointer;font-size:13px;font-weight:700}.modal-actions .save{border-color:var(--ink);background:var(--ink);color:var(--chalk)}.modal-actions .save:hover{border-color:var(--gold);background:var(--gold);color:var(--ink)}
+    .toast{position:fixed;right:24px;bottom:24px;display:none;padding:14px 17px;background:var(--paper);color:var(--ink);font-size:13px}.toast.visible{display:block}
+    @media(max-width:1050px){.content{grid-template-columns:1fr}.stock-row{grid-template-columns:minmax(0,1fr) auto;gap:8px 12px}.stock-name{grid-column:1}.stock-number{grid-column:2;grid-row:1}.stock-row>.stock-unit{grid-column:1}.stock-level{grid-column:1 / -1}.stock-status{grid-column:1}.stock-actions{grid-column:2;grid-row:4}.movement-panel{margin-top:0}}
+    @media(max-width:760px){.topbar{padding:12px 18px}.brand{min-width:auto}.brand-name,.live{display:none}.station h1{font-size:27px}.station p{font-size:12px}.page{padding:20px 16px 28px}.head{align-items:start;flex-direction:column}.head h2{font-size:37px}.head-note{text-align:left}.controls{align-items:stretch}.area-select,.search{width:100%}.control-spacer{display:none}.sync{width:100%}.overview{grid-template-columns:repeat(2,minmax(0,1fr))}.stock-row{grid-template-columns:1fr auto;gap:8px 12px}.stock-name{grid-column:1}.stock-number{grid-column:2;grid-row:1}.stock-row>.stock-unit{grid-column:1}.stock-level{grid-column:1 / -1}.stock-status{grid-column:1}.stock-actions{grid-column:2;grid-row:4}.movement{grid-template-columns:55px 1fr}.movement-time{grid-column:2}.modal-row{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar"><div class="brand"><div class="mark" aria-hidden="true">P</div><div class="brand-name">PuraSed<small>Sereno Moreno</small></div></div><div class="station"><h1>Bodega &amp; inventario</h1><p>Control de stock · Tablet de área</p></div><div class="live"><span class="dot"></span>En línea</div></header>
+    <section class="page">
+      <div class="head"><div><p class="context-label">Jueves de noviembre · actualización en tiempo real</p><h2>Control de inventario</h2></div><p class="head-note"><strong>Stock por área, sin valores negativos.</strong><br>Registra entradas y marca agotados antes de que un producto llegue a una comanda.</p></div>
+      <div class="controls"><select class="area-select" id="area-select" aria-label="Área de inventario"><option value="all">Todas las áreas</option><option value="cocina">Cocina &amp; Paila</option><option value="bar">Barra &amp; Fermentos</option></select><input class="search" id="stock-search" type="search" placeholder="Buscar insumo" aria-label="Buscar insumo"><button class="control-button primary" id="new-entry" type="button">Registrar entrada</button><div class="control-spacer"></div><span class="sync">Sincronizado hace unos segundos</span></div>
+      <section class="overview" aria-label="Resumen de inventario"><div class="metric alert"><span class="metric-label">Stock bajo</span><strong class="metric-value" id="low-total">2</strong></div><div class="metric ready"><span class="metric-label">Disponibles</span><strong class="metric-value" id="available-total">5</strong></div><div class="metric movements"><span class="metric-label">Movimientos hoy</span><strong class="metric-value" id="movement-total">8</strong></div><div class="metric"><span class="metric-label">Agotados</span><strong class="metric-value" id="empty-total">1</strong></div></section>
+      <div class="content">
+        <section class="panel" aria-labelledby="stock-title"><header class="panel-head"><h3 id="stock-title">Existencias por insumo</h3><span id="stock-count">8 insumos</span></header><div class="stock-list" id="stock-list">
+          <article class="stock-row" data-area="cocina" data-stock="18" data-min="8" data-name="Papa chaucha"><div><span class="stock-name">Papa chaucha</span><span class="stock-detail">Cocina · fresco</span></div><strong class="stock-number">18 <span class="stock-unit">kg</span></strong><div class="stock-level"><i style="width:82%"></i></div><span class="stock-status">Disponible</span><div class="stock-actions"><button class="small-action add-stock" type="button">Entrada</button><button class="small-action quick-out" type="button">Agotado</button></div></article>
+          <article class="stock-row" data-area="cocina" data-stock="5" data-min="8" data-name="Hongos andinos"><div><span class="stock-name">Hongos andinos</span><span class="stock-detail">Cocina · refrigerado</span></div><strong class="stock-number">5 <span class="stock-unit">kg</span></strong><div class="stock-level low"><i style="width:38%"></i></div><span class="stock-status low">Stock bajo</span><div class="stock-actions"><button class="small-action add-stock" type="button">Entrada</button><button class="small-action quick-out" type="button">Agotado</button></div></article>
+          <article class="stock-row" data-area="cocina" data-stock="0" data-min="6" data-name="Aguacate"><div><span class="stock-name">Aguacate</span><span class="stock-detail">Cocina · fresco</span></div><strong class="stock-number">0 <span class="stock-unit">kg</span></strong><div class="stock-level empty"><i style="width:0%"></i></div><span class="stock-status empty">Agotado</span><div class="stock-actions"><button class="small-action add-stock" type="button">Entrada</button></div></article>
+          <article class="stock-row" data-area="cocina" data-stock="24" data-min="10" data-name="Queso tierno"><div><span class="stock-name">Queso tierno</span><span class="stock-detail">Cocina · lácteos</span></div><strong class="stock-number">24 <span class="stock-unit">porc.</span></strong><div class="stock-level"><i style="width:76%"></i></div><span class="stock-status">Disponible</span><div class="stock-actions"><button class="small-action add-stock" type="button">Entrada</button><button class="small-action quick-out" type="button">Agotado</button></div></article>
+          <article class="stock-row" data-area="bar" data-stock="12" data-min="6" data-name="Maíz morado"><div><span class="stock-name">Maíz morado</span><span class="stock-detail">Barra · fermentos</span></div><strong class="stock-number">12 <span class="stock-unit">kg</span></strong><div class="stock-level"><i style="width:70%"></i></div><span class="stock-status">Disponible</span><div class="stock-actions"><button class="small-action add-stock" type="button">Entrada</button><button class="small-action quick-out" type="button">Agotado</button></div></article>
+          <article class="stock-row" data-area="bar" data-stock="3" data-min="6" data-name="Morocho"><div><span class="stock-name">Morocho</span><span class="stock-detail">Barra · fermentos</span></div><strong class="stock-number">3 <span class="stock-unit">kg</span></strong><div class="stock-level low"><i style="width:31%"></i></div><span class="stock-status low">Stock bajo</span><div class="stock-actions"><button class="small-action add-stock" type="button">Entrada</button><button class="small-action quick-out" type="button">Agotado</button></div></article>
+          <article class="stock-row" data-area="bar" data-stock="9" data-min="4" data-name="Botellas de vidrio"><div><span class="stock-name">Botellas de vidrio</span><span class="stock-detail">Barra · envases</span></div><strong class="stock-number">9 <span class="stock-unit">unid.</span></strong><div class="stock-level"><i style="width:68%"></i></div><span class="stock-status">Disponible</span><div class="stock-actions"><button class="small-action add-stock" type="button">Entrada</button><button class="small-action quick-out" type="button">Agotado</button></div></article>
+          <article class="stock-row" data-area="bar" data-stock="16" data-min="6" data-name="Latas 500 ml"><div><span class="stock-name">Latas 500 ml</span><span class="stock-detail">Barra · envases</span></div><strong class="stock-number">16 <span class="stock-unit">unid.</span></strong><div class="stock-level"><i style="width:88%"></i></div><span class="stock-status">Disponible</span><div class="stock-actions"><button class="small-action add-stock" type="button">Entrada</button><button class="small-action quick-out" type="button">Agotado</button></div></article>
+        </div></section>
+        <section class="panel movement-panel" aria-labelledby="movement-title"><header class="panel-head"><h3 id="movement-title">Movimientos recientes</h3><span>Últimos registros</span></header><div class="movement-list" id="movement-list"><article class="movement"><strong class="movement-qty">+12</strong><div><span class="movement-name">Latas 500 ml</span><span class="movement-meta">Entrada · Barra · Carlos Mena</span></div><time class="movement-time">21:34</time></article><article class="movement"><strong class="movement-qty out">−3</strong><div><span class="movement-name">Morocho</span><span class="movement-meta">Descuento por pedido · SM-183</span></div><time class="movement-time">21:25</time></article><article class="movement"><strong class="movement-qty">+8</strong><div><span class="movement-name">Papa chaucha</span><span class="movement-meta">Entrada · Cocina · Ana Torres</span></div><time class="movement-time">20:50</time></article><article class="movement"><strong class="movement-qty out">−2</strong><div><span class="movement-name">Hongos andinos</span><span class="movement-meta">Descuento por pedido · SM-185</span></div><time class="movement-time">20:42</time></article></div></section>
+      </div>
+    </section>
+    <div class="modal-backdrop" id="entry-modal" aria-hidden="true"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="entry-title"><div class="modal-head"><h3 id="entry-title">Registrar entrada</h3><button class="modal-close" id="close-entry" type="button" aria-label="Cerrar">×</button></div><form class="modal-form" id="entry-form"><div class="modal-field"><label for="entry-item">Insumo</label><select id="entry-item" required><option value="">Selecciona un insumo</option><option>Papa chaucha</option><option>Hongos andinos</option><option>Aguacate</option><option>Queso tierno</option><option>Maíz morado</option><option>Morocho</option><option>Botellas de vidrio</option><option>Latas 500 ml</option></select></div><div class="modal-row"><div class="modal-field"><label for="entry-quantity">Cantidad</label><input id="entry-quantity" type="number" min="1" step="0.1" required placeholder="Ej. 12"></div><div class="modal-field"><label for="entry-unit">Unidad</label><select id="entry-unit" required><option>kg</option><option>porciones</option><option>unidades</option></select></div></div><div class="modal-field"><label for="entry-date">Fecha de ingreso</label><input id="entry-date" type="date" required></div><div class="modal-actions"><button id="cancel-entry" type="button">Volver</button><button class="save" type="submit">Guardar entrada</button></div></form></section></div>
+    <div class="toast" id="toast" role="status"></div>
+  </main>
+  <script>
+    (() => {
+      const list = document.querySelector("#stock-list");
+      const modal = document.querySelector("#entry-modal");
+      const form = document.querySelector("#entry-form");
+      const toast = document.querySelector("#toast");
+      const showToast = (message) => { toast.textContent = message; toast.classList.add("visible"); window.setTimeout(() => toast.classList.remove("visible"), 2600); };
+      const closeModal = () => { modal.classList.remove("visible"); modal.setAttribute("aria-hidden", "true"); form.reset(); };
+      const updateSummary = () => {
+        const rows = [...list.querySelectorAll(".stock-row:not([hidden])")];
+        document.querySelector("#stock-count").textContent = rows.length + " insumos";
+        document.querySelector("#low-total").textContent = rows.filter((row) => row.querySelector(".stock-status").classList.contains("low")).length;
+        document.querySelector("#empty-total").textContent = rows.filter((row) => row.querySelector(".stock-status").classList.contains("empty")).length;
+        document.querySelector("#available-total").textContent = rows.filter((row) => !row.querySelector(".stock-status").classList.contains("empty")).length;
+      };
+      const setEmpty = (row) => {
+        const status = row.querySelector(".stock-status");
+        const level = row.querySelector(".stock-level");
+        const button = row.querySelector(".quick-out");
+        status.className = "stock-status empty";
+        status.textContent = "Agotado";
+        level.className = "stock-level empty";
+        level.querySelector("i").style.width = "0%";
+        if (button) button.remove();
+      };
+      const addMovement = (name, quantity, unit, outgoing) => {
+        const movement = document.createElement("article");
+        movement.className = "movement";
+        movement.innerHTML = `<strong class="movement-qty${outgoing ? " out" : ""}">${outgoing ? "−" : "+"}${quantity}</strong><div><span class="movement-name">${name}</span><span class="movement-meta">${outgoing ? "Marcado como agotado" : "Entrada registrada · Administrador de área"}</span></div><time class="movement-time">Ahora</time>`;
+        document.querySelector("#movement-list").prepend(movement);
+      };
+      document.querySelector("#new-entry").addEventListener("click", () => { modal.classList.add("visible"); modal.setAttribute("aria-hidden", "false"); document.querySelector("#entry-item").focus(); });
+      document.querySelector("#close-entry").addEventListener("click", closeModal);
+      document.querySelector("#cancel-entry").addEventListener("click", closeModal);
+      modal.addEventListener("click", (event) => { if (event.target === modal) closeModal(); });
+      document.addEventListener("keydown", (event) => { if (event.key === "Escape" && modal.classList.contains("visible")) closeModal(); });
+      document.querySelector("#area-select").addEventListener("change", (event) => {
+        list.querySelectorAll(".stock-row").forEach((row) => { row.hidden = event.target.value !== "all" && row.dataset.area !== event.target.value; });
+        updateSummary();
+      });
+      document.querySelector("#stock-search").addEventListener("input", (event) => {
+        const query = event.target.value.trim().toLowerCase();
+        list.querySelectorAll(".stock-row").forEach((row) => { row.hidden = !row.dataset.name.toLowerCase().includes(query); });
+        updateSummary();
+      });
+      list.addEventListener("click", (event) => {
+        const button = event.target.closest("button");
+        if (!button) return;
+        const row = button.closest(".stock-row");
+        if (button.classList.contains("quick-out")) {
+          if (!window.confirm(`¿Marcar ${row.dataset.name} como agotado?`)) return;
+          setEmpty(row);
+          addMovement(row.dataset.name, row.dataset.stock, "", true);
+          updateSummary();
+          showToast(row.dataset.name + " marcado como agotado");
+        } else {
+          modal.classList.add("visible");
+          modal.setAttribute("aria-hidden", "false");
+          document.querySelector("#entry-item").value = row.dataset.name;
+          document.querySelector("#entry-quantity").focus();
+        }
+      });
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!form.reportValidity()) return;
+        const name = document.querySelector("#entry-item").value;
+        const quantity = document.querySelector("#entry-quantity").value;
+        const unit = document.querySelector("#entry-unit").value;
+        const row = [...list.querySelectorAll(".stock-row")].find((item) => item.dataset.name === name);
+        if (row) {
+          row.dataset.stock = String(Number(row.dataset.stock) + Number(quantity));
+          row.querySelector(".stock-number").innerHTML = `${row.dataset.stock} <span class="stock-unit">${unit}</span>`;
+          row.querySelector(".stock-status").className = "stock-status";
+          row.querySelector(".stock-status").textContent = "Disponible";
+          row.querySelector(".stock-level").className = "stock-level";
+          row.querySelector(".stock-level i").style.width = "70%";
+        }
+        addMovement(name, quantity, unit, false);
+        closeModal();
+        updateSummary();
+        showToast("Entrada registrada y stock actualizado");
+      });
+      updateSummary();
+    })();
+  </script>
+</body>
+</html>

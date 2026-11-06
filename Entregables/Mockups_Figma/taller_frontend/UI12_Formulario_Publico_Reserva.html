@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UI-12 · Reserva tu mesa | PuraSed</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#121614;--surface:#1f2421;--surface-2:#29312c;--paper:#fffdf9;--ink:#1a201c;--chalk:#f0eee7;--muted:#a7afa8;--line:#3a433d;--gold:#e59f38;--bright:#f8ad00;--green:#94b783;--red:#d97758;--display:"Bebas Neue",Impact,sans-serif;--body:"Space Grotesk",Arial,sans-serif}
+    *{box-sizing:border-box}html{background:var(--bg);color:var(--chalk)}body{margin:0;min-width:320px;background:var(--bg);font-family:var(--body)}button,input,select{font:inherit}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--bright);outline-offset:3px}.shell{min-height:100vh;display:flex;flex-direction:column}
+    .topbar{min-height:78px;padding:14px 28px;display:flex;align-items:center;gap:26px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:12px}.mark{width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--gold);color:var(--gold);font:28px/1 var(--display)}.brand-name{font:24px/.85 var(--display);letter-spacing:2px}.brand-name small{display:block;margin-top:5px;color:var(--muted);font:11px/1 var(--body)}.toplink{margin-left:auto;color:var(--muted);font-size:13px}.toplink:hover{color:var(--gold)}
+    .page{width:min(1120px,100%);margin:auto;padding:52px 28px 64px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);gap:74px;align-items:start}.intro{padding-top:22px}.context-label{margin:0 0 12px;color:var(--gold);font-size:13px;font-weight:700}.intro h1{max-width:520px;margin:0;font:clamp(50px,6vw,72px)/.86 var(--display);letter-spacing:2px}.intro-copy{max-width:460px;margin:25px 0 34px;color:var(--muted);font-size:16px;line-height:1.55}.ritual{display:grid;gap:16px;max-width:450px}.ritual-row{display:flex;gap:14px;align-items:flex-start}.ritual-mark{width:34px;height:34px;flex:none;display:grid;place-items:center;background:var(--gold);color:var(--ink);font:14px/1 var(--body);font-weight:700}.ritual-row strong{display:block;margin-bottom:3px;font-size:14px}.ritual-row span{color:var(--muted);font-size:13px;line-height:1.4}
+    .form-card{background:var(--paper);color:var(--ink);padding:28px 30px}.form-card h2{margin:0;font:38px/.9 var(--display);letter-spacing:1.5px}.form-card>p{margin:9px 0 24px;color:#687069;font-size:13px;line-height:1.45}.fields{display:grid;gap:16px}.field{display:grid;gap:7px}.field label{font-size:13px;font-weight:700}.field input,.field select{width:100%;height:48px;padding:0 12px;border:1px solid #c9c7c0;background:#fff;color:var(--ink)}.field input:invalid:not(:placeholder-shown){border-color:var(--red)}.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.submit{width:100%;min-height:54px;margin-top:8px;border:0;background:var(--ink);color:var(--chalk);cursor:pointer;font:21px/1 var(--display);letter-spacing:1px}.submit:hover{background:var(--gold);color:var(--ink)}.form-hint{margin:0!important;color:#687069;font-size:12px!important}.privacy{padding-top:13px;border-top:1px dashed #dedbd4;color:#687069;font-size:11px;line-height:1.4}
+    .success{display:none}.success.is-visible{display:block}.success-code{margin:18px 0 14px;padding:17px;background:#f2eee7;text-align:center}.success-code span{display:block;color:#687069;font-size:12px}.success-code strong{display:block;margin-top:5px;font:38px/1 var(--display);letter-spacing:2px}.qr{width:112px;height:112px;margin:17px auto 10px;padding:8px;background:var(--ink);display:grid;grid-template-columns:repeat(7,1fr);gap:3px}.qr i{background:var(--paper)}.qr i:nth-child(3n),.qr i:nth-child(5n+1){background:var(--gold)}.back{width:100%;min-height:48px;border:1px solid #bbb8ae;background:transparent;color:var(--ink);cursor:pointer;font-weight:700}.back:hover{border-color:var(--gold);background:#f2eee7}
+    footer{padding:18px 28px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;text-align:center}
+    @media(max-width:760px){.topbar{padding:12px 18px}.toplink{display:none}.page{grid-template-columns:1fr;gap:34px;padding:34px 18px 44px}.intro{padding-top:0}.intro h1{font-size:50px}.intro-copy{margin:18px 0 24px}.form-card{padding:24px 20px}.field-row{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar"><div class="brand"><div class="mark" aria-hidden="true">P</div><div class="brand-name">PuraSed<small>Sereno Moreno</small></div></div><a class="toplink" href="#formulario">Ya sé cuándo quiero venir</a></header>
+    <section class="page">
+      <div class="intro">
+        <p class="context-label">Centro Histórico de Quito · Sereno Moreno</p>
+        <h1>Reserva tu mesa</h1>
+        <p class="intro-copy">Guarda tu lugar para una noche de cocina de paila, fermentos vivos y encuentros sin apuro.</p>
+        <div class="ritual" aria-label="Información de la reserva">
+          <div class="ritual-row"><span class="ritual-mark">A</span><div><strong>Elige tu momento</strong><span>Atendemos reservas de 18:00 a 23:30.</span></div></div>
+          <div class="ritual-row"><span class="ritual-mark">B</span><div><strong>Recibe tu confirmación</strong><span>Te mostraremos un código de reserva al finalizar.</span></div></div>
+          <div class="ritual-row"><span class="ritual-mark">C</span><div><strong>Activa tu mesa al llegar</strong><span>El asistente habilitará el acceso a tu menú y pedido.</span></div></div>
+        </div>
+      </div>
+      <section class="form-card" id="formulario" aria-labelledby="form-title">
+        <div id="form-view">
+          <h2 id="form-title">Cuida tu lugar</h2>
+          <p>Completa tus datos. La solicitud queda sujeta a disponibilidad real.</p>
+          <form id="reservation-form" class="fields">
+            <div class="field"><label for="name">Nombre completo</label><input id="name" name="name" autocomplete="name" placeholder="Ej. Ana Torres" required></div>
+            <div class="field"><label for="contact">Teléfono o correo</label><input id="contact" name="contact" autocomplete="email" placeholder="Ej. 099 123 4567" required></div>
+            <div class="field-row"><div class="field"><label for="date">Fecha</label><input id="date" name="date" type="date" required></div><div class="field"><label for="time">Hora</label><select id="time" name="time" required><option value="">Selecciona</option><option>18:00</option><option>19:00</option><option>20:00</option><option>21:00</option><option>22:00</option><option>23:00</option></select></div></div>
+            <div class="field"><label for="guests">Número de personas</label><select id="guests" name="guests" required><option value="">Selecciona</option><option>1 persona</option><option>2 personas</option><option>3 personas</option><option>4 personas</option><option>5 personas</option><option>6 personas</option><option>7 o más personas</option></select></div>
+            <p class="form-hint">Las reservas son para un máximo de dos horas y no aceptamos fechas pasadas.</p>
+            <button class="submit" type="submit">Solicitar reserva</button>
+            <p class="privacy">Usamos tus datos únicamente para confirmar y gestionar tu reserva. No almacenamos datos de pago en este formulario.</p>
+          </form>
+        </div>
+        <div id="success-view" class="success" aria-live="polite">
+          <h2>Tu mesa está en camino</h2>
+          <p>Solicitud registrada. Presenta este código al asistente al llegar.</p>
+          <div class="success-code"><span>Código de reserva</span><strong>PS-4827</strong></div>
+          <div class="qr" aria-label="Código QR de acceso"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <p class="form-hint">Este QR se activa cuando el asistente registra tu llegada.</p><button class="back" id="new-reservation" type="button">Hacer otra solicitud</button>
+        </div>
+      </section>
+    </section>
+    <footer>PuraSed · Sereno Moreno · Reservas disponibles de 18:00 a 23:30</footer>
+  </main>
+  <script>
+    (() => {
+      const form = document.querySelector("#reservation-form");
+      const date = document.querySelector("#date");
+      const today = new Date();
+      date.min = today.toISOString().slice(0, 10);
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!form.reportValidity()) return;
+        document.querySelector("#form-view").style.display = "none";
+        document.querySelector("#success-view").classList.add("is-visible");
+      });
+      document.querySelector("#new-reservation").addEventListener("click", () => {
+        form.reset();
+        document.querySelector("#success-view").classList.remove("is-visible");
+        document.querySelector("#form-view").style.display = "block";
+        document.querySelector("#name").focus();
+      });
+    })();
+  </script>
+</body>
+</html>
