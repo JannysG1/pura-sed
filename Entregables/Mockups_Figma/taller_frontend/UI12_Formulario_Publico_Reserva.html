@@ -3,77 +3,714 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>UI-12 · Reserva tu mesa | PuraSed</title>
+  <title>Reserva tu Mesa | PuraSed · Sereno Moreno</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#121614;--surface:#1f2421;--surface-2:#29312c;--paper:#fffdf9;--ink:#1a201c;--chalk:#f0eee7;--muted:#a7afa8;--line:#3a433d;--gold:#e59f38;--bright:#f8ad00;--green:#94b783;--red:#d97758;--display:"Bebas Neue",Impact,sans-serif;--body:"Space Grotesk",Arial,sans-serif}
-    *{box-sizing:border-box}html{background:var(--bg);color:var(--chalk)}body{margin:0;min-width:320px;background:var(--bg);font-family:var(--body)}button,input,select{font:inherit}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--bright);outline-offset:3px}.shell{min-height:100vh;display:flex;flex-direction:column}
-    .topbar{min-height:78px;padding:14px 28px;display:flex;align-items:center;gap:26px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:12px}.mark{width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--gold);color:var(--gold);font:28px/1 var(--display)}.brand-name{font:24px/.85 var(--display);letter-spacing:2px}.brand-name small{display:block;margin-top:5px;color:var(--muted);font:11px/1 var(--body)}.toplink{margin-left:auto;color:var(--muted);font-size:13px}.toplink:hover{color:var(--gold)}
-    .page{width:min(1120px,100%);margin:auto;padding:52px 28px 64px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);gap:74px;align-items:start}.intro{padding-top:22px}.context-label{margin:0 0 12px;color:var(--gold);font-size:13px;font-weight:700}.intro h1{max-width:520px;margin:0;font:clamp(50px,6vw,72px)/.86 var(--display);letter-spacing:2px}.intro-copy{max-width:460px;margin:25px 0 34px;color:var(--muted);font-size:16px;line-height:1.55}.ritual{display:grid;gap:16px;max-width:450px}.ritual-row{display:flex;gap:14px;align-items:flex-start}.ritual-mark{width:34px;height:34px;flex:none;display:grid;place-items:center;background:var(--gold);color:var(--ink);font:14px/1 var(--body);font-weight:700}.ritual-row strong{display:block;margin-bottom:3px;font-size:14px}.ritual-row span{color:var(--muted);font-size:13px;line-height:1.4}
-    .form-card{background:var(--paper);color:var(--ink);padding:28px 30px}.form-card h2{margin:0;font:38px/.9 var(--display);letter-spacing:1.5px}.form-card>p{margin:9px 0 24px;color:#687069;font-size:13px;line-height:1.45}.fields{display:grid;gap:16px}.field{display:grid;gap:7px}.field label{font-size:13px;font-weight:700}.field input,.field select{width:100%;height:48px;padding:0 12px;border:1px solid #c9c7c0;background:#fff;color:var(--ink)}.field input:invalid:not(:placeholder-shown){border-color:var(--red)}.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.submit{width:100%;min-height:54px;margin-top:8px;border:0;background:var(--ink);color:var(--chalk);cursor:pointer;font:21px/1 var(--display);letter-spacing:1px}.submit:hover{background:var(--gold);color:var(--ink)}.form-hint{margin:0!important;color:#687069;font-size:12px!important}.privacy{padding-top:13px;border-top:1px dashed #dedbd4;color:#687069;font-size:11px;line-height:1.4}
-    .success{display:none}.success.is-visible{display:block}.success-code{margin:18px 0 14px;padding:17px;background:#f2eee7;text-align:center}.success-code span{display:block;color:#687069;font-size:12px}.success-code strong{display:block;margin-top:5px;font:38px/1 var(--display);letter-spacing:2px}.qr{width:112px;height:112px;margin:17px auto 10px;padding:8px;background:var(--ink);display:grid;grid-template-columns:repeat(7,1fr);gap:3px}.qr i{background:var(--paper)}.qr i:nth-child(3n),.qr i:nth-child(5n+1){background:var(--gold)}.back{width:100%;min-height:48px;border:1px solid #bbb8ae;background:transparent;color:var(--ink);cursor:pointer;font-weight:700}.back:hover{border-color:var(--gold);background:#f2eee7}
-    footer{padding:18px 28px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;text-align:center}
-    @media(max-width:760px){.topbar{padding:12px 18px}.toplink{display:none}.page{grid-template-columns:1fr;gap:34px;padding:34px 18px 44px}.intro{padding-top:0}.intro h1{font-size:50px}.intro-copy{margin:18px 0 24px}.form-card{padding:24px 20px}.field-row{grid-template-columns:1fr}}
+    /* ==========================================================================
+       MANUAL OFICIAL PURASED — RESERVA PÚBLICA DE COMENSALES
+       Estilo: Taller Indie Craft & Herencia Andina (Centro Histórico de Quito)
+       ========================================================================== */
+    :root {
+      --bg-dark-base: #121614;       /* Carbón basalto profundo */
+      --bg-slate-charcoal: #1F2421;  /* Pizarra andina */
+      --bg-ticket-paper: #FFFDF9;    /* Papel artesanal blanco tiza para tickets */
+      --border-line: #333d37;
+
+      --text-chalk: #F5EADB;         /* Blanco tiza andina */
+      --text-muted: #adb7af;         /* Tiza atenuada */
+      --text-dark-ink: #1A201C;      /* Tinta serigráfica negra sobre ticket */
+      --text-ticket-subtle: #5a645d; /* Tinta secundaria */
+
+      --gold-inti: #E59F38;          /* Oro Inti / Maíz ancestral */
+      --gold-highlight: #F8AD00;     /* Oro radiante */
+      --chicha-amber: #E8923E;
+      --status-ready: #94b783;
+
+      --font-display: "Bebas Neue", Impact, sans-serif;
+      --font-body: "Space Grotesk", -apple-system, sans-serif;
+
+      --touch-min: 48px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background-color: var(--bg-dark-base); color: var(--text-chalk); }
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      background: var(--bg-dark-base);
+      font-family: var(--font-body);
+      color: var(--text-chalk);
+      position: relative;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Linograbado ancestral Danzante de fondo */
+    .bg-watermark {
+      position: fixed;
+      left: -80px;
+      bottom: -60px;
+      width: 520px;
+      height: 520px;
+      opacity: 0.055;
+      pointer-events: none;
+      z-index: 0;
+      background: url("../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/recurso-17.png") no-repeat center / contain;
+      filter: invert(1);
+    }
+
+    button, input, select { font: inherit; }
+    button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible {
+      outline: 3px solid var(--gold-highlight);
+      outline-offset: 3px;
+    }
+
+    .shell {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Bar */
+    .topbar {
+      min-height: 82px;
+      padding: 12px 32px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      border-bottom: 2px solid var(--border-line);
+      background: #0d110f;
+    }
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand-logo-img {
+      height: 48px;
+      width: auto;
+      display: block;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    }
+    .brand-location {
+      padding-left: 16px;
+      border-left: 1px solid var(--border-line);
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .toplink {
+      margin-left: auto;
+      color: var(--gold-inti);
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: 1.5px;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.15s;
+    }
+    .toplink:hover { color: var(--gold-highlight); }
+
+    /* Page Layout */
+    .page-layout {
+      width: min(1200px, 100%);
+      margin: auto;
+      padding: 40px 32px 64px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(380px, 0.95fr);
+      gap: 56px;
+      align-items: start;
+    }
+
+    /* Columna Izquierda: Introducción y Ritual */
+    .intro-col { padding-top: 12px; }
+    .category-tag {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gold-inti);
+      line-height: 1;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .intro-title {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 6vw, 76px);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      line-height: 0.88;
+      margin-bottom: 20px;
+    }
+    .intro-desc {
+      color: var(--text-muted);
+      font-size: 16px;
+      line-height: 1.6;
+      max-width: 480px;
+      margin-bottom: 36px;
+    }
+
+    /* Ritual Steps */
+    .ritual-box {
+      display: grid;
+      gap: 20px;
+      max-width: 460px;
+      margin-bottom: 36px;
+    }
+    .ritual-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .ritual-glyph {
+      width: 36px;
+      height: 36px;
+      flex: none;
+      background: var(--gold-inti);
+      color: var(--text-dark-ink);
+      font-family: var(--font-display);
+      font-size: 22px;
+      display: grid;
+      place-items: center;
+      line-height: 1;
+    }
+    .ritual-text strong {
+      display: block;
+      font-size: 15px;
+      color: var(--text-chalk);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .ritual-text span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    /* Badge cultural */
+    .artisan-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      background: var(--bg-slate-charcoal);
+      border: 1px solid var(--border-line);
+      border-left: 4px solid var(--gold-inti);
+    }
+    .artisan-pill img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+    .artisan-pill div strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: 1.5px;
+      color: var(--gold-inti);
+    }
+    .artisan-pill div span {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Columna Derecha: Tarjeta de Reserva */
+    .form-panel {
+      position: relative;
+    }
+
+    .booking-card {
+      background: var(--bg-ticket-paper);
+      color: var(--text-dark-ink);
+      padding: 32px 30px;
+      box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.6), 0 8px 16px -4px rgba(0, 0, 0, 0.4);
+      position: relative;
+      transform: rotate(0.6deg);
+      transition: transform 0.2s ease;
+    }
+    .booking-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: repeating-linear-gradient(90deg, var(--gold-inti) 0, var(--gold-inti) 10px, transparent 10px, transparent 15px);
+    }
+
+    .booking-card h2 {
+      font-family: var(--font-display);
+      font-size: 38px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      line-height: 0.92;
+      color: var(--text-dark-ink);
+    }
+    .booking-card > p {
+      color: var(--text-ticket-subtle);
+      font-size: 13px;
+      margin: 8px 0 24px;
+      line-height: 1.45;
+    }
+
+    .form-fields {
+      display: grid;
+      gap: 18px;
+    }
+    .form-group {
+      display: grid;
+      gap: 6px;
+    }
+    .form-group label {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-dark-ink);
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      height: 48px;
+      padding: 0 14px;
+      border: 1px solid #c9c7c0;
+      background: #ffffff;
+      color: var(--text-dark-ink);
+      font-size: 14px;
+      transition: border-color 0.15s;
+    }
+    .form-group input:focus, .form-group select:focus {
+      border-color: var(--gold-inti);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      min-height: 54px;
+      border: 0;
+      background: var(--text-dark-ink);
+      color: var(--text-chalk);
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-size: 24px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 8px;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .btn-submit:hover {
+      background: var(--gold-inti);
+      color: var(--text-dark-ink);
+    }
+    .btn-submit:active { transform: translateY(1px); }
+
+    .card-footer-notice {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px dashed #dedbd4;
+      color: var(--text-ticket-subtle);
+      font-size: 11px;
+      line-height: 1.4;
+    }
+
+    /* Pantalla de Confirmación / Pase Digital */
+    .pass-screen {
+      display: none;
+      animation: fadeIn 0.3s ease both;
+    }
+    .pass-screen.is-active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .voucher-banner {
+      background: #eee8db;
+      padding: 16px;
+      text-align: center;
+      margin-bottom: 20px;
+      border: 1px dashed #c4bcab;
+    }
+    .voucher-banner span {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-ticket-subtle);
+    }
+    .voucher-banner strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 42px;
+      letter-spacing: 3px;
+      color: var(--text-dark-ink);
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .voucher-details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      background: #fbf9f4;
+      padding: 14px;
+      border: 1px solid #e2ded5;
+      margin-bottom: 20px;
+    }
+    .voucher-cell span {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--text-ticket-subtle);
+      font-weight: 700;
+    }
+    .voucher-cell strong {
+      display: block;
+      font-size: 14px;
+      color: var(--text-dark-ink);
+      margin-top: 2px;
+    }
+
+    /* QR Code con Diablo Huma Emblema en el centro */
+    .qr-envelope {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 16px 0 24px;
+    }
+    .qr-frame {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      padding: 8px;
+      background: #ffffff;
+      border: 2px solid var(--text-dark-ink);
+      display: grid;
+      place-items: center;
+    }
+    .qr-frame svg { width: 100%; height: 100%; }
+    .qr-center-seal {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      background: #ffffff;
+      border-radius: 50%;
+      border: 2px solid var(--gold-inti);
+      display: grid;
+      place-items: center;
+      padding: 2px;
+    }
+    .qr-center-seal img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .qr-instruction {
+      font-size: 12px;
+      color: var(--text-ticket-subtle);
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid var(--text-dark-ink);
+      background: transparent;
+      color: var(--text-dark-ink);
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: all 0.15s;
+    }
+    .btn-secondary:hover {
+      background: #eee8db;
+    }
+
+    /* Footer */
+    footer.page-footer {
+      border-top: 1px solid var(--border-line);
+      padding: 16px 32px;
+      color: var(--text-muted);
+      font-size: 12px;
+      text-align: center;
+      margin-top: auto;
+    }
+
+    @media (max-width: 860px) {
+      .page-layout { grid-template-columns: 1fr; gap: 40px; padding: 24px 20px 48px; }
+      .intro-title { font-size: 52px; }
+      .booking-card { transform: none; padding: 24px 20px; }
+    }
   </style>
 </head>
 <body>
+  <!-- Linograbado ancestral Danzante de fondo -->
+  <div class="bg-watermark" aria-hidden="true"></div>
+
   <main class="shell">
-    <header class="topbar"><div class="brand"><div class="mark" aria-hidden="true">P</div><div class="brand-name">PuraSed<small>Sereno Moreno</small></div></div><a class="toplink" href="#formulario">Ya sé cuándo quiero venir</a></header>
-    <section class="page">
-      <div class="intro">
-        <p class="context-label">Centro Histórico de Quito · Sereno Moreno</p>
-        <h1>Reserva tu mesa</h1>
-        <p class="intro-copy">Guarda tu lugar para una noche de cocina de paila, fermentos vivos y encuentros sin apuro.</p>
-        <div class="ritual" aria-label="Información de la reserva">
-          <div class="ritual-row"><span class="ritual-mark">A</span><div><strong>Elige tu momento</strong><span>Atendemos reservas de 18:00 a 23:30.</span></div></div>
-          <div class="ritual-row"><span class="ritual-mark">B</span><div><strong>Recibe tu confirmación</strong><span>Te mostraremos un código de reserva al finalizar.</span></div></div>
-          <div class="ritual-row"><span class="ritual-mark">C</span><div><strong>Activa tu mesa al llegar</strong><span>El asistente habilitará el acceso a tu menú y pedido.</span></div></div>
+    <header class="topbar">
+      <a class="brand-wrap" href="./index.html" title="Volver al Hub Central">
+        <img class="brand-logo-img" src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/logosm.svg" alt="Sereno Moreno Bar &amp; Mercado" />
+      </a>
+      <span class="brand-location">Junín &amp; Esmeraldas · Centro Histórico</span>
+      <a class="toplink" href="#reserva-card">Ir a Reservar ↓</a>
+    </header>
+
+    <div class="page-layout">
+      <!-- Columna Izquierda: Identidad y Ritual de Mesa -->
+      <section class="intro-col" aria-labelledby="bookingHeroTitle">
+        <span class="category-tag">Sereno Moreno · Taller &amp; Cantina</span>
+        <h1 class="intro-title" id="bookingHeroTitle">Reserva tu Mesa</h1>
+        <p class="intro-desc">
+          Guarda tu lugar para una noche de cocina de paila al carbón, fermentos andinos vivos y tertulia sin apuros en el corazón del Centro Histórico.
+        </p>
+
+        <div class="ritual-box" aria-label="Cómo funciona la reserva">
+          <div class="ritual-item">
+            <span class="ritual-glyph" aria-hidden="true">1</span>
+            <div class="ritual-text">
+              <strong>Elige tu momento</strong>
+              <span>Atendemos con reserva previa de 18:00 a 23:30 para cuidar los tiempos de la paila.</span>
+            </div>
+          </div>
+          <div class="ritual-item">
+            <span class="ritual-glyph" aria-hidden="true">2</span>
+            <div class="ritual-text">
+              <strong>Pase digital inmediato</strong>
+              <span>Generamos tu código alfanumérico único con código QR de acceso al local.</span>
+            </div>
+          </div>
+          <div class="ritual-item">
+            <span class="ritual-glyph" aria-hidden="true">3</span>
+            <div class="ritual-text">
+              <strong>Activación de tu mesa al llegar</strong>
+              <span>Al escanear tu pase al llegar, la tablet de tu mesa se desbloquea automáticamente con tu sesión.</span>
+            </div>
+          </div>
         </div>
-      </div>
-      <section class="form-card" id="formulario" aria-labelledby="form-title">
-        <div id="form-view">
-          <h2 id="form-title">Cuida tu lugar</h2>
-          <p>Completa tus datos. La solicitud queda sujeta a disponibilidad real.</p>
-          <form id="reservation-form" class="fields">
-            <div class="field"><label for="name">Nombre completo</label><input id="name" name="name" autocomplete="name" placeholder="Ej. Ana Torres" required></div>
-            <div class="field"><label for="contact">Teléfono o correo</label><input id="contact" name="contact" autocomplete="email" placeholder="Ej. 099 123 4567" required></div>
-            <div class="field-row"><div class="field"><label for="date">Fecha</label><input id="date" name="date" type="date" required></div><div class="field"><label for="time">Hora</label><select id="time" name="time" required><option value="">Selecciona</option><option>18:00</option><option>19:00</option><option>20:00</option><option>21:00</option><option>22:00</option><option>23:00</option></select></div></div>
-            <div class="field"><label for="guests">Número de personas</label><select id="guests" name="guests" required><option value="">Selecciona</option><option>1 persona</option><option>2 personas</option><option>3 personas</option><option>4 personas</option><option>5 personas</option><option>6 personas</option><option>7 o más personas</option></select></div>
-            <p class="form-hint">Las reservas son para un máximo de dos horas y no aceptamos fechas pasadas.</p>
-            <button class="submit" type="submit">Solicitar reserva</button>
-            <p class="privacy">Usamos tus datos únicamente para confirmar y gestionar tu reserva. No almacenamos datos de pago en este formulario.</p>
-          </form>
-        </div>
-        <div id="success-view" class="success" aria-live="polite">
-          <h2>Tu mesa está en camino</h2>
-          <p>Solicitud registrada. Presenta este código al asistente al llegar.</p>
-          <div class="success-code"><span>Código de reserva</span><strong>PS-4827</strong></div>
-          <div class="qr" aria-label="Código QR de acceso"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-          <p class="form-hint">Este QR se activa cuando el asistente registra tu llegada.</p><button class="back" id="new-reservation" type="button">Hacer otra solicitud</button>
+
+        <div class="artisan-pill">
+          <img src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/diablo-huma-emblem.png" alt="Emblema Diablo Huma" />
+          <div>
+            <strong>Mucha Chicha &amp; Cocina de Paila</strong>
+            <span>Fermentación artesanal viva · Cero aditivos químicos</span>
+          </div>
         </div>
       </section>
-    </section>
-    <footer>PuraSed · Sereno Moreno · Reservas disponibles de 18:00 a 23:30</footer>
+
+      <!-- Columna Derecha: Tarjeta de Reserva / Pase Digital -->
+      <section class="form-panel" id="reserva-card">
+        <div class="booking-card">
+          <!-- Vista 1: Formulario de Solicitud -->
+          <div id="bookingFormView">
+            <h2>Cuida tu Lugar</h2>
+            <p>Completa tus datos. Las solicitudes se sincronizan en vivo con el mapa de salón.</p>
+
+            <form class="form-fields" id="clientReservationForm" novalidate>
+              <div class="form-group">
+                <label for="clientName">Nombre y Apellido</label>
+                <input id="clientName" name="name" required placeholder="Ej. Ana Torres" autocomplete="name" />
+              </div>
+
+              <div class="form-group">
+                <label for="clientContact">Celular o Correo</label>
+                <input id="clientContact" name="contact" required placeholder="Ej. 099 123 4567 o ana@ejemplo.com" autocomplete="email" />
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="bookingDate">Fecha</label>
+                  <input id="bookingDate" name="date" type="date" required />
+                </div>
+                <div class="form-group">
+                  <label for="bookingHour">Horario</label>
+                  <select id="bookingHour" name="time" required>
+                    <option value="">Selecciona hora</option>
+                    <option value="18:00">18:00</option>
+                    <option value="19:00">19:00</option>
+                    <option value="20:00">20:00</option>
+                    <option value="21:00">21:00</option>
+                    <option value="22:00">22:00</option>
+                    <option value="23:00">23:00</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="bookingPpl">Número de Comensales</label>
+                <select id="bookingPpl" name="guests" required>
+                  <option value="">Selecciona comensales</option>
+                  <option value="1 persona">1 persona (barra craft)</option>
+                  <option value="2 personas">2 personas</option>
+                  <option value="3 personas">3 personas</option>
+                  <option value="4 personas">4 personas (mesa salón)</option>
+                  <option value="5 personas">5 personas</option>
+                  <option value="6 personas">6 personas (mesa larga)</option>
+                  <option value="8 personas">8 o más personas</option>
+                </select>
+              </div>
+
+              <button class="btn-submit" type="submit">
+                Confirmar Solicitud de Reserva →
+              </button>
+
+              <p class="card-footer-notice">
+                * Las reservas se guardan hasta 15 minutos pasadas la hora registrada. No almacenamos datos bancarios en este portal.
+              </p>
+            </form>
+          </div>
+
+          <!-- Vista 2: Pase Digital de Acceso -->
+          <div class="pass-screen" id="bookingPassView" aria-live="polite">
+            <h2>Pase Digital de Reserva</h2>
+            <p>Presenta este código al asistente al llegar a Sereno Moreno.</p>
+
+            <div class="voucher-banner">
+              <span>Código Único de Acceso</span>
+              <strong id="passCode">PS-4827</strong>
+            </div>
+
+            <div class="voucher-details-grid">
+              <div class="voucher-cell">
+                <span>Comensal Titular</span>
+                <strong id="passName">Ana Torres</strong>
+              </div>
+              <div class="voucher-cell">
+                <span>Personas</span>
+                <strong id="passGuests">4 personas</strong>
+              </div>
+              <div class="voucher-cell">
+                <span>Fecha</span>
+                <strong id="passDate">05 Nov 2026</strong>
+              </div>
+              <div class="voucher-cell">
+                <span>Hora de Llegada</span>
+                <strong id="passTime">20:00</strong>
+              </div>
+            </div>
+
+            <div class="qr-envelope">
+              <div class="qr-frame" aria-label="Código QR con sello oficial Sereno Moreno">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect width="100" height="100" fill="#ffffff"/>
+                  <rect x="8" y="8" width="24" height="24" fill="#1a201c"/>
+                  <rect x="12" y="12" width="16" height="16" fill="#ffffff"/>
+                  <rect x="15" y="15" width="10" height="10" fill="#e59f38"/>
+
+                  <rect x="68" y="8" width="24" height="24" fill="#1a201c"/>
+                  <rect x="72" y="12" width="16" height="16" fill="#ffffff"/>
+                  <rect x="75" y="15" width="10" height="10" fill="#e59f38"/>
+
+                  <rect x="8" y="68" width="24" height="24" fill="#1a201c"/>
+                  <rect x="12" y="72" width="16" height="16" fill="#ffffff"/>
+                  <rect x="15" y="75" width="10" height="10" fill="#e59f38"/>
+
+                  <rect x="38" y="10" width="6" height="6" fill="#1a201c"/>
+                  <rect x="52" y="10" width="6" height="6" fill="#1a201c"/>
+                  <rect x="42" y="20" width="6" height="6" fill="#1a201c"/>
+                  <rect x="10" y="42" width="6" height="6" fill="#1a201c"/>
+                  <rect x="22" y="46" width="6" height="6" fill="#1a201c"/>
+                  <rect x="68" y="42" width="6" height="6" fill="#1a201c"/>
+                  <rect x="80" y="46" width="6" height="6" fill="#1a201c"/>
+                  <rect x="42" y="68" width="6" height="6" fill="#1a201c"/>
+                  <rect x="52" y="74" width="6" height="6" fill="#1a201c"/>
+                  <rect x="68" y="68" width="6" height="6" fill="#1a201c"/>
+                  <rect x="80" y="74" width="6" height="6" fill="#1a201c"/>
+                </svg>
+                <div class="qr-center-seal" aria-hidden="true">
+                  <img src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/diablo-huma-emblem.png" alt="" />
+                </div>
+              </div>
+              <span class="qr-instruction">Escanear en recepción para activar la tablet de la mesa</span>
+            </div>
+
+            <button class="btn-secondary" id="btnMakeAnother" type="button">
+              ← Solicitar Otra Reserva
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer class="page-footer">
+      PuraSed · Sereno Moreno Bar &amp; Mercado · Junín y Esmeraldas, Centro Histórico de Quito · Reservas abiertas de 18:00 a 23:30
+    </footer>
   </main>
+
   <script>
+    /**
+     * Módulo de gestión del formulario público de reserva y generación de pase digital.
+     * Valida entradas de usuario, genera código de confirmación pseudoaleatorio
+     * y conmuta la vista entre el formulario y el pase digital del comensal.
+     */
     (() => {
-      const form = document.querySelector("#reservation-form");
-      const date = document.querySelector("#date");
+      const form = document.querySelector("#clientReservationForm");
+      const dateInput = document.querySelector("#bookingDate");
+      const formView = document.querySelector("#bookingFormView");
+      const passView = document.querySelector("#bookingPassView");
+      const btnAnother = document.querySelector("#btnMakeAnother");
+
+      // Establece la fecha mínima seleccionable al día en curso
       const today = new Date();
-      date.min = today.toISOString().slice(0, 10);
-      form.addEventListener("submit", (event) => {
-        event.preventDefault();
-        if (!form.reportValidity()) return;
-        document.querySelector("#form-view").style.display = "none";
-        document.querySelector("#success-view").classList.add("is-visible");
+      const todayIso = today.toISOString().slice(0, 10);
+      dateInput.min = todayIso;
+      dateInput.value = todayIso;
+
+      /**
+       * Procesa el envío de la reserva, valida campos requeridos,
+       * genera el código único de reserva (PS-XXXX) y despliega el pase digital interactivo.
+       * @param {SubmitEvent} e - Evento de envío del formulario.
+       */
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        const name = document.querySelector("#clientName").value;
+        const ppl = document.querySelector("#bookingPpl").value;
+        const date = document.querySelector("#bookingDate").value;
+        const hour = document.querySelector("#bookingHour").value;
+
+        // Genera código alfanumérico de reserva y transfiere los datos al pase digital
+        const randomNum = Math.floor(1000 + Math.random() * 9000);
+        document.querySelector("#passCode").textContent = `PS-${randomNum}`;
+        document.querySelector("#passName").textContent = name;
+        document.querySelector("#passGuests").textContent = ppl;
+        document.querySelector("#passDate").textContent = date;
+        document.querySelector("#passTime").textContent = hour;
+
+        // Conmuta la visibilidad hacia la tarjeta de pase de acceso digital
+        formView.style.display = "none";
+        passView.classList.add("is-active");
       });
-      document.querySelector("#new-reservation").addEventListener("click", () => {
+
+      /**
+       * Reinicia el formulario para permitir registrar una nueva reserva adicional,
+       * restablece la fecha al día de hoy y restaura el foco en el primer campo de texto.
+       */
+      btnAnother.addEventListener("click", () => {
         form.reset();
-        document.querySelector("#success-view").classList.remove("is-visible");
-        document.querySelector("#form-view").style.display = "block";
-        document.querySelector("#name").focus();
+        dateInput.value = todayIso;
+        passView.classList.remove("is-active");
+        formView.style.display = "block";
+        document.querySelector("#clientName").focus();
       });
     })();
   </script>
