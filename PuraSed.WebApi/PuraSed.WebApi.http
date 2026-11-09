@@ -1,6 +1,103 @@
 @PuraSed.WebApi_HostAddress = http://localhost:5107
 
-GET {{PuraSed.WebApi_HostAddress}}/weatherforecast/
+### =========================================================================
+### GUÍA 4: IDENTITY CON JWT (Usuarios y Roles en Base de Datos SQL Server)
+### =========================================================================
+
+### 1. Intentar acceder a Productos sin token (Debe responder 401 Unauthorized)
+GET {{PuraSed.WebApi_HostAddress}}/api/Productos
 Accept: application/json
 
-###
+### 2. Login con credenciales fijas viejas (admin / 1234 ya no existen -> 401)
+POST {{PuraSed.WebApi_HostAddress}}/api/Auth/login
+Content-Type: application/json
+
+{
+  "usuario": "admin",
+  "password": "1234"
+}
+
+### 3. Login con usuario Admin sembrado (admin / Admin123)
+# @name loginAdmin
+POST {{PuraSed.WebApi_HostAddress}}/api/Auth/login
+Content-Type: application/json
+
+{
+  "usuario": "admin",
+  "password": "Admin123"
+}
+
+### 4. Login con email del Admin (admin@cafeteria.com / Admin123)
+POST {{PuraSed.WebApi_HostAddress}}/api/Auth/login
+Content-Type: application/json
+
+{
+  "usuario": "admin@cafeteria.com",
+  "password": "Admin123"
+}
+
+### 5. Consultar Productos en Base de Datos con Token Admin (200 OK)
+@tokenAdmin = {{loginAdmin.response.body.token}}
+GET {{PuraSed.WebApi_HostAddress}}/api/Productos
+Authorization: Bearer {{tokenAdmin}}
+Accept: application/json
+
+### 6. Crear Producto en SQL Server como Admin (201 Created)
+POST {{PuraSed.WebApi_HostAddress}}/api/Productos
+Authorization: Bearer {{tokenAdmin}}
+Content-Type: application/json
+
+{
+  "nombre": "Café Americano",
+  "precio": 1.50,
+  "activo": true
+}
+
+### 7. Registro de nuevo usuario (POST /api/Auth/register con contraseña débil -> 400)
+POST {{PuraSed.WebApi_HostAddress}}/api/Auth/register
+Content-Type: application/json
+
+{
+  "usuario": "prueba_debil",
+  "email": "debil@cafeteria.com",
+  "password": "1234",
+  "nombreCompleto": "Prueba Contraseña Débil"
+}
+
+### 8. Registro exitoso de nuevo usuario Cliente (200 OK)
+POST {{PuraSed.WebApi_HostAddress}}/api/Auth/register
+Content-Type: application/json
+
+{
+  "usuario": "cliente1",
+  "email": "cliente1@cafeteria.com",
+  "password": "Cliente123",
+  "nombreCompleto": "Cliente Uno"
+}
+
+### 9. Login con el nuevo usuario registrado (cliente1 / Cliente123 -> Rol Usuario)
+# @name loginCliente
+POST {{PuraSed.WebApi_HostAddress}}/api/Auth/login
+Content-Type: application/json
+
+{
+  "usuario": "cliente1",
+  "password": "Cliente123"
+}
+
+### 10. Cliente consulta productos (200 OK)
+@tokenCliente = {{loginCliente.response.body.token}}
+GET {{PuraSed.WebApi_HostAddress}}/api/Productos
+Authorization: Bearer {{tokenCliente}}
+Accept: application/json
+
+### 11. Cliente intenta crear producto (403 Forbidden - Confirmación de Roles)
+POST {{PuraSed.WebApi_HostAddress}}/api/Productos
+Authorization: Bearer {{tokenCliente}}
+Content-Type: application/json
+
+{
+  "nombre": "Intento No Permitido",
+  "precio": 10.00,
+  "activo": true
+}

@@ -3,357 +3,1000 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>UI-11 · Cocina &amp; Paila | PuraSed</title>
+  <title>KDS Cocina &amp; Paila | PuraSed · Sereno Moreno</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    /* ==========================================================================
+       MANUAL OFICIAL PURASED — CAPÍTULO 1: PIDA NO MÁS / COCINA DE PAILA
+       Estilo: Taller Indie Craft & Herencia Andina (Centro Histórico de Quito)
+       ========================================================================== */
     :root {
-      --bg: #121614;
-      --surface: #1f2421;
-      --surface-2: #29312c;
-      --paper: #fffdf9;
-      --ink: #1a201c;
-      --chalk: #f0eee7;
-      --muted: #a7afa8;
-      --line: #3a433d;
-      --gold: #e59f38;
-      --gold-bright: #f8ad00;
-      --amber: #e8923e;
-      --amber-soft: #f7d8ac;
-      --green: #94b783;
-      --green-deep: #314b38;
-      --red: #d97758;
-      --red-soft: #f2c5b6;
-      --display: "Bebas Neue", Impact, sans-serif;
-      --body: "Space Grotesk", Arial, sans-serif;
-      --touch: 48px;
+      /* Fondos Estructurales */
+      --bg-dark-base: #121614;       /* Carbón basalto profundo */
+      --bg-slate-charcoal: #1F2421;  /* Pizarra andina */
+      --bg-ticket-paper: #FFFDF9;    /* Papel artesanal blanco tiza para tickets */
+      --border-line: #333d37;
+
+      /* Textos y Tintas */
+      --text-chalk: #F5EADB;         /* Blanco tiza andina */
+      --text-muted: #adb7af;         /* Tiza atenuada */
+      --text-dark-ink: #1A201C;      /* Tinta negra sobre ticket */
+      --text-ticket-subtle: #5a645d; /* Tinta secundaria */
+
+      /* Paleta del Capítulo: Pida No Más (Cocina de Paila) */
+      --pida-terracotta: #B85335;    /* Terracota de paila al carbón */
+      --pida-deep: #853720;          /* Óxido andino profundo */
+      --gold-inti: #E59F38;          /* Oro Inti / Maíz ancestral */
+      --gold-highlight: #F8AD00;     /* Oro radiante */
+      --status-ready: #94b783;       /* Verde hierba andina */
+      --status-alert: #d97758;       /* Terracota alerta */
+
+      /* Tipografía Oficial */
+      --font-display: "Bebas Neue", Impact, sans-serif;
+      --font-body: "Space Grotesk", -apple-system, sans-serif;
+
+      --touch-min: 48px;
     }
 
-    * { box-sizing: border-box; }
-    html { background: var(--bg); color: var(--chalk); }
-    body { margin: 0; min-width: 320px; background: var(--bg); font-family: var(--body); }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background-color: var(--bg-dark-base); color: var(--text-chalk); }
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      background: var(--bg-dark-base);
+      font-family: var(--font-body);
+      color: var(--text-chalk);
+      position: relative;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Linograbado ancestral de fondo (Diablo Huma) */
+    .bg-watermark {
+      position: fixed;
+      right: -60px;
+      bottom: -60px;
+      width: 500px;
+      height: 500px;
+      opacity: 0.05;
+      pointer-events: none;
+      z-index: 0;
+      background: url("../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/recurso-16.png") no-repeat center / contain;
+      filter: invert(1);
+    }
+
     button { font: inherit; }
-    button:focus-visible { outline: 3px solid var(--gold-bright); outline-offset: 3px; }
-    .app-shell { min-height: 100vh; display: flex; flex-direction: column; }
+    button:focus-visible, a:focus-visible {
+      outline: 3px solid var(--gold-highlight);
+      outline-offset: 3px;
+    }
 
+    .app-shell {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Bar con Logo Oficial Sereno Moreno */
     .topbar {
-      min-height: 78px; padding: 14px 28px; display: flex; align-items: center; gap: 28px;
-      border-bottom: 1px solid var(--line); background: var(--bg);
+      min-height: 82px;
+      padding: 12px 32px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      border-bottom: 2px solid var(--border-line);
+      background: #0d110f;
     }
-    .brand { display: flex; align-items: center; gap: 12px; min-width: 224px; }
-    .brand-mark { width: 42px; height: 42px; display: grid; place-items: center; border: 2px solid var(--gold); color: var(--gold); font: 28px/1 var(--display); }
-    .brand-name { font: 24px/0.85 var(--display); letter-spacing: 2px; }
-    .brand-name small { display: block; margin-top: 5px; color: var(--muted); font: 11px/1 var(--body); }
-    .station { flex: 1; }
-    .station h1 { margin: 0; font: 32px/0.9 var(--display); letter-spacing: 2px; text-transform: uppercase; }
-    .station p { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
-    .top-actions { display: flex; align-items: center; gap: 12px; }
-    .live-indicator { display: flex; align-items: center; gap: 8px; color: var(--green); font-size: 12px; font-weight: 600; }
-    .live-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--green); }
-    .clock { padding-left: 14px; border-left: 1px solid var(--line); color: var(--chalk); font-variant-numeric: tabular-nums; font-size: 14px; }
-    .icon-button { width: var(--touch); height: var(--touch); border: 1px solid var(--line); background: transparent; color: var(--chalk); cursor: pointer; }
-    .icon-button:hover { border-color: var(--gold); color: var(--gold); }
-
-    .workspace { width: min(1540px, 100%); margin: 0 auto; padding: 24px 28px 34px; flex: 1; }
-    .workspace-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 20px; }
-    .turn-label { margin: 0 0 7px; color: var(--gold); font-size: 13px; font-weight: 700; }
-    .workspace-head h2 { margin: 0; font: 42px/0.9 var(--display); letter-spacing: 2px; }
-    .head-note { max-width: 360px; color: var(--muted); font-size: 13px; line-height: 1.45; text-align: right; }
-    .head-note strong { color: var(--chalk); font-weight: 600; }
-
-    .summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 24px; }
-    .summary-item { min-height: 80px; padding: 14px 17px; background: var(--surface); border-left: 4px solid var(--line); }
-    .summary-item.active { border-left-color: var(--gold); }
-    .summary-item.ready { border-left-color: var(--green); }
-    .summary-item.waiting { border-left-color: var(--red); }
-    .summary-label { color: var(--muted); font-size: 13px; }
-    .summary-value { display: block; margin-top: 4px; font: 34px/1 var(--display); letter-spacing: 1px; }
-
-    .toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
-    .filter-group { display: flex; gap: 8px; }
-    .filter { min-height: 44px; padding: 0 17px; border: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer; font-size: 13px; font-weight: 600; }
-    .filter:hover, .filter[aria-pressed="true"] { border-color: var(--gold); background: var(--gold); color: var(--ink); }
-    .toolbar-note { color: var(--muted); font-size: 13px; }
-
-    .board { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: start; }
-    .lane { min-width: 0; background: var(--surface); }
-    .lane-header { min-height: 66px; padding: 15px 18px; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--line); }
-    .lane[data-status="pending"] .lane-header { border-color: var(--red); }
-    .lane[data-status="preparing"] .lane-header { border-color: var(--amber); }
-    .lane[data-status="ready"] .lane-header { border-color: var(--green); }
-    .lane-title { margin: 0; font: 25px/1 var(--display); letter-spacing: 1.4px; }
-    .lane-count { min-width: 30px; padding: 7px 8px; background: var(--surface-2); color: var(--chalk); text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; }
-    .order-list { display: grid; gap: 12px; padding: 12px; }
-    .order-card { position: relative; overflow: hidden; background: var(--paper); color: var(--ink); }
-    .order-card::before { content: ""; position: absolute; inset: 0 0 auto; height: 5px; background: var(--red); }
-    .order-card[data-state="preparing"]::before { background: var(--amber); }
-    .order-card[data-state="ready"]::before { background: var(--green); }
-    .order-card.is-updated { animation: card-in .35s ease both; }
-    @keyframes card-in { from { transform: translateY(5px); opacity: .65; } to { transform: translateY(0); opacity: 1; } }
-    .order-top { padding: 17px 16px 9px; display: flex; align-items: start; justify-content: space-between; gap: 12px; }
-    .order-number { margin: 0; font: 25px/1 var(--display); letter-spacing: 1px; }
-    .order-time { color: #687069; font-size: 13px; font-variant-numeric: tabular-nums; }
-    .table-name { display: inline-block; margin: 0 16px 13px; padding: 5px 8px; background: var(--ink); color: var(--chalk); font-size: 13px; font-weight: 700; }
-    .items { display: grid; gap: 10px; padding: 0 16px 14px; }
-    .item { display: grid; grid-template-columns: 28px 1fr; gap: 9px; }
-    .qty { width: 28px; height: 28px; display: grid; place-items: center; background: var(--amber-soft); color: var(--ink); font-weight: 700; }
-    .item-name { font-size: 14px; font-weight: 700; line-height: 1.25; }
-    .item-detail { margin-top: 3px; color: #687069; font-size: 13px; line-height: 1.35; }
-    .order-note { margin: 0 16px 14px; padding: 9px 10px; background: #f2eee7; color: #4a514c; font-size: 13px; line-height: 1.35; }
-    .order-note strong { color: var(--ink); }
-    .order-footer { padding: 11px 16px 16px; border-top: 1px dashed #e6e2db; }
-    .advance { width: 100%; min-height: 50px; border: 0; background: var(--ink); color: var(--chalk); cursor: pointer; font: 19px/1 var(--display); letter-spacing: 1.2px; }
-    .advance:hover { background: var(--gold); color: var(--ink); }
-    .advance:active { transform: translateY(1px); }
-    .ready .advance { background: var(--green-deep); }
-    .empty { padding: 28px 18px 34px; color: var(--muted); font-size: 13px; line-height: 1.45; text-align: center; }
-    .empty strong { display: block; margin-bottom: 5px; color: var(--chalk); font: 23px/1 var(--display); letter-spacing: 1px; }
-
-    .footer-bar { display: flex; justify-content: space-between; gap: 18px; margin-top: 22px; color: var(--muted); font-size: 13px; }
-    .footer-bar strong { color: var(--chalk); font-weight: 600; }
-
-    @media (max-width: 900px) {
-      .topbar { padding: 12px 18px; gap: 16px; }
-      .brand { min-width: auto; }
-      .brand-name { display: none; }
-      .station h1 { font-size: 26px; }
-      .workspace { padding: 20px 18px 28px; }
-      .workspace-head { align-items: start; flex-direction: column; }
-      .head-note { max-width: none; text-align: left; }
-      .board { grid-template-columns: 1fr; padding-bottom: 8px; }
-      .summary { grid-template-columns: repeat(4, minmax(120px, 1fr)); overflow-x: auto; }
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+      color: inherit;
     }
-    @media (max-width: 560px) {
-      .topbar { min-height: 68px; }
-      .brand-mark { width: 36px; height: 36px; font-size: 24px; }
-      .station p, .live-indicator { display: none; }
-      .clock { margin-left: auto; padding-left: 0; border-left: 0; }
-      .top-actions { gap: 8px; }
-      .workspace { padding: 18px 16px 24px; }
-      .workspace-head h2 { font-size: 36px; }
-      .summary { gap: 8px; margin-right: -16px; padding-right: 16px; }
-      .summary-item { min-width: 130px; }
-      .toolbar { align-items: start; flex-direction: column; }
-      .filter-group { width: 100%; overflow-x: auto; }
-      .filter { white-space: nowrap; }
-      .toolbar-note { font-size: 11px; }
-      .board { grid-template-columns: 1fr; gap: 12px; }
-      .lane[hidden] { display: none; }
-      .footer-bar { flex-direction: column; }
+    .brand-logo-img {
+      height: 48px;
+      width: auto;
+      display: block;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
     }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    .station-badge {
+      display: flex;
+      flex-direction: column;
+      padding-left: 16px;
+      border-left: 1px solid var(--border-line);
+    }
+    .category-tag {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--pida-terracotta);
+      line-height: 1;
+    }
+    .station-title {
+      font-family: var(--font-display);
+      font-size: 32px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      line-height: 0.95;
+      color: var(--text-chalk);
+      margin-top: 4px;
+    }
+
+    .top-actions {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .live-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--status-ready);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .live-pulse {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--status-ready);
+      box-shadow: 0 0 0 4px rgba(148, 183, 131, 0.2);
+      animation: pulse 2s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.7; }
+    }
+
+    .station-clock {
+      font-family: var(--font-display);
+      font-size: 24px;
+      letter-spacing: 2px;
+      color: var(--gold-highlight);
+      padding-left: 16px;
+      border-left: 1px solid var(--border-line);
+      font-variant-numeric: tabular-nums;
+    }
+    .audio-btn {
+      width: var(--touch-min);
+      height: var(--touch-min);
+      border: 1px solid var(--border-line);
+      background: var(--bg-slate-charcoal);
+      color: var(--text-chalk);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .audio-btn:hover { border-color: var(--pida-terracotta); color: var(--gold-inti); }
+    .audio-btn svg { width: 22px; height: 22px; fill: currentColor; }
+
+    /* Workspace */
+    .workspace {
+      width: min(1560px, 100%);
+      margin: 0 auto;
+      padding: 28px 32px 48px;
+      flex: 1;
+    }
+
+    .workspace-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .workspace-banner h2 {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 4vw, 48px);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      line-height: 0.92;
+    }
+    .workspace-banner p {
+      color: var(--text-muted);
+      font-size: 13px;
+      max-width: 440px;
+      line-height: 1.45;
+      text-align: right;
+    }
+    .workspace-banner p strong { color: var(--text-chalk); }
+
+    /* Resumen de cocina */
+    .summary-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .summary-card {
+      background: var(--bg-slate-charcoal);
+      border-left: 4px solid var(--border-line);
+      padding: 16px 20px;
+      position: relative;
+    }
+    .summary-card.alert  { border-left-color: var(--status-alert); }
+    .summary-card.amber  { border-left-color: var(--pida-terracotta); }
+    .summary-card.ready  { border-left-color: var(--status-ready); }
+    .summary-card span {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+    }
+    .summary-card strong {
+      display: block;
+      margin-top: 6px;
+      font-family: var(--font-display);
+      font-size: 42px;
+      line-height: 0.92;
+      letter-spacing: 2px;
+      color: var(--text-chalk);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Toolbar de filtros */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .filter-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip {
+      min-height: 42px;
+      padding: 0 18px;
+      border: 1px solid var(--border-line);
+      background: var(--bg-slate-charcoal);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.15s ease;
+    }
+    .chip:hover, .chip[aria-pressed="true"] {
+      border-color: var(--pida-terracotta);
+      background: var(--pida-terracotta);
+      color: var(--text-chalk);
+    }
+    .chip-count {
+      padding: 2px 6px;
+      background: rgba(0,0,0,0.22);
+      font-size: 11px;
+      font-variant-numeric: tabular-nums;
+    }
+    .sync-note {
+      color: var(--text-muted);
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Kanban Board */
+    .board-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      align-items: start;
+    }
+    .lane-col {
+      background: var(--bg-slate-charcoal);
+      border: 1px solid var(--border-line);
+    }
+    .lane-head {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 3px solid var(--border-line);
+      background: #181d1a;
+    }
+    .lane-col[data-status="pending"]   .lane-head { border-bottom-color: var(--status-alert); }
+    .lane-col[data-status="preparing"] .lane-head { border-bottom-color: var(--pida-terracotta); }
+    .lane-col[data-status="ready"]     .lane-head { border-bottom-color: var(--status-ready); }
+
+    .lane-head h3 {
+      font-family: var(--font-display);
+      font-size: 26px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    .lane-badge-num {
+      font-family: var(--font-display);
+      font-size: 20px;
+      background: var(--bg-dark-base);
+      color: var(--gold-inti);
+      padding: 2px 10px;
+      letter-spacing: 1px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .ticket-stack {
+      padding: 16px;
+      display: grid;
+      gap: 18px;
+      min-height: 200px;
+    }
+
+    /* Ticket de Papel Artesanal (Rotación 1.2°) */
+    .ticket {
+      position: relative;
+      background: var(--bg-ticket-paper);
+      color: var(--text-dark-ink);
+      padding: 20px 20px 16px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transform: rotate(0.9deg);
+    }
+    .ticket:nth-child(even) {
+      transform: rotate(-1.2deg);
+    }
+    .ticket:hover {
+      transform: scale(1.02) rotate(0deg);
+      box-shadow: 0 16px 32px -6px rgba(0, 0, 0, 0.65);
+      z-index: 5;
+    }
+
+    /* Línea troquelada superior en terracota */
+    .ticket::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: repeating-linear-gradient(90deg, var(--pida-terracotta) 0, var(--pida-terracotta) 8px, transparent 8px, transparent 12px);
+    }
+
+    .ticket-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px dashed #dcd6c7;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+    }
+    .ticket-id {
+      font-family: var(--font-display);
+      font-size: 30px;
+      letter-spacing: 2px;
+      line-height: 0.92;
+      color: var(--text-dark-ink);
+    }
+    .ticket-table {
+      font-family: var(--font-display);
+      font-size: 18px;
+      background: var(--text-dark-ink);
+      color: var(--bg-ticket-paper);
+      padding: 2px 8px;
+      letter-spacing: 1px;
+      display: inline-block;
+      margin-top: 4px;
+    }
+    .ticket-time {
+      font-size: 12px;
+      color: var(--text-ticket-subtle);
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+    }
+
+    /* Lista de platos con fotografía oficial */
+    .ticket-items {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .ticket-item {
+      display: grid;
+      grid-template-columns: 32px 46px 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+    .item-qty {
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: var(--text-dark-ink);
+      background: #eee8db;
+      text-align: center;
+      line-height: 32px;
+      font-variant-numeric: tabular-nums;
+    }
+    .item-thumb {
+      width: 46px;
+      height: 46px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    }
+    .item-info strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--text-dark-ink);
+    }
+    .item-info span {
+      display: block;
+      font-size: 12px;
+      color: var(--text-ticket-subtle);
+      margin-top: 2px;
+    }
+
+    .ticket-note {
+      background: #f4efe4;
+      border-left: 3px solid var(--pida-terracotta);
+      padding: 8px 10px;
+      font-size: 12px;
+      color: #3f4741;
+      margin-bottom: 14px;
+      line-height: 1.35;
+    }
+    .ticket-note strong {
+      color: var(--text-dark-ink);
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+
+    .ticket-advance-btn {
+      width: 100%;
+      min-height: 50px;
+      border: 0;
+      background: var(--text-dark-ink);
+      color: var(--text-chalk);
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-size: 21px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .ticket-advance-btn:hover {
+      background: var(--pida-terracotta);
+      color: var(--text-chalk);
+    }
+    .ticket-advance-btn:active {
+      transform: translateY(1px);
+    }
+    .ticket[data-state="ready"] .ticket-advance-btn {
+      background: #25402c;
+    }
+    .ticket[data-state="ready"] .ticket-advance-btn:hover {
+      background: var(--status-ready);
+      color: var(--text-dark-ink);
+    }
+
+    .empty-lane {
+      padding: 36px 16px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+    .empty-lane strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 26px;
+      color: var(--text-chalk);
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+    }
+
+    footer.station-footer {
+      border-top: 1px solid var(--border-line);
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+      font-size: 12px;
+      margin-top: auto;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    footer.station-footer strong { color: var(--text-chalk); }
+
+    @media (max-width: 990px) {
+      .board-grid { grid-template-columns: 1fr; }
+      .summary-bar { grid-template-columns: repeat(2, 1fr); }
+      .station-badge { display: none; }
+    }
+    @media (max-width: 600px) {
+      .topbar { padding: 12px 16px; }
+      .workspace { padding: 16px 16px 32px; }
+      .summary-bar { grid-template-columns: 1fr 1fr; }
+      .summary-card strong { font-size: 32px; }
     }
   </style>
 </head>
 <body>
+  <!-- Linograbado ancestral watermark de fondo (Diablo Huma) -->
+  <div class="bg-watermark" aria-hidden="true"></div>
+
   <main class="app-shell">
     <header class="topbar">
-      <div class="brand" aria-label="PuraSed">
-        <div class="brand-mark" aria-hidden="true">P</div>
-        <div class="brand-name">PuraSed<small>Sereno Moreno</small></div>
+      <a class="brand-wrap" href="./index.html" title="Volver al Hub Central">
+        <img class="brand-logo-img" src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/logosm.svg" alt="Sereno Moreno Bar &amp; Mercado" />
+      </a>
+      <div class="station-badge">
+        <span class="category-tag">Estación de Cocina · Paila &amp; Brasa</span>
+        <h1 class="station-title">Cocina &amp; Paila (KDS)</h1>
       </div>
-      <div class="station">
-        <h1>Cocina &amp; Paila</h1>
-        <p>Despacho en vivo · estación de platos calientes</p>
-      </div>
+
       <div class="top-actions">
-        <div class="live-indicator"><span class="live-dot" aria-hidden="true"></span>En línea</div>
-        <time class="clock" id="clock" datetime="2026-11-05T21:45">21:45</time>
-        <button class="icon-button" id="soundToggle" type="button" aria-pressed="true" aria-label="Silenciar alertas">◖</button>
+        <div class="live-status" aria-label="Conexión en tiempo real activa">
+          <span class="live-pulse" aria-hidden="true"></span>
+          <span>SignalR Vivo</span>
+        </div>
+        <time class="station-clock" id="liveClock" datetime="2026-11-05T21:45">21:45</time>
+        <button class="audio-btn" id="soundBtn" type="button" aria-pressed="true" aria-label="Silenciar alertas de pase" title="Alertas sonoras">
+          <svg id="soundSvg" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+          </svg>
+        </button>
       </div>
     </header>
 
-    <section class="workspace" aria-labelledby="board-title">
-      <div class="workspace-head">
+    <section class="workspace" aria-labelledby="screenHeading">
+      <div class="workspace-banner">
         <div>
-          <p class="turn-label">Turno noche · jueves 05 nov</p>
-          <h2 id="board-title">Comandas de cocina</h2>
+          <span class="category-tag">Cocción Andina · Fogón y Paila</span>
+          <h2 id="screenHeading">Comandas de Cocina</h2>
         </div>
-        <p class="head-note"><strong>Actualización automática activa.</strong><br>Las comandas más antiguas aparecen primero para cuidar el ritmo de la cocina.</p>
+        <p>
+          <strong>Distribución automática por mesa.</strong><br>
+          Prioridad en el pase para platos de cocción lenta y cazuelas calientes.
+        </p>
       </div>
 
-      <section class="summary" aria-label="Resumen de la estación">
-        <div class="summary-item active"><span class="summary-label">En cola</span><strong class="summary-value" id="pendingTotal">2</strong></div>
-        <div class="summary-item waiting"><span class="summary-label">En preparación</span><strong class="summary-value" id="preparingTotal">2</strong></div>
-        <div class="summary-item ready"><span class="summary-label">Listas para pase</span><strong class="summary-value" id="readyTotal">1</strong></div>
-        <div class="summary-item"><span class="summary-label">Tiempo medio</span><strong class="summary-value">14′</strong></div>
+      <section class="summary-bar" aria-label="Resumen operativo de cocina">
+        <div class="summary-card alert">
+          <span>En Cola</span>
+          <strong id="numPending">2</strong>
+        </div>
+        <div class="summary-card amber">
+          <span>En Cocción</span>
+          <strong id="numPreparing">2</strong>
+        </div>
+        <div class="summary-card ready">
+          <span>Listas en Pase</span>
+          <strong id="numReady">1</strong>
+        </div>
+        <div class="summary-card">
+          <span>Tiempo Medio Salida</span>
+          <strong>14′</strong>
+        </div>
       </section>
 
       <div class="toolbar">
-        <div class="filter-group" role="group" aria-label="Filtrar comandas">
-          <button class="filter" type="button" data-filter="all" aria-pressed="true">Todas <span id="allTotal">5</span></button>
-          <button class="filter" type="button" data-filter="pending" aria-pressed="false">Pendientes</button>
-          <button class="filter" type="button" data-filter="preparing" aria-pressed="false">En preparación</button>
-          <button class="filter" type="button" data-filter="ready" aria-pressed="false">Para pase</button>
+        <div class="filter-chips" role="group" aria-label="Filtrar comandas">
+          <button class="chip" type="button" data-filter="all" aria-pressed="true">
+            <span>Todas las comandas</span>
+            <span class="chip-count" id="totalTickets">5</span>
+          </button>
+          <button class="chip" type="button" data-filter="pending" aria-pressed="false">
+            <span>En Cola</span>
+          </button>
+          <button class="chip" type="button" data-filter="preparing" aria-pressed="false">
+            <span>En Cocción</span>
+          </button>
+          <button class="chip" type="button" data-filter="ready" aria-pressed="false">
+            <span>Para Pase</span>
+          </button>
         </div>
-        <span class="toolbar-note" id="lastSync">Última sincronización: hace unos segundos</span>
+        <span class="sync-note" id="syncTag" role="status" aria-live="polite">Sincronizado vía Hub: hace unos segundos</span>
       </div>
 
-      <section class="board" aria-label="Tablero de comandas">
-        <section class="lane" data-status="pending" aria-labelledby="pending-title">
-          <header class="lane-header"><h3 class="lane-title" id="pending-title">Pendientes</h3><span class="lane-count" id="pendingCount">2</span></header>
-          <div class="order-list" id="pendingList">
-            <article class="order-card" data-order="SM-184" data-state="pending">
-              <div class="order-top"><h4 class="order-number">SM-184</h4><time class="order-time">21:29 · hace 16 min</time></div>
-              <span class="table-name">Mesa 04</span>
-              <div class="items">
-                <div class="item"><span class="qty">1</span><div><div class="item-name">Locrito de papa</div><div class="item-detail">Aguacate y tostado · porción completa</div></div></div>
-                <div class="item"><span class="qty">2</span><div><div class="item-name">Choclo con queso</div><div class="item-detail">Papas chauchas · servir caliente</div></div></div>
+      <!-- Tablero Kanban de Cocina -->
+      <section class="board-grid" aria-label="Tablero de preparación de cocina">
+        <!-- Carril 1: En Cola -->
+        <section class="lane-col" data-status="pending" aria-labelledby="col-pending-title">
+          <header class="lane-head">
+            <h3 id="col-pending-title">En Cola</h3>
+            <span class="lane-badge-num" id="colPendingCount">2</span>
+          </header>
+          <div class="ticket-stack" id="listPending" role="region" aria-label="Comandas en espera de cocción">
+            <!-- Ticket SM-184 -->
+            <article class="ticket" data-order="SM-184" data-state="pending">
+              <div class="ticket-header">
+                <div>
+                  <h4 class="ticket-id">SM-184</h4>
+                  <span class="ticket-table">Mesa 04</span>
+                </div>
+                <div class="ticket-time">
+                  <time datetime="2026-11-05T21:29">21:29</time><br>hace 16 min
+                </div>
               </div>
-              <p class="order-note"><strong>Nota:</strong> una porción sin cilantro.</p>
-              <div class="order-footer"><button class="advance" type="button" data-next="preparing">Comenzar preparación</button></div>
+
+              <div class="ticket-items">
+                <div class="ticket-item">
+                  <span class="item-qty">1</span>
+                  <img class="item-thumb" src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/pida_no_mas/locrito_de_papa_5.50_float.png" alt="Locrito de Papa" />
+                  <div class="item-info">
+                    <strong>Locrito de Papa con Queso</strong>
+                    <span>Cazuela de barro · Aguacate y tostado</span>
+                  </div>
+                </div>
+                <div class="ticket-item">
+                  <span class="item-qty">2</span>
+                  <img class="item-thumb" src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/pida_no_mas/choclopapaconqueso_float.png" alt="Choclo con Queso" />
+                  <div class="item-info">
+                    <strong>Choclo con Queso Tierno</strong>
+                    <span>Papas chauchas andinas · Servir caliente</span>
+                  </div>
+                </div>
+              </div>
+
+              <p class="ticket-note">
+                <strong>Modificación comensal:</strong> Una porción de locro sin cilantro.
+              </p>
+
+              <button class="ticket-advance-btn" type="button" data-next="preparing">
+                Comenzar Cocción →
+              </button>
             </article>
-            <article class="order-card" data-order="SM-185" data-state="pending">
-              <div class="order-top"><h4 class="order-number">SM-185</h4><time class="order-time">21:35 · hace 10 min</time></div>
-              <span class="table-name">Mesa 07</span>
-              <div class="items">
-                <div class="item"><span class="qty">1</span><div><div class="item-name">Hongos andinos al ajillo</div><div class="item-detail">Con chicha · sin picante</div></div></div>
-                <div class="item"><span class="qty">1</span><div><div class="item-name">Maduro con queso</div><div class="item-detail">Queso tierno · punto dorado</div></div></div>
+
+            <!-- Ticket SM-185 -->
+            <article class="ticket" data-order="SM-185" data-state="pending">
+              <div class="ticket-header">
+                <div>
+                  <h4 class="ticket-id">SM-185</h4>
+                  <span class="ticket-table">Mesa 07</span>
+                </div>
+                <div class="ticket-time">
+                  <time datetime="2026-11-05T21:35">21:35</time><br>hace 10 min
+                </div>
               </div>
-              <div class="order-footer"><button class="advance" type="button" data-next="preparing">Comenzar preparación</button></div>
+
+              <div class="ticket-items">
+                <div class="ticket-item">
+                  <span class="item-qty">1</span>
+                  <img class="item-thumb" src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/pida_no_mas/hongos_portobello_float.png" alt="Hongos Andinos" />
+                  <div class="item-info">
+                    <strong>Hongos Andinos al Ajillo</strong>
+                    <span>Salteados con chicha de jora · Sin picante</span>
+                  </div>
+                </div>
+                <div class="ticket-item">
+                  <span class="item-qty">1</span>
+                  <img class="item-thumb" src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/pida_no_mas/maduroconqueso_float.png" alt="Maduro con Queso" />
+                  <div class="item-info">
+                    <strong>Maduro Asado en Fogón</strong>
+                    <span>Queso tierno andino · Punto bien dorado</span>
+                  </div>
+                </div>
+              </div>
+
+              <button class="ticket-advance-btn" type="button" data-next="preparing">
+                Comenzar Cocción →
+              </button>
             </article>
           </div>
         </section>
 
-        <section class="lane" data-status="preparing" aria-labelledby="preparing-title">
-          <header class="lane-header"><h3 class="lane-title" id="preparing-title">En preparación</h3><span class="lane-count" id="preparingCount">2</span></header>
-          <div class="order-list" id="preparingList">
-            <article class="order-card" data-order="SM-181" data-state="preparing">
-              <div class="order-top"><h4 class="order-number">SM-181</h4><time class="order-time">21:18 · hace 27 min</time></div>
-              <span class="table-name">Mesa 02</span>
-              <div class="items">
-                <div class="item"><span class="qty">2</span><div><div class="item-name">Ceviche de coco biche</div><div class="item-detail">Palmito y chifles · entrada</div></div></div>
+        <!-- Carril 2: En Cocción -->
+        <section class="lane-col" data-status="preparing" aria-labelledby="col-prep-title">
+          <header class="lane-head">
+            <h3 id="col-prep-title">En Cocción</h3>
+            <span class="lane-badge-num" id="colPrepCount">2</span>
+          </header>
+          <div class="ticket-stack" id="listPrep" role="region" aria-label="Platos en fogón y paila">
+            <!-- Ticket SM-181 -->
+            <article class="ticket" data-order="SM-181" data-state="preparing">
+              <div class="ticket-header">
+                <div>
+                  <h4 class="ticket-id">SM-181</h4>
+                  <span class="ticket-table">Mesa 02</span>
+                </div>
+                <div class="ticket-time">
+                  <time datetime="2026-11-05T21:18">21:18</time><br>hace 27 min
+                </div>
               </div>
-              <p class="order-note"><strong>Alerta:</strong> revisar tiempo de salida.</p>
-              <div class="order-footer"><button class="advance" type="button" data-next="ready">Marcar como lista</button></div>
+
+              <div class="ticket-items">
+                <div class="ticket-item">
+                  <span class="item-qty">2</span>
+                  <img class="item-thumb" src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/pida_no_mas/ceviche_de_coco_float.png" alt="Ceviche de Coco Biche" />
+                  <div class="item-info">
+                    <strong>Ceviche de Coco Biche</strong>
+                    <span>Palmito y chifles crocantes · Emplatado frío</span>
+                  </div>
+                </div>
+              </div>
+
+              <p class="ticket-note">
+                <strong>Alerta Tiempo:</strong> Entrada en mesa previa a los platos calientes.
+              </p>
+
+              <button class="ticket-advance-btn" type="button" data-next="ready">
+                Mandar a Pase ✓
+              </button>
             </article>
-            <article class="order-card" data-order="SM-183" data-state="preparing">
-              <div class="order-top"><h4 class="order-number">SM-183</h4><time class="order-time">21:25 · hace 20 min</time></div>
-              <span class="table-name">Mesa 09</span>
-              <div class="items">
-                <div class="item"><span class="qty">1</span><div><div class="item-name">Costilla de cerdo</div><div class="item-detail">Glaseada · acompañar con mote</div></div></div>
-                <div class="item"><span class="qty">1</span><div><div class="item-name">Papas chauchas</div><div class="item-detail">Porción adicional · caliente</div></div></div>
+
+            <!-- Ticket SM-183 -->
+            <article class="ticket" data-order="SM-183" data-state="preparing">
+              <div class="ticket-header">
+                <div>
+                  <h4 class="ticket-id">SM-183</h4>
+                  <span class="ticket-table">Mesa 09</span>
+                </div>
+                <div class="ticket-time">
+                  <time datetime="2026-11-05T21:25">21:25</time><br>hace 20 min
+                </div>
               </div>
-              <div class="order-footer"><button class="advance" type="button" data-next="ready">Marcar como lista</button></div>
+
+              <div class="ticket-items">
+                <div class="ticket-item">
+                  <span class="item-qty">1</span>
+                  <img class="item-thumb" src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/lleve_lleve/costilla_precocida_float.png" alt="Costilla de Cerdo" />
+                  <div class="item-info">
+                    <strong>Costilla de Cerdo a la Paila</strong>
+                    <span>Glaseada en reducción de chicha · Con mote pelado</span>
+                  </div>
+                </div>
+                <div class="ticket-item">
+                  <span class="item-qty">1</span>
+                  <img class="item-thumb" src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/pida_no_mas/choclopapaconqueso_float.png" alt="Papas Chauchas" />
+                  <div class="item-info">
+                    <strong>Papas Chauchas al Vapor</strong>
+                    <span>Guarnición adicional · Sal marina de hierbas</span>
+                  </div>
+                </div>
+              </div>
+
+              <button class="ticket-advance-btn" type="button" data-next="ready">
+                Mandar a Pase ✓
+              </button>
             </article>
           </div>
         </section>
 
-        <section class="lane" data-status="ready" aria-labelledby="ready-title">
-          <header class="lane-header"><h3 class="lane-title" id="ready-title">Listas para pase</h3><span class="lane-count" id="readyCount">1</span></header>
-          <div class="order-list" id="readyList">
-            <article class="order-card" data-order="SM-179" data-state="ready">
-              <div class="order-top"><h4 class="order-number">SM-179</h4><time class="order-time">21:22 · hace 23 min</time></div>
-              <span class="table-name">Mesa 01 · Pase</span>
-              <div class="items">
-                <div class="item"><span class="qty">1</span><div><div class="item-name">Locrito de papa</div><div class="item-detail">Aguacate y tostado · listo</div></div></div>
+        <!-- Carril 3: Para Pase -->
+        <section class="lane-col" data-status="ready" aria-labelledby="col-ready-title">
+          <header class="lane-head">
+            <h3 id="col-ready-title">Listas en Pase</h3>
+            <span class="lane-badge-num" id="colReadyCount">1</span>
+          </header>
+          <div class="ticket-stack" id="listReady" role="region" aria-label="Platos emplatados para retirar">
+            <!-- Ticket SM-179 -->
+            <article class="ticket" data-order="SM-179" data-state="ready">
+              <div class="ticket-header">
+                <div>
+                  <h4 class="ticket-id">SM-179</h4>
+                  <span class="ticket-table">Mesa 01 · Pase</span>
+                </div>
+                <div class="ticket-time">
+                  <time datetime="2026-11-05T21:22">21:22</time><br>hace 23 min
+                </div>
               </div>
-              <p class="order-note"><strong>Lista:</strong> colocar en pase y avisar al mesero.</p>
-              <div class="order-footer"><button class="advance" type="button" data-next="delivered">Despachada · retirar</button></div>
+
+              <div class="ticket-items">
+                <div class="ticket-item">
+                  <span class="item-qty">1</span>
+                  <img class="item-thumb" src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/pida_no_mas/locrito_de_papa_5.50_float.png" alt="Locrito de Papa" />
+                  <div class="item-info">
+                    <strong>Locrito de Papa con Queso</strong>
+                    <span>Listo en el pase caliente · Retiro urgente</span>
+                  </div>
+                </div>
+              </div>
+
+              <p class="ticket-note">
+                <strong>Llamada a Mesero:</strong> Notificación enviada a la tablet de salón.
+              </p>
+
+              <button class="ticket-advance-btn" type="button" data-next="delivered">
+                Despachada · Retirar Ticket ✕
+              </button>
             </article>
           </div>
         </section>
       </section>
 
-      <div class="footer-bar">
-        <span><strong>Área asignada:</strong> Administrador de cocina</span>
-        <span>SignalR · comandas en tiempo real · PuraSed Hub</span>
-      </div>
+      <footer class="station-footer">
+        <div>
+          <strong>Terminal:</strong> Cocina &amp; Paila · Sereno Moreno
+        </div>
+        <div>
+          SignalR WebSocket · Conectado en tiempo real al Hub Central
+        </div>
+      </footer>
     </section>
   </main>
 
   <script>
+    /* ==========================================================================
+       PURASED INTERACTION ENGINE — UI-11 KDS COCINA DE PAILA
+       Control de comandas de fogón, semáforo de cocción y pase caliente.
+       ========================================================================== */
     (() => {
       const lists = {
-        pending: document.querySelector("#pendingList"),
-        preparing: document.querySelector("#preparingList"),
-        ready: document.querySelector("#readyList")
+        pending: document.querySelector("#listPending"),
+        preparing: document.querySelector("#listPrep"),
+        ready: document.querySelector("#listReady")
       };
       const counts = {
-        pending: document.querySelector("#pendingCount"),
-        preparing: document.querySelector("#preparingCount"),
-        ready: document.querySelector("#readyCount")
+        pending: document.querySelector("#colPendingCount"),
+        preparing: document.querySelector("#colPrepCount"),
+        ready: document.querySelector("#colReadyCount")
       };
       const totals = {
-        pending: document.querySelector("#pendingTotal"),
-        preparing: document.querySelector("#preparingTotal"),
-        ready: document.querySelector("#readyTotal")
+        pending: document.querySelector("#numPending"),
+        preparing: document.querySelector("#numPreparing"),
+        ready: document.querySelector("#numReady")
       };
       const labels = {
-        pending: "Comenzar preparación",
-        preparing: "Marcar como lista",
-        ready: "Despachada · retirar"
+        pending: "Comenzar Cocción →",
+        preparing: "Mandar a Pase ✓",
+        ready: "Despachada · Retirar Ticket ✕"
       };
 
-      function emptyState(list, state) {
-        if (list.children.length) return;
-        const empty = document.createElement("div");
-        empty.className = "empty";
-        empty.innerHTML = "<strong>Sin comandas</strong>" + (state === "ready" ? "No hay platos esperando salida." : "La estación está al día.");
-        list.appendChild(empty);
+      let audioCtx = null;
+      let soundEnabled = true;
+
+      /**
+       * Genera un timbre auditivo artesanal para notificar transiciones de comanda de cocina.
+       * Tono brillante armónico para plato listo ('ready') o tono breve para avance de cocción ('step').
+       * @param {string} type - Tipo de timbre ('ready' | 'step').
+       */
+      function playChime(type) {
+        if (!soundEnabled) return;
+        try {
+          if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          if (audioCtx.state === 'suspended') audioCtx.resume();
+          const now = audioCtx.currentTime;
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+
+          if (type === 'ready') {
+            osc.frequency.setValueAtTime(523.25, now);
+            osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.15);
+            gain.gain.setValueAtTime(0.12, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+            osc.start(now);
+            osc.stop(now + 0.4);
+          } else {
+            osc.frequency.setValueAtTime(392, now);
+            gain.gain.setValueAtTime(0.08, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+            osc.start(now);
+            osc.stop(now + 0.2);
+          }
+        } catch (e) {}
       }
 
-      function refreshBoard() {
-        Object.keys(lists).forEach((state) => {
-          const cards = [...lists[state].querySelectorAll(".order-card")];
-          counts[state].textContent = cards.length;
-          totals[state].textContent = cards.length;
-          emptyState(lists[state], state);
-        });
-        document.querySelector("#allTotal").textContent = Object.values(lists).reduce((total, list) => total + list.querySelectorAll(".order-card").length, 0);
-      }
-
-      function moveOrder(card, nextState) {
-        const currentList = card.parentElement;
-        const empty = currentList.querySelector(".empty");
-        if (empty) empty.remove();
-        card.dataset.state = nextState;
-        card.classList.add("is-updated");
-        const button = card.querySelector(".advance");
-        if (nextState === "delivered") {
-          card.remove();
-        } else {
-          button.dataset.next = nextState === "pending" ? "preparing" : nextState === "preparing" ? "ready" : "delivered";
-          button.textContent = labels[nextState];
-          lists[nextState].appendChild(card);
+      /**
+       * Verifica si la columna del KDS no contiene tickets para desplegar la tarjeta de carril vacío.
+       * @param {HTMLElement} list - Contenedor DOM de la columna de tickets.
+       * @param {string} stateName - Nombre de la columna ('pending' | 'preparing' | 'ready').
+       */
+      function checkEmptyState(list, stateName) {
+        const hasTickets = list.querySelectorAll(".ticket").length > 0;
+        let empty = list.querySelector(".empty-lane");
+        if (!hasTickets) {
+          if (!empty) {
+            empty = document.createElement("div");
+            empty.className = "empty-lane";
+            empty.innerHTML = `<strong>Sin Tickets</strong>${stateName === "ready" ? "El pase caliente está despejado." : "La cocina está al día."}`;
+            list.appendChild(empty);
+          }
+        } else if (empty) {
+          empty.remove();
         }
-        refreshBoard();
-        document.querySelector("#lastSync").textContent = "Última sincronización: ahora";
       }
 
-      document.querySelector(".board").addEventListener("click", (event) => {
-        const button = event.target.closest(".advance");
-        if (!button) return;
-        moveOrder(button.closest(".order-card"), button.dataset.next);
+      /**
+       * Recalcula la cantidad de pedidos en cada columna y sincroniza los contadores de la cabecera y el resumen.
+       */
+      function refreshMetrics() {
+        Object.keys(lists).forEach((key) => {
+          const tickets = lists[key].querySelectorAll(".ticket");
+          counts[key].textContent = tickets.length;
+          totals[key].textContent = tickets.length;
+          checkEmptyState(lists[key], key);
+        });
+        const total = Object.values(lists).reduce((sum, el) => sum + el.querySelectorAll(".ticket").length, 0);
+        document.querySelector("#totalTickets").textContent = total;
+      }
+
+      /**
+       * Avanza el ticket al siguiente estado en el flujo de cocina (Pendiente → Cocción → Pase Caliente → Despachada),
+       * actualizando su destino, etiqueta de botón y emitiendo el sonido de campana de pase.
+       * @param {HTMLElement} ticket - Elemento DOM del ticket artesanal (.ticket).
+       * @param {string} nextState - Siguiente estado operativo ('preparing' | 'ready' | 'delivered').
+       */
+      function advanceTicket(ticket, nextState) {
+        ticket.dataset.state = nextState;
+        const btn = ticket.querySelector(".ticket-advance-btn");
+
+        if (nextState === "delivered") {
+          ticket.style.opacity = "0";
+          ticket.style.transform = "scale(0.95)";
+          window.setTimeout(() => {
+            ticket.remove();
+            refreshMetrics();
+            playChime("step");
+          }, 150);
+        } else {
+          btn.dataset.next = nextState === "pending" ? "preparing" : nextState === "preparing" ? "ready" : "delivered";
+          btn.textContent = labels[nextState];
+          lists[nextState].appendChild(ticket);
+          refreshMetrics();
+          playChime(nextState === "ready" ? "ready" : "step");
+        }
+        document.querySelector("#syncTag").textContent = "Sincronizado vía Hub: ahora mismo";
+      }
+
+      // Delegación de clics para avanzar comandas mediante el botón de acción del ticket
+      document.querySelector(".board-grid").addEventListener("click", (e) => {
+        const btn = e.target.closest(".ticket-advance-btn");
+        if (!btn) return;
+        advanceTicket(btn.closest(".ticket"), btn.dataset.next);
       });
 
-      document.querySelector(".filter-group").addEventListener("click", (event) => {
-        const filter = event.target.closest(".filter");
-        if (!filter) return;
-        document.querySelectorAll(".filter").forEach((item) => item.setAttribute("aria-pressed", String(item === filter)));
-        const state = filter.dataset.filter;
-        document.querySelectorAll(".lane").forEach((lane) => {
-          lane.hidden = state !== "all" && lane.dataset.status !== state;
+      // Filtrado por estado de comanda (Todas, Pendientes, En Preparación, Listas en Pase)
+      document.querySelector(".filter-chips").addEventListener("click", (e) => {
+        const chip = e.target.closest(".chip");
+        if (!chip) return;
+        document.querySelectorAll(".chip").forEach((c) => c.setAttribute("aria-pressed", String(c === chip)));
+        const filter = chip.dataset.filter;
+        document.querySelectorAll(".lane-col").forEach((col) => {
+          col.hidden = filter !== "all" && col.dataset.status !== filter;
         });
       });
 
-      const soundToggle = document.querySelector("#soundToggle");
-      soundToggle.addEventListener("click", () => {
-        const enabled = soundToggle.getAttribute("aria-pressed") === "true";
-        soundToggle.setAttribute("aria-pressed", String(!enabled));
-        soundToggle.setAttribute("aria-label", enabled ? "Activar alertas" : "Silenciar alertas");
-        soundToggle.textContent = enabled ? "○" : "◖";
+      // Control para alternar activación/silenciamiento de alertas auditivas
+      const soundBtn = document.querySelector("#soundBtn");
+      const soundSvg = document.querySelector("#soundSvg");
+      soundBtn.addEventListener("click", () => {
+        soundEnabled = !soundEnabled;
+        soundBtn.setAttribute("aria-pressed", String(soundEnabled));
+        soundBtn.setAttribute("aria-label", soundEnabled ? "Silenciar alertas" : "Activar alertas");
+        if (soundEnabled) {
+          soundSvg.innerHTML = `<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>`;
+          playChime("step");
+        } else {
+          soundSvg.innerHTML = `<path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>`;
+        }
       });
 
+      /**
+       * Sincroniza el reloj de servicio con la hora local de Ecuador en formato de 24 horas.
+       */
       function updateClock() {
         const now = new Date();
-        document.querySelector("#clock").textContent = now.toLocaleTimeString("es-EC", { hour: "2-digit", minute: "2-digit", hour12: false });
+        document.querySelector("#liveClock").textContent = now.toLocaleTimeString("es-EC", { hour: "2-digit", minute: "2-digit", hour12: false });
       }
       updateClock();
       window.setInterval(updateClock, 30000);
-      refreshBoard();
+      refreshMetrics();
     })();
   </script>
 </body>

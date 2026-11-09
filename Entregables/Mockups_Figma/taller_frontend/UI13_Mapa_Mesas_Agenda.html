@@ -3,182 +3,1783 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>UI-13 · Mapa de mesas y agenda | PuraSed</title>
+  <title>Mapa de Mesas y Agenda de Salón | Sereno Moreno · PuraSed</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#121614;--surface:#1f2421;--surface-2:#29312c;--paper:#fffdf9;--ink:#1a201c;--chalk:#f0eee7;--muted:#a7afa8;--line:#3a433d;--gold:#e59f38;--bright:#f8ad00;--green:#94b783;--green-deep:#314b38;--red:#d97758;--blue:#6c96a6;--display:"Bebas Neue",Impact,sans-serif;--body:"Space Grotesk",Arial,sans-serif}
-    *{box-sizing:border-box}html{background:var(--bg);color:var(--chalk)}body{margin:0;min-width:320px;background:var(--bg);font-family:var(--body)}button,input,select{font:inherit}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--bright);outline-offset:3px}.shell{min-height:100vh;display:flex;flex-direction:column}
-    .topbar{min-height:78px;padding:14px 28px;display:flex;align-items:center;gap:26px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:12px;min-width:224px}.mark{width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--gold);color:var(--gold);font:28px/1 var(--display)}.brand-name{font:24px/.85 var(--display);letter-spacing:2px}.brand-name small{display:block;margin-top:5px;color:var(--muted);font:11px/1 var(--body)}.station{flex:1}.station h1{margin:0;font:32px/.9 var(--display);letter-spacing:2px}.station p{margin:6px 0 0;color:var(--muted);font-size:13px}.live{display:flex;align-items:center;gap:8px;color:var(--green);font-size:13px;font-weight:600}.dot{width:9px;height:9px;border-radius:50%;background:var(--green)}
-    .page{width:min(1500px,100%);margin:auto;padding:24px 28px 34px}.head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:22px}.context-label{margin:0 0 7px;color:var(--gold);font-size:13px;font-weight:700}.head h2{margin:0;font:42px/.9 var(--display);letter-spacing:2px}.head-note{max-width:380px;color:var(--muted);font-size:13px;line-height:1.45;text-align:right}.head-note strong{color:var(--chalk)}
-    .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:20px}.date-control{height:46px;padding:0 12px;border:1px solid var(--line);background:var(--surface);color:var(--chalk)}.control-button{min-height:46px;padding:0 16px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;font-size:13px;font-weight:600}.control-button:hover,.control-button.primary{border-color:var(--gold);background:var(--gold);color:var(--ink)}.control-spacer{flex:1}.sync{color:var(--muted);font-size:12px}
-    .overview{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}.metric{padding:14px 17px;background:var(--surface);border-left:4px solid var(--line);font-variant-numeric:tabular-nums}.metric.free{border-color:var(--green)}.metric.booked{border-color:var(--gold)}.metric.busy{border-color:var(--red)}.metric-label{color:var(--muted);font-size:13px}.metric-value{display:block;margin-top:4px;font:34px/1 var(--display)}
-    .content{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(370px,.85fr);gap:16px;align-items:start}.panel{background:var(--surface);min-width:0}.panel-head{padding:17px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line)}.panel-head h3{margin:0;font:25px/1 var(--display);letter-spacing:1.3px}.panel-head span{color:var(--muted);font-size:12px}
-    .map-area{padding:20px;min-height:450px;background:#1a201d;position:relative;overflow:hidden}.map-grid{position:absolute;inset:20px;border:1px solid #26302a}.room-label{position:absolute;top:31px;left:34px;color:#66736a;font-size:11px}.bar-label{position:absolute;right:34px;bottom:30px;color:#66736a;font-size:11px}.table{position:absolute;display:flex;align-items:center;justify-content:center;min-width:78px;height:58px;border:2px solid var(--green);background:rgba(148,183,131,.14);color:var(--chalk);cursor:pointer;font:21px/1 var(--display);letter-spacing:1px;transition:transform .15s,background .15s}.table:hover,.table.selected{transform:scale(1.05);background:var(--green-deep)}.table.booked{border-color:var(--gold);background:rgba(229,159,56,.17)}.table.busy{border-color:var(--red);background:rgba(217,119,88,.18)}.table.t1{top:92px;left:13%}.table.t2{top:92px;left:40%}.table.t3{top:92px;left:68%}.table.t4{top:225px;left:20%}.table.t5{top:225px;left:50%}.table.t6{top:225px;left:76%}.table.t7{top:355px;left:35%}.table.t8{top:355px;left:66%}.legend{display:flex;gap:18px;flex-wrap:wrap;padding:16px 20px;color:var(--muted);font-size:12px}.legend span{display:flex;align-items:center;gap:7px}.swatch{width:12px;height:12px;border:2px solid var(--green);background:rgba(148,183,131,.14)}.swatch.booked{border-color:var(--gold);background:rgba(229,159,56,.17)}.swatch.busy{border-color:var(--red);background:rgba(217,119,88,.18)}
-    .agenda{display:grid;gap:0}.reservation{padding:16px 18px;border-bottom:1px solid #303932;display:grid;grid-template-columns:65px 1fr auto;gap:14px;align-items:center}.reservation:last-child{border-bottom:0}.reservation-time{font:25px/1 var(--display);letter-spacing:1px}.reservation-name{font-size:14px;font-weight:700}.reservation-detail{margin-top:4px;color:var(--muted);font-size:12px}.status{padding:6px 8px;font-size:11px;font-weight:700}.status.confirmed{background:rgba(229,159,56,.2);color:var(--gold)}.status.arrived{background:rgba(148,183,131,.2);color:var(--green)}.status.pending{background:rgba(108,150,166,.2);color:#9bc0cc}.reservation-actions{grid-column:2 / -1;display:flex;gap:8px}.small-action{min-height:38px;padding:0 11px;border:1px solid #4a544c;background:transparent;color:var(--chalk);cursor:pointer;font-size:12px}.small-action:hover{border-color:var(--gold);color:var(--gold)}.small-action.cancel:hover{border-color:var(--red);color:var(--red)}
-    .empty{padding:28px 18px;color:var(--muted);text-align:center}.empty strong{display:block;margin-bottom:5px;color:var(--chalk);font:23px/1 var(--display)}
-    .toast{position:fixed;right:24px;bottom:24px;display:none;padding:14px 17px;background:var(--paper);color:var(--ink);font-size:13px}.toast.visible{display:block}
-    .modal-backdrop{position:fixed;inset:0;z-index:5;display:none;place-items:center;padding:20px;background:rgba(18,22,20,.78)}.modal-backdrop.visible{display:grid}.modal{width:min(520px,100%);background:var(--paper);color:var(--ink);padding:24px}.modal-head{display:flex;align-items:start;justify-content:space-between;gap:14px;margin-bottom:20px}.modal h3{margin:0;font:32px/.9 var(--display);letter-spacing:1.2px}.modal-close{width:42px;height:42px;border:1px solid #bbb8ae;background:transparent;color:var(--ink);cursor:pointer;font-size:20px}.modal-close:hover{border-color:var(--red);color:var(--red)}.modal-form{display:grid;gap:14px}.modal-field{display:grid;gap:6px}.modal-field label{font-size:13px;font-weight:700}.modal-field input,.modal-field select{height:46px;padding:0 10px;border:1px solid #c9c7c0;background:#fff;color:var(--ink)}.modal-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}.modal-actions button{min-height:44px;padding:0 15px;border:1px solid #bbb8ae;background:transparent;color:var(--ink);cursor:pointer;font-size:13px;font-weight:700}.modal-actions .save{border-color:var(--ink);background:var(--ink);color:var(--chalk)}.modal-actions .save:hover{border-color:var(--gold);background:var(--gold);color:var(--ink)}
-    .detail-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;margin:0;background:#d9d5cc}.detail-item{padding:12px;background:var(--paper)}.detail-item dt{color:#687069;font-size:12px}.detail-item dd{margin:4px 0 0;font-size:14px;font-weight:700}.detail-note{margin:16px 0 0;padding:12px;background:#f2eee7;color:#4a514c;font-size:13px;line-height:1.4}
-    @media(max-width:980px){.content{grid-template-columns:1fr}.map-area{min-height:420px}.overview{grid-template-columns:repeat(4,minmax(130px,1fr));overflow-x:auto}.metric{min-width:130px}}
-    @media(max-width:620px){.topbar{padding:12px 18px}.brand{min-width:auto}.brand-name,.live{display:none}.station h1{font-size:27px}.station p{font-size:12px}.page{padding:20px 16px 28px}.head{align-items:start;flex-direction:column}.head h2{font-size:37px}.head-note{text-align:left}.controls{align-items:stretch}.date-control{flex:1;min-width:145px}.control-spacer{display:none}.sync{width:100%}.overview{grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible}.metric{min-width:0}.map-area{min-height:390px;padding:12px}.map-grid{inset:12px}.table{min-width:62px;height:48px;font-size:18px}.table.t1{top:74px}.table.t2{top:74px}.table.t3{top:74px}.table.t4{top:190px}.table.t5{top:190px}.table.t6{top:190px}.table.t7{top:305px}.table.t8{top:305px}.room-label{top:21px;left:22px}.bar-label{right:22px;bottom:20px}.reservation{grid-template-columns:55px 1fr;gap:10px}.status{grid-column:2}.reservation-actions{grid-column:1 / -1}}
+    /* ==========================================================================
+       PURASED DESIGN SYSTEM — MAPA DE MESAS & SALÓN
+       Normas: Guia_Diseno_UI_UX_PuraSed.md, Impeccable (Craft Floor)
+       Estética: Taberna Colonial San Marcos · Mesas Tangibles con Sillas Reales
+       ========================================================================== */
+
+    :root {
+      /* Basalto Carbón & Muros Coloniales */
+      --color-bg-deep: #0D110F;
+      --color-bg-canvas: #121614;
+      --color-bg-card: #1A201C;
+      --color-bg-elev: #242C27;
+      --color-bg-subtle: #2D3730;
+
+      /* Madera Ancestral & Cuero (Mesas de Taberna) */
+      --wood-table-base: #2A2218;
+      --wood-table-surface: #382D20;
+      --wood-table-rim: #524230;
+      --wood-chair-back: #453728;
+      --wood-chair-seat: #2D2419;
+
+      /* Oro Inti & Ámbar Artesanal */
+      --color-inti-gold: #E59F38;
+      --color-inti-bright: #F8AD00;
+      --color-inti-border: rgba(229, 159, 56, 0.35);
+
+      /* Blanco Tiza & Pergamino */
+      --color-text-chalk: #F5EADB;
+      --color-text-muted: #A8B5AA;
+      --color-text-faint: #6E7D72;
+
+      /* Papel Artesanal #FFFDF9 para Vales y Modales */
+      --color-paper-sheet: #FFFDF9;
+      --color-paper-ink: #1B211D;
+      --color-paper-muted: #6B776E;
+      --color-paper-border: #E5DFC8;
+
+      /* Estados Semánticos de Mesa */
+      --status-free: #94B783;
+      --status-free-bg: rgba(148, 183, 131, 0.15);
+      --status-occupied: #E59F38;
+      --status-occupied-bg: rgba(229, 159, 56, 0.18);
+      --status-reserved: #C9533B;
+      --status-reserved-bg: rgba(201, 83, 59, 0.18);
+
+      /* Tipografía Oficial */
+      --font-display: "Bebas Neue", Impact, sans-serif;
+      --font-body: "Space Grotesk", system-ui, sans-serif;
+
+      --radius-sm: 2px;
+      --radius-md: 4px;
+      --radius-ticket: 6px;
+      --shadow-elevation: 0 14px 34px -8px rgba(0, 0, 0, 0.65), 0 2px 8px rgba(0, 0, 0, 0.4);
+      --transition-craft: 0.2s cubic-bezier(0.2, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      background: var(--color-bg-deep);
+      color: var(--color-text-chalk);
+      font-size: 16px;
+    }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      background: var(--color-bg-canvas);
+      font-family: var(--font-body);
+      color: var(--color-text-chalk);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+    }
+
+    /* Linograbado oficial de fondo (recurso-18.png) */
+    .body-watermark {
+      position: fixed;
+      right: -80px;
+      bottom: -60px;
+      width: 580px;
+      height: 580px;
+      background: url("../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/recurso-18.png") no-repeat center right / contain;
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    button, input, select { font: inherit; }
+    button:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 2px solid var(--color-inti-bright);
+      outline-offset: 3px;
+    }
+
+    .shell {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ==========================================================================
+       BARRA SUPERIOR OFICIAL SERENO MORENO
+       ========================================================================== */
+    .topbar {
+      min-height: 84px;
+      padding: 14px 28px;
+      background: var(--color-bg-deep);
+      border-bottom: 1px solid var(--color-bg-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-logo-img {
+      height: 48px;
+      width: auto;
+      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
+    }
+
+    .brand-titles {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 26px;
+      line-height: 0.92;
+      letter-spacing: 2.2px;
+      text-transform: uppercase;
+      color: var(--color-text-chalk);
+    }
+
+    .brand-subtitle {
+      font-size: 11px;
+      color: var(--color-inti-gold);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .station-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(229, 159, 56, 0.08);
+      border: 1px solid var(--color-inti-border);
+      border-radius: var(--radius-sm);
+    }
+
+    .station-badge .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--status-free);
+      box-shadow: 0 0 10px var(--status-free);
+      animation: pulse-dot 2.4s infinite ease-in-out;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(0.85); }
+    }
+
+    .station-badge span {
+      font-family: var(--font-display);
+      font-size: 17px;
+      letter-spacing: 1.5px;
+      color: var(--color-text-chalk);
+      text-transform: uppercase;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-link-hub {
+      padding: 8px 16px;
+      background: transparent;
+      border: 1px solid var(--color-bg-subtle);
+      color: var(--color-text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      transition: var(--transition-craft);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-link-hub:hover {
+      border-color: var(--color-inti-gold);
+      color: var(--color-inti-gold);
+    }
+
+    .btn-new-reserva {
+      padding: 10px 18px;
+      background: var(--color-inti-gold);
+      color: #0D110F;
+      border: none;
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(229, 159, 56, 0.35);
+      transition: var(--transition-craft);
+    }
+
+    .btn-new-reserva:hover {
+      background: var(--color-inti-bright);
+      transform: translateY(-1px);
+    }
+
+    /* ==========================================================================
+       CONTENIDO PRINCIPAL
+       ========================================================================== */
+    .workspace {
+      width: min(1560px, 100%);
+      margin: 0 auto;
+      padding: 24px 28px 48px;
+      flex: 1;
+    }
+
+    .header-context {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+      margin-bottom: 24px;
+      border-bottom: 1px dashed var(--color-bg-subtle);
+      padding-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .context-tag {
+      font-family: var(--font-display);
+      font-size: 15px;
+      letter-spacing: 2px;
+      color: var(--color-inti-gold);
+      text-transform: uppercase;
+      margin: 0 0 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .page-title {
+      font-family: var(--font-display);
+      font-size: 44px;
+      line-height: 0.92;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--color-text-chalk);
+    }
+
+    .norm-box {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-bg-subtle);
+      border-left: 3px solid var(--color-inti-gold);
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      color: var(--color-text-muted);
+      max-width: 500px;
+      line-height: 1.45;
+    }
+
+    .norm-box strong { color: var(--color-text-chalk); }
+
+    /* Barra de Métricas de Ocupación */
+    .metrics-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .metric-card {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-bg-subtle);
+      border-left: 4px solid var(--color-bg-subtle);
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+    }
+
+    .metric-card.free { border-left-color: var(--status-free); }
+    .metric-card.busy { border-left-color: var(--status-occupied); }
+    .metric-card.booked { border-left-color: var(--status-reserved); }
+    .metric-card.capacity { border-left-color: var(--color-inti-gold); }
+
+    .metric-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--color-text-muted);
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .metric-number {
+      font-family: var(--font-display);
+      font-size: 38px;
+      line-height: 0.95;
+      letter-spacing: 1px;
+      font-variant-numeric: tabular-nums;
+      color: var(--color-text-chalk);
+    }
+
+    .metric-card.free .metric-number { color: var(--status-free); }
+    .metric-card.busy .metric-number { color: var(--color-inti-bright); }
+    .metric-card.booked .metric-number { color: var(--status-reserved); }
+
+    .metric-sub {
+      font-size: 11px;
+      color: var(--color-text-faint);
+      margin-top: 6px;
+      display: block;
+    }
+
+    /* ==========================================================================
+       DISTRIBUCIÓN EN 2 COLUMNAS: PLANO TANGIBLE + INSPECTOR LATERAL
+       ========================================================================== */
+    .saloon-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(380px, 0.85fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* ==========================================================================
+       PLANO ARQUITECTÓNICO CON MESAS Y SILLAS TANGIBLES (DISTRIBUCIÓN ANTICOLISIÓN)
+       ========================================================================== */
+    .floorplan-frame {
+      background: #141A17;
+      border: 1px solid var(--color-bg-subtle);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      box-shadow: var(--shadow-elevation);
+    }
+
+    .floorplan-toolbar {
+      padding: 12px 18px;
+      background: var(--color-bg-elev);
+      border-bottom: 1px solid var(--color-bg-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .floorplan-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--color-text-chalk);
+    }
+
+    .saloon-legends {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--color-text-muted);
+      font-weight: 600;
+    }
+
+    .legend-beacon {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .legend-beacon.free { background: var(--status-free); box-shadow: 0 0 6px var(--status-free); }
+    .legend-beacon.busy { background: var(--status-occupied); box-shadow: 0 0 6px var(--status-occupied); }
+    .legend-beacon.booked { background: var(--status-reserved); box-shadow: 0 0 6px var(--status-reserved); }
+
+    /* Canvas del Salón Colonial: Flujo Arquitectónico Estructurado */
+    .colonial-floor-canvas {
+      position: relative;
+      min-width: 680px;
+      min-height: 620px;
+      background:
+        radial-gradient(circle at 50% 50%, #1A211D 0%, #101412 100%),
+        repeating-linear-gradient(45deg, rgba(255,255,255,0.01) 0, rgba(255,255,255,0.01) 20px, transparent 20px, transparent 40px);
+      padding: 24px 28px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-bg-subtle) transparent;
+      border-bottom: 1px solid var(--color-bg-subtle);
+    }
+
+    /* Fila Superior de Marcadores de Acceso y Pase */
+    .floor-markers-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 4px;
+    }
+
+    .door-entrance {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 14px;
+      border: 1px dashed var(--color-inti-border);
+      background: rgba(229, 159, 56, 0.05);
+      border-radius: var(--radius-sm);
+    }
+
+    .door-entrance span {
+      font-family: var(--font-display);
+      font-size: 14px;
+      letter-spacing: 1.5px;
+      color: var(--color-inti-gold);
+      text-transform: uppercase;
+    }
+
+    .kitchen-pass {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border: 1px dashed #B85335;
+      background: rgba(184, 83, 53, 0.08);
+      border-radius: var(--radius-sm);
+    }
+
+    .kitchen-pass span {
+      font-family: var(--font-display);
+      font-size: 14px;
+      letter-spacing: 1.5px;
+      color: #E27B5E;
+      text-transform: uppercase;
+    }
+
+    /* Encabezados Sutiles de Zona de Salón */
+    .floor-zone-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      margin: 2px 0;
+    }
+
+    .floor-zone-header::before,
+    .floor-zone-header::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: repeating-linear-gradient(90deg, var(--color-bg-subtle) 0, var(--color-bg-subtle) 4px, transparent 4px, transparent 8px);
+    }
+
+    .zone-label-subtle {
+      font-family: var(--font-display);
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      color: rgba(229, 159, 56, 0.7);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* Filas Arquitectónicas con Distribución Anticolisión */
+    .floor-grid-row {
+      display: grid;
+      align-items: center;
+      width: 100%;
+    }
+
+    /* Fila 1: Ventanales Junín (4 mesas independientes con separación garantizada) */
+    .row-ventanales {
+      grid-template-columns: repeat(4, 1fr);
+      justify-items: center;
+      gap: 14px;
+      min-height: 130px;
+    }
+
+    /* Fila 2: Salón Central & Banquete Imperial (3 mesas) */
+    .row-central {
+      grid-template-columns: minmax(120px, 1fr) minmax(200px, 1.4fr) minmax(210px, 1.5fr);
+      justify-items: center;
+      gap: 18px;
+      min-height: 130px;
+    }
+
+    /* Fila 3: Rincón & Cava (Mesa 08 + Tarjeta Cava de Fermentos) */
+    .row-bar-sector {
+      grid-template-columns: minmax(120px, 1fr) minmax(320px, 2.9fr);
+      align-items: center;
+      gap: 20px;
+      min-height: 126px;
+    }
+
+    /* Tarjeta Arquitectónica de Cava y Barricas */
+    .saloon-feature-card {
+      background: rgba(26, 32, 28, 0.75);
+      border: 1px solid var(--color-bg-subtle);
+      border-left: 3px solid var(--color-inti-gold);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4), 0 0 14px rgba(229, 159, 56, 0.05);
+    }
+
+    .feature-content {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .feature-icon-box {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      background: rgba(229, 159, 56, 0.08);
+      border: 1px solid var(--color-inti-border);
+      display: grid;
+      place-items: center;
+      color: var(--color-inti-gold);
+      flex-shrink: 0;
+    }
+
+    .feature-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .feature-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--color-text-chalk);
+    }
+
+    .feature-desc {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      line-height: 1.35;
+    }
+
+    .feature-badge-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-radius: 2px;
+      background: var(--color-bg-subtle);
+      color: var(--color-inti-gold);
+      border: 1px solid rgba(229, 159, 56, 0.2);
+      white-space: nowrap;
+    }
+
+    /* Barra de Grifos en Flujo Inferior con Cero Solapamiento */
+    .bar-counter-zone {
+      position: relative;
+      width: 100%;
+      height: 76px;
+      background: #181E1B;
+      border: 2px solid #3A473F;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.6), 0 0 16px rgba(229, 159, 56, 0.05);
+      margin-top: 6px;
+    }
+
+    .bar-counter-label {
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: 2px;
+      color: var(--color-inti-gold);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+    }
+
+    .bar-stools-row {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .bar-stool {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #3A2F22;
+      border: 2px solid #5C4A35;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-text-chalk);
+      cursor: pointer;
+      transition: var(--transition-craft);
+    }
+
+    .bar-stool.occupied {
+      background: var(--color-inti-gold);
+      border-color: var(--color-inti-bright);
+      color: #0D110F;
+    }
+
+    .bar-stool:hover {
+      transform: scale(1.15);
+      border-color: var(--color-inti-bright);
+    }
+
+    /* ==========================================================================
+       COMPONENTES TANGIBLES: MESAS CON SILLAS REALES (.table-fixture)
+       Con Sombreado a un 5% del color de la guía (Oro Inti #E59F38)
+       ========================================================================== */
+    .table-fixture {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.25s cubic-bezier(0.2, 0, 0.2, 1);
+      z-index: 5;
+      margin: 14px;
+    }
+
+    .table-fixture:hover {
+      transform: scale(1.05);
+      z-index: 20;
+    }
+
+    .table-fixture:hover .table-surface {
+      border-color: rgba(229, 159, 56, 0.55);
+      box-shadow:
+        0 12px 26px rgba(0, 0, 0, 0.8),
+        0 0 22px rgba(229, 159, 56, 0.18),
+        inset 0 1px 3px rgba(229, 159, 56, 0.25);
+    }
+
+    .table-fixture.is-selected {
+      transform: scale(1.07);
+      z-index: 25;
+    }
+
+    .table-fixture.is-selected .table-surface {
+      outline: 3px solid var(--color-inti-bright);
+      outline-offset: 4px;
+      border-color: var(--color-inti-bright);
+      box-shadow: 0 0 26px rgba(248, 173, 0, 0.45), 0 10px 24px rgba(0, 0, 0, 0.85);
+    }
+
+    /* Superficie de la Mesa de Madera con Sombreado al 5% Oro Inti */
+    .table-surface {
+      position: relative;
+      background:
+        radial-gradient(circle at 50% 35%, rgba(229, 159, 56, 0.07) 0%, rgba(229, 159, 56, 0.02) 60%, transparent 100%),
+        linear-gradient(145deg, #382D20, #251E15);
+      border: 2px solid #5A4733;
+      /* Sombreado a un 5% del color de la guía (Oro Inti #E59F38) */
+      box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.7),
+        0 0 16px rgba(229, 159, 56, 0.05),
+        inset 0 1px 2px rgba(229, 159, 56, 0.15);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+      transition: var(--transition-craft);
+    }
+
+    /* Bisel interior de artesanía en madera */
+    .table-surface::before {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: inherit;
+      border: 1px dashed rgba(229, 159, 56, 0.08);
+      pointer-events: none;
+    }
+
+    /* Mesas Redondas (2 Personas) */
+    .table-fixture.round .table-surface {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+    }
+
+    /* Mesas Cuadradas (4 Personas) */
+    .table-fixture.square .table-surface {
+      width: 104px;
+      height: 104px;
+      border-radius: 8px;
+    }
+
+    /* Mesas Rectangulares / Banquete Comunal (6 a 8 Personas) */
+    .table-fixture.long .table-surface {
+      width: 190px;
+      height: 104px;
+      border-radius: 8px;
+    }
+
+    /* Detalles Internos de la Mesa */
+    .table-num {
+      font-family: var(--font-display);
+      font-size: 24px;
+      line-height: 0.9;
+      letter-spacing: 1px;
+      color: var(--color-text-chalk);
+    }
+
+    .table-cap {
+      font-size: 10px;
+      color: #C8BFB2;
+      font-weight: 600;
+      margin-top: 3px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .table-status-beacon {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .table-fixture.free .table-status-beacon { background: var(--status-free); box-shadow: 0 0 6px var(--status-free); }
+    .table-fixture.busy .table-status-beacon { background: var(--status-occupied); box-shadow: 0 0 6px var(--status-occupied); }
+    .table-fixture.booked .table-status-beacon { background: var(--status-reserved); box-shadow: 0 0 6px var(--status-reserved); }
+
+    /* ==========================================================================
+       SILLAS TANGIBLES (.chair)
+       Con ligero destello artesanal al 5%
+       ========================================================================== */
+    .chair {
+      position: absolute;
+      width: 26px;
+      height: 16px;
+      background: #2D2318;
+      border: 1.5px solid #4C3C2A;
+      border-radius: 4px 4px 2px 2px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.5), 0 0 8px rgba(229, 159, 56, 0.05);
+      z-index: 2;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    /* Sillas Arriba y Abajo */
+    .chair.pos-top {
+      top: -12px;
+      border-radius: 6px 6px 2px 2px;
+    }
+
+    .chair.pos-bottom {
+      bottom: -12px;
+      border-radius: 2px 2px 6px 6px;
+    }
+
+    /* Sillas a Izquierda y Derecha */
+    .chair.pos-left {
+      left: -12px;
+      width: 16px;
+      height: 26px;
+      border-radius: 6px 2px 2px 6px;
+    }
+
+    .chair.pos-right {
+      right: -12px;
+      width: 16px;
+      height: 26px;
+      border-radius: 2px 6px 6px 2px;
+    }
+
+    /* Sillas ocupadas: ligeramente arrimadas y con acento */
+    .table-fixture.busy .chair {
+      background: #443422;
+      border-color: rgba(229, 159, 56, 0.5);
+    }
+
+    .table-fixture.booked .chair {
+      border-color: rgba(201, 83, 59, 0.4);
+    }
+
+    /* ==========================================================================
+       PANEL INSPECTOR LATERAL DE MESA SELECCIONADA
+       ========================================================================== */
+    .table-inspector-panel {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-bg-subtle);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      box-shadow: var(--shadow-elevation);
+    }
+
+    .inspector-header {
+      padding: 14px 20px;
+      background: var(--color-bg-elev);
+      border-bottom: 1px solid var(--color-bg-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .inspector-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--color-text-chalk);
+      margin: 0;
+    }
+
+    .inspector-body {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .table-visual-hero {
+      background: var(--color-bg-deep);
+      border: 1px solid var(--color-bg-subtle);
+      padding: 18px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .table-big-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #3A2F22, #1F1810);
+      border: 2px solid var(--color-inti-gold);
+      display: grid;
+      place-items: center;
+      font-family: var(--font-display);
+      font-size: 32px;
+      color: var(--color-text-chalk);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+
+    .table-hero-details {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .table-hero-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--color-text-chalk);
+    }
+
+    .table-hero-zone {
+      font-size: 12px;
+      color: var(--color-text-muted);
+    }
+
+    .table-hero-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 2px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      width: fit-content;
+      margin-top: 4px;
+    }
+
+    .table-hero-status-pill.free {
+      background: var(--status-free-bg);
+      color: var(--status-free);
+      border: 1px solid rgba(148, 183, 131, 0.4);
+    }
+
+    .table-hero-status-pill.busy {
+      background: var(--status-occupied-bg);
+      color: var(--status-occupied);
+      border: 1px solid rgba(229, 159, 56, 0.4);
+    }
+
+    .table-hero-status-pill.booked {
+      background: var(--status-reserved-bg);
+      color: var(--status-reserved);
+      border: 1px solid rgba(201, 83, 59, 0.4);
+    }
+
+    /* Detalles Operativos de la Mesa */
+    .info-list-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border-top: 1px dashed var(--color-bg-subtle);
+      border-bottom: 1px dashed var(--color-bg-subtle);
+      padding: 14px 0;
+    }
+
+    .info-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+    }
+
+    .info-label {
+      color: var(--color-text-muted);
+    }
+
+    .info-val {
+      font-weight: 600;
+      color: var(--color-text-chalk);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Botones de Acción Inmediata */
+    .inspector-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-action-primary {
+      padding: 12px 18px;
+      background: var(--color-inti-gold);
+      color: #0D110F;
+      border: none;
+      font-family: var(--font-display);
+      font-size: 19px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 700;
+      transition: var(--transition-craft);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-action-primary:hover {
+      background: var(--color-inti-bright);
+    }
+
+    .btn-action-secondary {
+      padding: 10px 18px;
+      background: transparent;
+      border: 1px solid var(--color-bg-subtle);
+      color: var(--color-text-chalk);
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition-craft);
+      text-align: center;
+    }
+
+    .btn-action-secondary:hover {
+      border-color: var(--color-inti-gold);
+      color: var(--color-inti-gold);
+    }
+
+    /* ==========================================================================
+       MODAL DE ASIGNACIÓN / RESERVA
+       ========================================================================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      place-items: center;
+      padding: 20px;
+      background: rgba(8, 12, 10, 0.88);
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active {
+      display: grid;
+      animation: modal-in 0.2s ease-out;
+    }
+
+    @keyframes modal-in {
+      from { opacity: 0; transform: scale(0.97); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-ticket {
+      width: min(500px, 100%);
+      background: var(--color-paper-sheet);
+      color: var(--color-paper-ink);
+      border-radius: var(--radius-ticket);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
+      padding: 28px;
+      border: 1px solid var(--color-paper-border);
+      position: relative;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      border-bottom: 2px dashed #D3CBB7;
+      padding-bottom: 12px;
+    }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 32px;
+      line-height: 0.9;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--color-paper-ink);
+    }
+
+    .btn-modal-close {
+      width: 38px;
+      height: 38px;
+      border: 1px solid #D5CEBD;
+      background: transparent;
+      color: var(--color-paper-ink);
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+      display: grid;
+      place-items: center;
+    }
+
+    .modal-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #38423B;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-input, .form-select {
+      height: 44px;
+      padding: 0 12px;
+      background: #FFFFFF;
+      border: 1px solid #C8C0AC;
+      border-radius: var(--radius-sm);
+      color: var(--color-paper-ink);
+      font-size: 14px;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 14px;
+      border-top: 1px solid #E5DFC8;
+      padding-top: 16px;
+    }
+
+    .toast-bubble {
+      position: fixed;
+      right: 28px;
+      bottom: 28px;
+      z-index: 120;
+      display: none;
+      padding: 14px 20px;
+      background: var(--color-paper-sheet);
+      color: var(--color-paper-ink);
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      border-left: 5px solid var(--color-inti-gold);
+    }
+
+    .toast-bubble.active {
+      display: block;
+      animation: toast-slide 0.25s cubic-bezier(0.2, 0, 0.2, 1);
+    }
+
+    @keyframes toast-slide {
+      from { transform: translateY(18px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* ==========================================================================
+       RESPONSIVE
+       ========================================================================== */
+    @media (max-width: 1100px) {
+      .saloon-layout {
+        grid-template-columns: 1fr;
+      }
+      .colonial-floor-canvas {
+        min-height: 520px;
+        overflow-x: auto;
+      }
+      .metrics-bar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .topbar { padding: 12px 18px; }
+      .workspace { padding: 16px 18px 36px; }
+      .metrics-bar { grid-template-columns: 1fr; }
+      .bar-counter-zone { padding: 0 14px; }
+      .bar-stools-row { gap: 10px; }
+    }
   </style>
 </head>
 <body>
-  <main class="shell">
-    <header class="topbar"><div class="brand"><div class="mark" aria-hidden="true">P</div><div class="brand-name">PuraSed<small>Sereno Moreno</small></div></div><div class="station"><h1>Recepción &amp; reservas</h1><p>Agenda y mapa de mesas · Asistente</p></div><div class="live"><span class="dot"></span>En línea</div></header>
-    <section class="page">
-      <div class="head"><div><p class="context-label">Jueves de noviembre · turno noche</p><h2>Mapa de mesas y agenda</h2></div><p class="head-note"><strong>Vista operativa del local.</strong><br>Los cambios de la asistente se reflejan en la agenda y liberan la mesa automáticamente.</p></div>
-      <div class="controls"><input class="date-control" id="agenda-date" type="date" value="2026-11-05" aria-label="Fecha de agenda"><button class="control-button primary" id="today" type="button">Hoy</button><button class="control-button" id="new-booking" type="button">Nueva reserva</button><select class="date-control" id="status-filter" aria-label="Filtrar reservas"><option value="all">Todos los estados</option><option value="confirmed">Confirmadas</option><option value="pending">Por llegar</option><option value="arrived">En mesa</option></select><div class="control-spacer"></div><span class="sync">Sincronizado hace unos segundos</span></div>
-      <section class="overview" aria-label="Resumen de mesas"><div class="metric free"><span class="metric-label">Mesas libres</span><strong class="metric-value" id="free-total">3</strong></div><div class="metric booked"><span class="metric-label">Reservadas</span><strong class="metric-value" id="booked-total">3</strong></div><div class="metric busy"><span class="metric-label">Ocupadas</span><strong class="metric-value" id="busy-total">2</strong></div><div class="metric"><span class="metric-label">Personas esperadas</span><strong class="metric-value">12</strong></div></section>
-      <div class="content">
-        <section class="panel" aria-labelledby="map-title"><header class="panel-head"><h3 id="map-title">Estado del salón</h3><span>8 mesas · capacidad 34</span></header><div class="map-area"><div class="map-grid"></div><span class="room-label">Entrada</span><span class="bar-label">Barra</span><!-- taste-skill-ignore: los números son identificadores reales de mesa --><button class="table t1" data-state="free" type="button">01</button><button class="table t2 booked" data-state="booked" type="button">02</button><button class="table t3 busy" data-state="busy" type="button">03</button><button class="table t4 booked" data-state="booked" type="button">04</button><button class="table t5 free" data-state="free" type="button">05</button><button class="table t6 busy" data-state="busy" type="button">06</button><button class="table t7 booked" data-state="booked" type="button">07</button><button class="table t8 free" data-state="free" type="button">08</button></div><div class="legend"><span><i class="swatch"></i>Libre</span><span><i class="swatch booked"></i>Reservada</span><span><i class="swatch busy"></i>Ocupada</span></div></section>
-        <section class="panel" aria-labelledby="agenda-title"><header class="panel-head"><h3 id="agenda-title">Agenda del día</h3><span id="agenda-count">3 reservas</span></header><div class="agenda" id="agenda"><article class="reservation" data-reservation-id="r-ana" data-status="confirmed"><time class="reservation-time">19:00</time><div><div class="reservation-name">Ana Torres</div><div class="reservation-detail">Mesa 02 · 4 personas · 099 123 4567</div></div><span class="status confirmed">Confirmada</span><div class="reservation-actions"><button class="small-action" type="button">Modificar</button><button class="small-action cancel" type="button">Cancelar</button></div></article><article class="reservation" data-reservation-id="r-carlos" data-status="arrived"><time class="reservation-time">19:30</time><div><div class="reservation-name">Carlos Mena</div><div class="reservation-detail">Mesa 04 · 2 personas · 098 555 0182</div></div><span class="status arrived">En mesa</span><div class="reservation-actions"><button class="small-action" type="button">Ver detalle</button></div></article><article class="reservation" data-reservation-id="r-maria" data-status="pending"><time class="reservation-time">20:30</time><div><div class="reservation-name">María Cárdenas</div><div class="reservation-detail">Mesa 07 · 6 personas · maria@email.com</div></div><span class="status pending">Por llegar</span><div class="reservation-actions"><button class="small-action" type="button">Modificar</button><button class="small-action cancel" type="button">Cancelar</button></div></article></div></section>
+  <!-- Marca de agua oficial Sereno Moreno -->
+  <div class="body-watermark" aria-hidden="true"></div>
+
+  <div class="shell">
+    <!-- Barra Superior Oficial -->
+    <header class="topbar">
+      <div class="brand-section">
+        <img src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/logosm.svg" alt="Sereno Moreno · PuraSed Logo" class="brand-logo-img">
+        <div class="brand-titles">
+          <h1 class="brand-title">PuraSed</h1>
+          <span class="brand-subtitle">Sereno Moreno · San Marcos, Quito</span>
+        </div>
+
+        <div class="station-badge" role="status" aria-label="Estación de Salón y Anfitrión">
+          <span class="dot" aria-hidden="true"></span>
+          <span>Plano de Salón &amp; Agenda en Vivo</span>
+        </div>
       </div>
-    </section>
-    <div class="modal-backdrop" id="booking-modal" aria-hidden="true">
-      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-        <div class="modal-head"><h3 id="modal-title">Nueva reserva</h3><button class="modal-close" id="close-modal" type="button" aria-label="Cerrar">×</button></div>
-        <form class="modal-form" id="booking-form">
-          <div class="modal-field"><label for="guest-name">Nombre completo</label><input id="guest-name" required placeholder="Ej. Ana Torres"></div>
-          <div class="modal-field"><label for="guest-contact">Teléfono o correo</label><input id="guest-contact" required placeholder="Ej. 099 123 4567"></div>
-          <div class="modal-row"><div class="modal-field"><label for="booking-time">Hora</label><select id="booking-time" required><option value="">Selecciona</option><option>18:00</option><option>19:00</option><option>20:00</option><option>21:00</option><option>22:00</option><option>23:00</option></select></div><div class="modal-field"><label for="booking-guests">Personas</label><select id="booking-guests" required><option value="">Selecciona</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div></div>
-          <div class="modal-field"><label for="booking-table">Mesa</label><select id="booking-table" required><option value="">Asignación automática</option><option>Mesa 01</option><option>Mesa 05</option><option>Mesa 08</option></select></div>
-          <div class="modal-actions"><button id="cancel-modal" type="button">Volver</button><button class="save" type="submit">Guardar reserva</button></div>
+
+      <div class="topbar-actions">
+        <a href="index.html" class="nav-link-hub" title="Regresar al Hub de Mockups">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          <span>Catálogo</span>
+        </a>
+
+        <button class="btn-new-reserva" id="btn-open-reserva-modal" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+          <span>Nueva Reserva</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <!-- Encabezado de Contexto -->
+      <header class="header-context">
+        <div>
+          <p class="context-tag">
+            <span>●</span> Salón Colonial Junín · 8 Mesas · 34 Comensales
+          </p>
+          <h2 class="page-title">Plano de Mesas &amp; Salón</h2>
+        </div>
+
+        <div class="norm-box">
+          <strong>Control de Salón en Tiempo Real:</strong><br>
+          Asignación inmediata de mesas, apertura de cuentas sincronizadas con caja y gestión de reservas del turno.
+        </div>
+      </header>
+
+      <!-- Métricas de Ocupación -->
+      <section class="metrics-bar" aria-label="Métricas de Ocupación">
+        <div class="metric-card free">
+          <div class="metric-title">Mesas Disponibles</div>
+          <div class="metric-number" id="metric-free-count">3</div>
+          <span class="metric-sub">Listas para asignación inmediata</span>
+        </div>
+
+        <div class="metric-card busy">
+          <div class="metric-title">Mesas Ocupadas</div>
+          <div class="metric-number" id="metric-busy-count">3</div>
+          <span class="metric-sub">Cuentas activas consumiendo comanda</span>
+        </div>
+
+        <div class="metric-card booked">
+          <div class="metric-title">Reservadas para Hoy</div>
+          <div class="metric-number" id="metric-booked-count">2</div>
+          <span class="metric-sub">Turno nocturno (20:30 &amp; 21:15)</span>
+        </div>
+
+        <div class="metric-card capacity">
+          <div class="metric-title">Aforo de Salón</div>
+          <div class="metric-number">22 / 34</div>
+          <span class="metric-sub">64% de ocupación actual</span>
+        </div>
+      </section>
+
+      <!-- Layout en dos paneles: Plano Tangible + Inspector Lateral -->
+      <div class="saloon-layout">
+        <!-- Panel 1: Plano Arquitectónico del Salón con Mesas y Sillas Tangibles -->
+        <section class="floorplan-frame" aria-label="Plano de distribución del salón">
+          <div class="floorplan-toolbar">
+            <h3 class="floorplan-title">Salón Principal · Vista Arquitectónica</h3>
+            <div class="saloon-legends">
+              <span class="legend-item"><span class="legend-beacon free"></span> Libre</span>
+              <span class="legend-item"><span class="legend-beacon busy"></span> Ocupada</span>
+              <span class="legend-item"><span class="legend-beacon booked"></span> Reservada</span>
+            </div>
+          </div>
+
+          <div class="colonial-floor-canvas" id="colonial-canvas" role="region" aria-label="Mapa de mesas de la taberna">
+            <!-- Fila Superior de Marcadores Arquitectónicos -->
+            <div class="floor-markers-row">
+              <div class="door-entrance">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 19V5c0-1.1-.9-2-2-2H7c-1.1 0-2 .9-2 2v14H3v2h18v-2h-2zm-4-6h-2v-2h2v2z"/></svg>
+                <span>Acceso Principal · Calle Junín</span>
+              </div>
+
+              <div class="kitchen-pass">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L14.88 11.53z"/></svg>
+                <span>Pase de Cocina &amp; Paila</span>
+              </div>
+            </div>
+
+            <!-- Fila 1: Zona Ventanales Calle Junín (4 mesas) -->
+            <div class="floor-zone-header">
+              <span class="zone-label-subtle">Zona Ventanales Junín · Luz Natural</span>
+            </div>
+            <div class="floor-grid-row row-ventanales">
+              <!-- MESA 01: Redonda 2 personas (Libre) -->
+              <div class="table-fixture round free" id="mesa-01" data-id="1" data-name="Mesa 01" data-cap="2" data-status="free" data-zone="Acceso Junín" data-client="" data-order="" tabindex="0" role="button" aria-label="Mesa 01, redonda para 2 personas, disponible">
+                <div class="chair pos-top" aria-hidden="true"></div>
+                <div class="chair pos-bottom" aria-hidden="true"></div>
+                <div class="table-surface">
+                  <span class="table-status-beacon" aria-hidden="true"></span>
+                  <span class="table-num">M-01</span>
+                  <span class="table-cap">2 pers</span>
+                </div>
+              </div>
+
+              <!-- MESA 02: Redonda 2 personas (Reservada) -->
+              <div class="table-fixture round booked" id="mesa-02" data-id="2" data-name="Mesa 02" data-cap="2" data-status="booked" data-zone="Acceso Junín" data-client="Pedro Morales" data-time="20:30" data-order="Sin comanda" tabindex="0" role="button" aria-label="Mesa 02, redonda para 2 personas, reservada para Pedro Morales a las 20:30">
+                <div class="chair pos-top" aria-hidden="true"></div>
+                <div class="chair pos-bottom" aria-hidden="true"></div>
+                <div class="table-surface">
+                  <span class="table-status-beacon" aria-hidden="true"></span>
+                  <span class="table-num">M-02</span>
+                  <span class="table-cap">2 pers</span>
+                </div>
+              </div>
+
+              <!-- MESA 03: Cuadrada 4 personas (Ocupada) -->
+              <div class="table-fixture square busy is-selected" id="mesa-03" data-id="3" data-name="Mesa 03" data-cap="4" data-status="busy" data-zone="Salón Central" data-client="Familia Carrera" data-time="Ocupada hace 42 min" data-order="Comanda #SM-192 ($24.50)" tabindex="0" role="button" aria-label="Mesa 03, cuadrada para 4 personas, ocupada por Familia Carrera">
+                <div class="chair pos-top" aria-hidden="true"></div>
+                <div class="chair pos-bottom" aria-hidden="true"></div>
+                <div class="chair pos-left" aria-hidden="true"></div>
+                <div class="chair pos-right" aria-hidden="true"></div>
+                <div class="table-surface">
+                  <span class="table-status-beacon" aria-hidden="true"></span>
+                  <span class="table-num">M-03</span>
+                  <span class="table-cap">4 pers</span>
+                </div>
+              </div>
+
+              <!-- MESA 07: Cuadrada 4 personas (Libre) -->
+              <div class="table-fixture square free" id="mesa-07" data-id="7" data-name="Mesa 07" data-cap="4" data-status="free" data-zone="Nicho Colonial" data-client="" data-order="" tabindex="0" role="button" aria-label="Mesa 07, cuadrada para 4 personas, disponible">
+                <div class="chair pos-top" aria-hidden="true"></div>
+                <div class="chair pos-bottom" aria-hidden="true"></div>
+                <div class="chair pos-left" aria-hidden="true"></div>
+                <div class="chair pos-right" aria-hidden="true"></div>
+                <div class="table-surface">
+                  <span class="table-status-beacon" aria-hidden="true"></span>
+                  <span class="table-num">M-07</span>
+                  <span class="table-cap">4 pers</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Fila 2: Salón Central & Cava Imperial (3 mesas) -->
+            <div class="floor-zone-header">
+              <span class="zone-label-subtle">Salón Central &amp; Banquete Colonial</span>
+            </div>
+            <div class="floor-grid-row row-central">
+              <!-- MESA 04: Cuadrada 4 personas (Ocupada) -->
+              <div class="table-fixture square busy" id="mesa-04" data-id="4" data-name="Mesa 04" data-cap="4" data-status="busy" data-zone="Patio Colonial" data-client="Andrés Benítez" data-time="Ocupada hace 25 min" data-order="Comanda #SM-195 ($18.00)" tabindex="0" role="button" aria-label="Mesa 04, cuadrada para 4 personas, ocupada por Andrés Benítez">
+                <div class="chair pos-top" aria-hidden="true"></div>
+                <div class="chair pos-bottom" aria-hidden="true"></div>
+                <div class="chair pos-left" aria-hidden="true"></div>
+                <div class="chair pos-right" aria-hidden="true"></div>
+                <div class="table-surface">
+                  <span class="table-status-beacon" aria-hidden="true"></span>
+                  <span class="table-num">M-04</span>
+                  <span class="table-cap">4 pers</span>
+                </div>
+              </div>
+
+              <!-- MESA 05: Rectangular Banquete 6 personas (Libre) -->
+              <div class="table-fixture long free" id="mesa-05" data-id="5" data-name="Mesa 05" data-cap="6" data-status="free" data-zone="Patio Central" data-client="" data-order="" tabindex="0" role="button" aria-label="Mesa 05, mesa larga para 6 personas, disponible">
+                <div class="chair pos-top" style="left: 30px;" aria-hidden="true"></div>
+                <div class="chair pos-top" style="left: 82px;" aria-hidden="true"></div>
+                <div class="chair pos-top" style="left: 134px;" aria-hidden="true"></div>
+                <div class="chair pos-bottom" style="left: 30px;" aria-hidden="true"></div>
+                <div class="chair pos-bottom" style="left: 82px;" aria-hidden="true"></div>
+                <div class="chair pos-bottom" style="left: 134px;" aria-hidden="true"></div>
+                <div class="table-surface">
+                  <span class="table-status-beacon" aria-hidden="true"></span>
+                  <span class="table-num">M-05 · BANQUETE</span>
+                  <span class="table-cap">6 personas</span>
+                </div>
+              </div>
+
+              <!-- MESA 06: Rectangular Banquete 8 personas (Reservada) -->
+              <div class="table-fixture long booked" id="mesa-06" data-id="6" data-name="Mesa 06" data-cap="8" data-status="booked" data-zone="Cava Imperial" data-client="Grupo EPN FIEE" data-time="21:15" data-order="Sin comanda" tabindex="0" role="button" aria-label="Mesa 06, mesa imperial para 8 personas, reservada para Grupo EPN FIEE a las 21:15">
+                <div class="chair pos-top" style="left: 20px;" aria-hidden="true"></div>
+                <div class="chair pos-top" style="left: 62px;" aria-hidden="true"></div>
+                <div class="chair pos-top" style="left: 104px;" aria-hidden="true"></div>
+                <div class="chair pos-top" style="left: 146px;" aria-hidden="true"></div>
+                <div class="chair pos-bottom" style="left: 20px;" aria-hidden="true"></div>
+                <div class="chair pos-bottom" style="left: 62px;" aria-hidden="true"></div>
+                <div class="chair pos-bottom" style="left: 104px;" aria-hidden="true"></div>
+                <div class="chair pos-bottom" style="left: 146px;" aria-hidden="true"></div>
+                <div class="table-surface">
+                  <span class="table-status-beacon" aria-hidden="true"></span>
+                  <span class="table-num">M-06 · IMPERIAL</span>
+                  <span class="table-cap">8 personas</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Fila 3: Rincón & Cava de Maduración -->
+            <div class="floor-zone-header">
+              <span class="zone-label-subtle">Rincón de Salón &amp; Cava de Maduración</span>
+            </div>
+            <div class="floor-grid-row row-bar-sector">
+              <!-- MESA 08: Cuadrada 4 personas (Ocupada) -->
+              <div class="table-fixture square busy" id="mesa-08" data-id="8" data-name="Mesa 08" data-cap="4" data-status="busy" data-zone="Cerca a Barra" data-client="Carla Viteri" data-time="Ocupada hace 50 min" data-order="Comanda #SM-188 ($31.00)" tabindex="0" role="button" aria-label="Mesa 08, cuadrada para 4 personas, ocupada por Carla Viteri">
+                <div class="chair pos-top" aria-hidden="true"></div>
+                <div class="chair pos-bottom" aria-hidden="true"></div>
+                <div class="chair pos-left" aria-hidden="true"></div>
+                <div class="chair pos-right" aria-hidden="true"></div>
+                <div class="table-surface">
+                  <span class="table-status-beacon" aria-hidden="true"></span>
+                  <span class="table-num">M-08</span>
+                  <span class="table-cap">4 pers</span>
+                </div>
+              </div>
+
+              <!-- Tarjeta de Cava y Maduración de Chichas Vivas -->
+              <div class="saloon-feature-card" aria-hidden="true">
+                <div class="feature-content">
+                  <div class="feature-icon-box">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                  </div>
+                  <div class="feature-text">
+                    <span class="feature-title">Cava de Maduración · Barricas de Roble Andino</span>
+                    <span class="feature-desc">Guarda de fermentos a 14°C · Despacho directo a grifos y servicio de salón</span>
+                  </div>
+                </div>
+                <span class="feature-badge-tag">Zona Fría</span>
+              </div>
+            </div>
+
+            <!-- Fila 4: BARRA DE FERMENTOS Y GRIFOS -->
+            <div class="bar-counter-zone" aria-label="Barra de fermentos con taburetes">
+              <div class="bar-counter-label">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 5V3H3v2l8 9v5H6v2h12v-2h-5v-5l8-9zM7.43 7L5.66 5h12.69l-1.78 2H7.43z"/></svg>
+                <span>Barra de Grifos &amp; Chichas Vivas</span>
+              </div>
+              <div class="bar-stools-row">
+                <div class="bar-stool occupied" title="Taburete 1 · Ocupado">T-1</div>
+                <div class="bar-stool occupied" title="Taburete 2 · Ocupado">T-2</div>
+                <div class="bar-stool" title="Taburete 3 · Libre">T-3</div>
+                <div class="bar-stool occupied" title="Taburete 4 · Ocupado">T-4</div>
+                <div class="bar-stool" title="Taburete 5 · Libre">T-5</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Panel 2: Inspector Lateral de Mesa Seleccionada -->
+        <aside class="table-inspector-panel" aria-labelledby="inspector-heading">
+          <header class="inspector-header">
+            <h3 class="inspector-title" id="inspector-heading">Detalle Operativo</h3>
+            <span class="table-hero-status-pill busy" id="inspector-status-badge">Mesa Ocupada</span>
+          </header>
+
+          <div class="inspector-body">
+            <div class="table-visual-hero">
+              <div class="table-big-avatar" id="inspector-avatar">03</div>
+              <div class="table-hero-details">
+                <span class="table-hero-title" id="inspector-table-name">Mesa 03 · Cuadrada</span>
+                <span class="table-hero-zone" id="inspector-table-zone">Zona: Salón Central · Capacidad 4 pers</span>
+              </div>
+            </div>
+
+            <div class="info-list-group">
+              <div class="info-line">
+                <span class="info-label">Comensal / Titular:</span>
+                <span class="info-val" id="inspector-client-name">Familia Carrera</span>
+              </div>
+              <div class="info-line">
+                <span class="info-label">Permanencia / Horario:</span>
+                <span class="info-val" id="inspector-time">Ocupada hace 42 min</span>
+              </div>
+              <div class="info-line">
+                <span class="info-label">Comanda Activa:</span>
+                <span class="info-val" id="inspector-order">Comanda #SM-192 ($24.50)</span>
+              </div>
+              <div class="info-line">
+                <span class="info-label">Mesero Asignado:</span>
+                <span class="info-val">Mateo Silva (Turno Tarde)</span>
+              </div>
+            </div>
+
+            <div class="inspector-actions" id="inspector-action-buttons">
+              <!-- Botones dinámicos según estado de la mesa -->
+              <button class="btn-action-primary" id="btn-primary-action" type="button">
+                <span>Abrir Comanda POS</span>
+              </button>
+              <button class="btn-action-secondary" id="btn-secondary-action" type="button">
+                <span>Cobrar y Liberar Mesa</span>
+              </button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <!-- Modal para Nueva Reserva / Asignación -->
+    <div class="modal-overlay" id="reserva-modal" role="dialog" aria-modal="true" aria-labelledby="modal-reserva-title">
+      <section class="modal-ticket">
+        <header class="modal-header">
+          <h3 class="modal-title" id="modal-reserva-title">Registrar Nueva Reserva</h3>
+          <button class="btn-modal-close" id="btn-close-reserva" type="button" aria-label="Cerrar modal">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+          </button>
+        </header>
+
+        <form class="modal-form" id="reserva-form">
+          <div class="form-group">
+            <label class="form-label" for="res-mesa">Mesa Asignada *</label>
+            <select class="form-select" id="res-mesa" required>
+              <option value="Mesa 01">Mesa 01 (Redonda · 2 pers · Libre)</option>
+              <option value="Mesa 05">Mesa 05 (Banquete · 6 pers · Libre)</option>
+              <option value="Mesa 07">Mesa 07 (Nicho · 4 pers · Libre)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="res-client">Nombre del Titular *</label>
+            <input class="form-input" id="res-client" type="text" placeholder="Ej. Carlos Guayasamín" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="res-pax">Número de Personas *</label>
+            <input class="form-input" id="res-pax" type="number" min="1" max="8" value="2" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="res-time">Hora de Llegada *</label>
+            <input class="form-input" id="res-time" type="time" value="20:00" required>
+          </div>
+
+          <footer class="modal-actions">
+            <button class="btn-action-secondary" id="btn-cancel-reserva" type="button">Cancelar</button>
+            <button class="btn-action-primary" type="submit" style="padding: 10px 22px;">Confirmar Reserva</button>
+          </footer>
         </form>
       </section>
     </div>
-    <div class="modal-backdrop" id="detail-modal" aria-hidden="true">
-      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="detail-title">
-        <div class="modal-head"><h3 id="detail-title">Detalle de reserva</h3><button class="modal-close" id="close-detail" type="button" aria-label="Cerrar">×</button></div>
-        <dl class="detail-list">
-          <div class="detail-item"><dt>Cliente</dt><dd id="detail-name">Sin registrar</dd></div>
-          <div class="detail-item"><dt>Estado</dt><dd id="detail-status">Sin registrar</dd></div>
-          <div class="detail-item"><dt>Contacto</dt><dd id="detail-contact">Sin registrar</dd></div>
-          <div class="detail-item"><dt>Mesa</dt><dd id="detail-table">Sin registrar</dd></div>
-          <div class="detail-item"><dt>Hora</dt><dd id="detail-time">Sin registrar</dd></div>
-          <div class="detail-item"><dt>Personas</dt><dd id="detail-guests">Sin registrar</dd></div>
-        </dl>
-        <p class="detail-note" id="detail-note">Reserva registrada desde la agenda del asistente.</p>
-        <div class="modal-actions"><button id="close-detail-action" type="button">Cerrar</button><button class="save" id="detail-edit" type="button">Modificar reserva</button></div>
-      </section>
-    </div>
-    <div class="toast" id="toast" role="status"></div>
-  </main>
+
+    <!-- Notificación Toast -->
+    <div class="toast-bubble" id="toast-msg" role="status" aria-live="polite"></div>
+  </div>
+
   <script>
+    /* ==========================================================================
+       INTERACCIÓN DE PLANO DE SALÓN CON MESAS TANGIBLES (UI-13)
+       Control de ocupación en tiempo real, selección táctil e inspector de mesa.
+       ========================================================================== */
     (() => {
-      const toast = document.querySelector("#toast");
-      const modal = document.querySelector("#booking-modal");
-      const bookingForm = document.querySelector("#booking-form");
-      const modalTitle = document.querySelector("#modal-title");
-      const detailModal = document.querySelector("#detail-modal");
-      const agenda = document.querySelector("#agenda");
-      const showToast = (message) => { toast.textContent = message; toast.classList.add("visible"); window.setTimeout(() => toast.classList.remove("visible"), 2600); };
-      const closeModal = () => { modal.classList.remove("visible"); modal.setAttribute("aria-hidden", "true"); bookingForm.reset(); };
-      const closeDetail = () => { detailModal.classList.remove("visible"); detailModal.setAttribute("aria-hidden", "true"); };
-      const openDetail = (reservation) => {
-        const detail = reservation.querySelector(".reservation-detail").textContent.split("·").map((part) => part.trim());
-        const status = reservation.querySelector(".status").textContent;
-        document.querySelector("#detail-name").textContent = reservation.querySelector(".reservation-name").textContent;
-        document.querySelector("#detail-status").textContent = status;
-        document.querySelector("#detail-contact").textContent = detail[detail.length - 1] || "No registrado";
-        document.querySelector("#detail-table").textContent = detail[0] || "Asignación automática";
-        document.querySelector("#detail-time").textContent = reservation.querySelector(".reservation-time").textContent;
-        document.querySelector("#detail-guests").textContent = detail.find((part) => part.includes("personas")) || "No indicado";
-        document.querySelector("#detail-note").textContent = status === "En mesa" ? "La llegada fue registrada. La mesa se encuentra activa." : "Reserva registrada desde la agenda del asistente.";
-        detailModal.dataset.reservationId = reservation.dataset.reservationId || "";
-        detailModal.classList.add("visible");
-        detailModal.setAttribute("aria-hidden", "false");
+      /**
+       * Genera retroalimentación acústica mediante síntesis de audio Web Audio API.
+       * @param {number} freq - Frecuencia en Hertz del tono (por defecto 520Hz).
+       * @param {number} dur - Duración en segundos del decaimiento exponencial.
+       */
+      const playTone = (freq = 520, dur = 0.12) => {
+        try {
+          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(freq, ctx.currentTime);
+          gain.gain.setValueAtTime(0.06, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + dur);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + dur);
+        } catch (_) {}
       };
-      const openModal = (reservation) => {
-        modalTitle.textContent = reservation ? "Modificar reserva" : "Nueva reserva";
-        bookingForm.dataset.editing = reservation ? "true" : "false";
-        bookingForm.dataset.reservationId = reservation ? reservation.dataset.reservationId : "";
-        if (reservation) {
-          document.querySelector("#guest-name").value = reservation.querySelector(".reservation-name").textContent;
-          document.querySelector("#guest-contact").value = reservation.querySelector(".reservation-detail").textContent.split("·").pop().trim();
-          document.querySelector("#booking-time").value = reservation.querySelector(".reservation-time").textContent;
-          const guestMatch = reservation.querySelector(".reservation-detail").textContent.match(/\d+(?= personas)/);
-          document.querySelector("#booking-guests").value = guestMatch ? guestMatch[0] : "";
+
+      const canvas = document.querySelector("#colonial-canvas");
+      const tables = document.querySelectorAll(".table-fixture");
+      const inspectorAvatar = document.querySelector("#inspector-avatar");
+      const inspectorTitle = document.querySelector("#inspector-table-name");
+      const inspectorZone = document.querySelector("#inspector-table-zone");
+      const inspectorBadge = document.querySelector("#inspector-status-badge");
+      const inspectorClient = document.querySelector("#inspector-client-name");
+      const inspectorTime = document.querySelector("#inspector-time");
+      const inspectorOrder = document.querySelector("#inspector-order");
+      const inspectorActionContainer = document.querySelector("#inspector-action-buttons");
+
+      const modalReserva = document.querySelector("#reserva-modal");
+      const btnOpenReserva = document.querySelector("#btn-open-reserva-modal");
+      const btnCloseReserva = document.querySelector("#btn-close-reserva");
+      const btnCancelReserva = document.querySelector("#btn-cancel-reserva");
+      const reservaForm = document.querySelector("#reserva-form");
+      const toast = document.querySelector("#toast-msg");
+
+      /**
+       * Despliega una notificación flotante temporal en la esquina inferior y emite sonido de confirmación.
+       * @param {string} txt - Mensaje a presentar al usuario.
+       */
+      const showToast = (txt) => {
+        toast.textContent = txt;
+        toast.classList.add("active");
+        playTone(659, 0.15);
+        setTimeout(() => toast.classList.remove("active"), 3000);
+      };
+
+      /**
+       * Recuenta en el DOM las mesas libres, ocupadas y reservadas para sincronizar las métricas superiores.
+       */
+      const updateMetrics = () => {
+        const freeCount = document.querySelectorAll(".table-fixture.free").length;
+        const busyCount = document.querySelectorAll(".table-fixture.busy").length;
+        const bookedCount = document.querySelectorAll(".table-fixture.booked").length;
+
+        document.querySelector("#metric-free-count").textContent = freeCount;
+        document.querySelector("#metric-busy-count").textContent = busyCount;
+        document.querySelector("#metric-booked-count").textContent = bookedCount;
+      };
+
+      /**
+       * Selecciona visualmente una mesa y puebla el panel inspector lateral con sus datos operativos.
+       * Configura dinámicamente los botones de acción según el estado (Libre, Ocupada o Reservada).
+       * @param {HTMLElement} tableEl - Elemento DOM de la mesa seleccionada (.table-fixture).
+       */
+      const inspectTable = (tableEl) => {
+        tables.forEach((t) => t.classList.remove("is-selected"));
+        tableEl.classList.add("is-selected");
+
+        const id = tableEl.dataset.id;
+        const name = tableEl.dataset.name;
+        const cap = tableEl.dataset.cap;
+        const status = tableEl.dataset.status;
+        const zone = tableEl.dataset.zone;
+        const client = tableEl.dataset.client || "Sin comensal registrado";
+        const time = tableEl.dataset.time || "Disponible para asignación";
+        const order = tableEl.dataset.order || "Sin pedido registrado";
+
+        inspectorAvatar.textContent = String(id).padStart(2, "0");
+        inspectorTitle.textContent = `${name} · Capacidad ${cap} personas`;
+        inspectorZone.textContent = `Zona: ${zone} · Taberna San Marcos`;
+
+        inspectorClient.textContent = client;
+        inspectorTime.textContent = time;
+        inspectorOrder.textContent = order;
+
+        inspectorBadge.className = `table-hero-status-pill ${status}`;
+
+        if (status === "free") {
+          inspectorBadge.textContent = "Mesa Disponible";
+          inspectorActionContainer.innerHTML = `
+            <button class="btn-action-primary" id="btn-assign-direct" type="button">
+              <span>Asignar Mesa a Comensal</span>
+            </button>
+            <button class="btn-action-secondary" id="btn-book-direct" type="button">
+              <span>Reservar Mesa</span>
+            </button>
+          `;
+        } else if (status === "busy") {
+          inspectorBadge.textContent = "Mesa Ocupada";
+          inspectorActionContainer.innerHTML = `
+            <button class="btn-action-primary" id="btn-view-comanda" type="button">
+              <span>Ver Comanda en Barra / Cocina</span>
+            </button>
+            <button class="btn-action-secondary" id="btn-liberar-mesa" type="button">
+              <span>Cobrar y Liberar Mesa</span>
+            </button>
+          `;
+        } else if (status === "booked") {
+          inspectorBadge.textContent = "Mesa Reservada";
+          inspectorActionContainer.innerHTML = `
+            <button class="btn-action-primary" id="btn-activar-reserva" type="button">
+              <span>Confirmar Llegada de Comensal</span>
+            </button>
+            <button class="btn-action-secondary" id="btn-cancelar-reserva" type="button">
+              <span>Cancelar Reserva</span>
+            </button>
+          `;
         }
-        modal.classList.add("visible");
-        modal.setAttribute("aria-hidden", "false");
-        document.querySelector("#guest-name").focus();
+
+        playTone(523, 0.08);
       };
-      const updateCount = () => {
-        const visible = agenda.querySelectorAll(".reservation:not([hidden])").length;
-        document.querySelector("#agenda-count").textContent = visible + (visible === 1 ? " reserva" : " reservas");
-      };
-      document.querySelector("#today").addEventListener("click", () => { document.querySelector("#agenda-date").value = "2026-11-05"; showToast("Agenda de hoy cargada"); });
-      document.querySelector("#new-booking").addEventListener("click", () => openModal());
-      document.querySelector("#close-modal").addEventListener("click", closeModal);
-      document.querySelector("#cancel-modal").addEventListener("click", closeModal);
-      modal.addEventListener("click", (event) => { if (event.target === modal) closeModal(); });
-      document.querySelector("#close-detail").addEventListener("click", closeDetail);
-      document.querySelector("#close-detail-action").addEventListener("click", closeDetail);
-      detailModal.addEventListener("click", (event) => { if (event.target === detailModal) closeDetail(); });
-      document.querySelector("#detail-edit").addEventListener("click", () => {
-        const reservation = document.querySelector(`[data-reservation-id="${detailModal.dataset.reservationId}"]`);
-        closeDetail();
-        if (reservation) openModal(reservation);
+
+      // Registro de eventos de selección táctil y por teclado en las mesas
+      tables.forEach((t) => {
+        t.addEventListener("click", () => inspectTable(t));
+        t.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            inspectTable(t);
+          }
+        });
       });
-      document.addEventListener("keydown", (event) => {
-        if (event.key !== "Escape") return;
-        if (modal.classList.contains("visible")) closeModal();
-        if (detailModal.classList.contains("visible")) closeDetail();
-      });
-      document.querySelector("#status-filter").addEventListener("change", (event) => {
-        const filter = event.target.value;
-        agenda.querySelectorAll(".reservation").forEach((reservation) => { reservation.hidden = filter !== "all" && reservation.dataset.status !== filter; });
-        updateCount();
-      });
-      bookingForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-        if (!bookingForm.reportValidity()) return;
-        const editing = bookingForm.dataset.editing === "true";
-        if (editing && bookingForm.dataset.reservationId) {
-          const reservation = document.querySelector(`[data-reservation-id="${bookingForm.dataset.reservationId}"]`);
-          reservation.querySelector(".reservation-name").textContent = document.querySelector("#guest-name").value;
-          reservation.querySelector(".reservation-time").textContent = document.querySelector("#booking-time").value;
-          reservation.querySelector(".reservation-detail").textContent = `Mesa 02 · ${document.querySelector("#booking-guests").value} personas · ${document.querySelector("#guest-contact").value}`;
-        } else {
-          const reservation = document.createElement("article");
-          reservation.className = "reservation";
-          reservation.dataset.status = "confirmed";
-          reservation.dataset.reservationId = `local-${Date.now()}`;
-          reservation.innerHTML = `<time class="reservation-time">${document.querySelector("#booking-time").value}</time><div><div class="reservation-name">${document.querySelector("#guest-name").value}</div><div class="reservation-detail">Asignación automática · ${document.querySelector("#booking-guests").value} personas · ${document.querySelector("#guest-contact").value}</div></div><span class="status confirmed">Confirmada</span><div class="reservation-actions"><button class="small-action" type="button">Modificar</button><button class="small-action cancel" type="button">Cancelar</button></div>`;
-          agenda.appendChild(reservation);
+
+      /**
+       * Manejador delegado para los botones de acción rápida del panel inspector:
+       * Permite asignar comensales directos, cerrar cuenta y liberar mesa, confirmar reservas,
+       * cancelar reservas, abrir modal de reserva o saltar al KDD de barra.
+       */
+      inspectorActionContainer.addEventListener("click", (e) => {
+        const btn = e.target.closest("button");
+        if (!btn) return;
+
+        const currentSelected = document.querySelector(".table-fixture.is-selected");
+        if (!currentSelected) return;
+
+        if (btn.id === "btn-assign-direct") {
+          currentSelected.className = currentSelected.className.replace("free", "busy");
+          currentSelected.dataset.status = "busy";
+          currentSelected.dataset.client = "Comensal Sin Reserva (Salón)";
+          currentSelected.dataset.time = "Ocupada ahora mismo";
+          currentSelected.dataset.order = "Cuenta abierta #SM-198";
+          inspectTable(currentSelected);
+          updateMetrics();
+          showToast(`${currentSelected.dataset.name} activada para comensal.`);
+        } else if (btn.id === "btn-liberar-mesa") {
+          currentSelected.className = currentSelected.className.replace("busy", "free");
+          currentSelected.dataset.status = "free";
+          currentSelected.dataset.client = "";
+          currentSelected.dataset.time = "";
+          currentSelected.dataset.order = "";
+          inspectTable(currentSelected);
+          updateMetrics();
+          showToast(`Cuenta cerrada. ${currentSelected.dataset.name} ahora está disponible.`);
+        } else if (btn.id === "btn-activar-reserva") {
+          currentSelected.className = currentSelected.className.replace("booked", "busy");
+          currentSelected.dataset.status = "busy";
+          currentSelected.dataset.time = "Llegada confirmada (en servicio)";
+          currentSelected.dataset.order = "Cuenta abierta";
+          inspectTable(currentSelected);
+          updateMetrics();
+          showToast(`Llegada confirmada en ${currentSelected.dataset.name}.`);
+        } else if (btn.id === "btn-cancelar-reserva") {
+          currentSelected.className = currentSelected.className.replace("booked", "free");
+          currentSelected.dataset.status = "free";
+          currentSelected.dataset.client = "";
+          currentSelected.dataset.time = "";
+          currentSelected.dataset.order = "";
+          inspectTable(currentSelected);
+          updateMetrics();
+          showToast(`Reserva cancelada para ${currentSelected.dataset.name}.`);
+        } else if (btn.id === "btn-book-direct") {
+          modalReserva.classList.add("active");
+          document.querySelector("#res-mesa").value = currentSelected.dataset.name;
+        } else if (btn.id === "btn-view-comanda") {
+          showToast("Redirigiendo a pantalla de Barra & Fermentos (KDD)...");
+          window.open("./UI10_KDD_Barra_Fermentos.html", "_blank");
         }
-        updateCount();
-        closeModal();
-        showToast(editing ? "Reserva actualizada" : "Reserva creada y confirmada");
       });
-      agenda.addEventListener("click", (event) => {
-        const action = event.target.closest(".small-action");
-        if (!action) return;
-        const card = action.closest(".reservation");
-        if (action.classList.contains("cancel")) {
-          if (!window.confirm(`¿Cancelar la reserva de ${card.querySelector(".reservation-name").textContent}?`)) return;
-          card.remove();
-          updateCount();
-          showToast("Reserva cancelada · la mesa quedó libre");
-        } else if (action.textContent === "Modificar") {
-          bookingForm.dataset.reservationId = card.dataset.reservationId || "";
-          openModal(card);
-        } else if (action.textContent === "Ver detalle") {
-          openDetail(card);
-        } else showToast(action.textContent + " · " + card.querySelector(".reservation-name").textContent);
+
+      // Control de apertura, cierre y cancelación del modal de reservas
+      btnOpenReserva.addEventListener("click", () => modalReserva.classList.add("active"));
+      btnCloseReserva.addEventListener("click", () => modalReserva.classList.remove("active"));
+      btnCancelReserva.addEventListener("click", () => modalReserva.classList.remove("active"));
+
+      modalReserva.addEventListener("click", (e) => {
+        if (e.target === modalReserva) modalReserva.classList.remove("active");
       });
-      document.querySelector(".map-area").addEventListener("click", (event) => {
-        const table = event.target.closest(".table");
-        if (!table) return;
-        document.querySelectorAll(".table").forEach((item) => item.classList.remove("selected"));
-        table.classList.add("selected");
-        const state = table.dataset.state === "free" ? "mesa libre" : table.dataset.state === "booked" ? "mesa reservada" : "mesa ocupada";
-        showToast("Mesa " + table.textContent.trim() + " · " + state + " · seleccionada");
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modalReserva.classList.contains("active")) {
+          modalReserva.classList.remove("active");
+        }
       });
-      updateCount();
+
+      /**
+       * Procesa el envío del formulario de reserva, actualizando el estado de la mesa a 'booked'
+       * y reflejando el comensal asignado tanto en el plano como en las métricas.
+       */
+      reservaForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const mesaName = document.querySelector("#res-mesa").value;
+        const client = document.querySelector("#res-client").value;
+        const pax = document.querySelector("#res-pax").value;
+        const time = document.querySelector("#res-time").value;
+
+        const tableEl = [...tables].find((t) => t.dataset.name === mesaName);
+        if (tableEl) {
+          tableEl.className = tableEl.className.replace("free", "booked");
+          tableEl.dataset.status = "booked";
+          tableEl.dataset.client = `${client} (${pax} pers)`;
+          tableEl.dataset.time = `Reserva: ${time}`;
+          inspectTable(tableEl);
+          updateMetrics();
+        }
+
+        modalReserva.classList.remove("active");
+        reservaForm.reset();
+        showToast(`Reserva registrada para ${client} en ${mesaName}.`);
+      });
+
+      // Manejador interactivo para ocupar/liberar taburetes de la barra de fermentos
+      document.querySelectorAll(".bar-stool").forEach((stool) => {
+        stool.addEventListener("click", () => {
+          stool.classList.toggle("occupied");
+          playTone(stool.classList.contains("occupied") ? 587 : 440, 0.1);
+          showToast(stool.classList.contains("occupied") ? "Taburete de barra ocupado." : "Taburete de barra desocupado.");
+        });
+      });
+
+      // Inicialización: mesa 03 seleccionada por defecto al cargar el salón
+      inspectTable(document.querySelector("#mesa-03"));
+      updateMetrics();
     })();
   </script>
 </body>
