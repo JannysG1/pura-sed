@@ -5,7 +5,9 @@ namespace PuraSed.WebApi.Data;
 
 public static class IdentitySeeder
 {
-    private static readonly string[] Roles = { "Admin", "Usuario" };
+    // Roles del ecosistema Pura Sed según diseño y requerimientos de la Práctica 03:
+    // Admin (Gerencia/Administrador), Mesero (Operativo de salón), Cliente (Consumidor final)
+    private static readonly string[] Roles = { "Admin", "Mesero", "Cliente", "Usuario" };
 
     public static async Task SeedAsync(IServiceProvider services, IConfiguration config)
     {
@@ -21,27 +23,21 @@ public static class IdentitySeeder
             }
         }
 
-        // 2. Credenciales del Admin desde la configuración (User Secrets o appsettings)
-        var email = config["SeedAdmin:Email"] ?? "admin@cafeteria.com";
-        var password = config["SeedAdmin:Password"] ?? "Admin123";
+        // 2. Sembrado de Administrador (Admin)
+        var adminEmail = config["SeedAdmin:Email"] ?? "admin@purased.com";
+        var adminPassword = config["SeedAdmin:Password"] ?? "Admin123";
 
-        if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
-        {
-            return; // sin credenciales, solo se crean los roles
-        }
-
-        // 3. Crear el usuario Admin si no existe
-        var admin = await userManager.FindByEmailAsync(email);
+        var admin = await userManager.FindByEmailAsync(adminEmail) ?? await userManager.FindByNameAsync("admin");
         if (admin == null)
         {
             admin = new ApplicationUser
             {
                 UserName = "admin",
-                Email = email,
-                NombreCompleto = "Administrador"
+                Email = adminEmail,
+                NombreCompleto = "Administrador Pura Sed"
             };
 
-            var resultado = await userManager.CreateAsync(admin, password);
+            var resultado = await userManager.CreateAsync(admin, adminPassword);
             if (!resultado.Succeeded)
             {
                 var errores = string.Join(", ", resultado.Errors.Select(e => e.Description));
@@ -49,10 +45,61 @@ public static class IdentitySeeder
             }
         }
 
-        // 4. Asignar el rol Admin si todavía no lo tiene
         if (!await userManager.IsInRoleAsync(admin, "Admin"))
         {
             await userManager.AddToRoleAsync(admin, "Admin");
+        }
+
+        // 3. Sembrado de Mesero (Mesero)
+        var mesero = await userManager.FindByEmailAsync("mesero@purased.com") ?? await userManager.FindByNameAsync("mesero");
+        if (mesero == null)
+        {
+            mesero = new ApplicationUser
+            {
+                UserName = "mesero",
+                Email = "mesero@purased.com",
+                NombreCompleto = "Mesero de Salón Pura Sed"
+            };
+
+            var resultadoMesero = await userManager.CreateAsync(mesero, "Mesero123");
+            if (resultadoMesero.Succeeded)
+            {
+                await userManager.AddToRoleAsync(mesero, "Mesero");
+            }
+        }
+        else if (!await userManager.IsInRoleAsync(mesero, "Mesero"))
+        {
+            await userManager.AddToRoleAsync(mesero, "Mesero");
+        }
+
+        // 4. Sembrado de Cliente (Cliente / Usuario)
+        var cliente = await userManager.FindByEmailAsync("cliente@purased.com") ?? await userManager.FindByNameAsync("cliente");
+        if (cliente == null)
+        {
+            cliente = new ApplicationUser
+            {
+                UserName = "cliente",
+                Email = "cliente@purased.com",
+                NombreCompleto = "Cliente Frecuente Pura Sed"
+            };
+
+            var resultadoCliente = await userManager.CreateAsync(cliente, "Cliente123");
+            if (resultadoCliente.Succeeded)
+            {
+                await userManager.AddToRoleAsync(cliente, "Cliente");
+                await userManager.AddToRoleAsync(cliente, "Usuario");
+            }
+        }
+        else
+        {
+            if (!await userManager.IsInRoleAsync(cliente, "Cliente"))
+            {
+                await userManager.AddToRoleAsync(cliente, "Cliente");
+            }
+            if (!await userManager.IsInRoleAsync(cliente, "Usuario"))
+            {
+                await userManager.AddToRoleAsync(cliente, "Usuario");
+            }
         }
     }
 }

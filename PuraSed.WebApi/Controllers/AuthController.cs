@@ -102,8 +102,10 @@ public class AuthController : ControllerBase
         }
 
         // El rol lo decide el servidor, nunca el cliente
+        // En Pura Sed los clientes registrados obtienen el rol "Cliente" y "Usuario"
+        await _userManager.AddToRoleAsync(user, "Cliente");
         await _userManager.AddToRoleAsync(user, "Usuario");
 
-        return Ok(new { mensaje = "Usuario registrado correctamente", usuario = user.UserName });
+        return Ok(new { mensaje = "Usuario registrado correctamente", usuario = user.UserName, roles = new[] { "Cliente", "Usuario" } });
     }
 }

@@ -6,9 +6,9 @@ namespace PuraSed.WebApi.Repositories;
 
 public class ProductoRepository
 {
-    private readonly CafeteriaDbContext _context;
+    private readonly PuraSedDbContext _context;
 
-    public ProductoRepository(CafeteriaDbContext context)
+    public ProductoRepository(PuraSedDbContext context)
     {
         _context = context;
     }
@@ -16,6 +16,14 @@ public class ProductoRepository
     public async Task<List<Producto>> ObtenerTodosAsync()
     {
         return await _context.Productos.AsNoTracking().ToListAsync();
+    }
+
+    public async Task<List<Producto>> ObtenerPorCategoriaAsync(string categoria)
+    {
+        return await _context.Productos
+            .AsNoTracking()
+            .Where(p => p.Categoria.ToLower() == categoria.ToLower())
+            .ToListAsync();
     }
 
     public async Task<Producto?> BuscarPorIdAsync(int id)
@@ -41,8 +49,12 @@ public class ProductoRepository
         }
 
         existente.Nombre = producto.Nombre;
+        existente.Descripcion = producto.Descripcion;
         existente.Precio = producto.Precio;
+        existente.Categoria = producto.Categoria;
+        existente.ImagenUrl = producto.ImagenUrl;
         existente.Activo = producto.Activo;
+
         await _context.SaveChangesAsync();
         return true;
     }

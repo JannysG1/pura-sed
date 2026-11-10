@@ -4,9 +4,9 @@ using PuraSed.WebApi.Models;
 
 namespace PuraSed.WebApi.Data;
 
-public class CafeteriaDbContext : IdentityDbContext<ApplicationUser>
+public class PuraSedDbContext : IdentityDbContext<ApplicationUser>
 {
-    public CafeteriaDbContext(DbContextOptions<CafeteriaDbContext> options)
+    public PuraSedDbContext(DbContextOptions<PuraSedDbContext> options)
         : base(options)
     {
     }
@@ -15,11 +15,14 @@ public class CafeteriaDbContext : IdentityDbContext<ApplicationUser>
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder); // NUEVA: siempre primero
+        base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<Producto>(entity =>
         {
-            entity.Property(p => p.Nombre).HasMaxLength(100);
+            entity.Property(p => p.Nombre).HasMaxLength(120).IsRequired();
+            entity.Property(p => p.Descripcion).HasMaxLength(500);
+            entity.Property(p => p.Categoria).HasMaxLength(80);
+            entity.Property(p => p.ImagenUrl).HasMaxLength(300);
             entity.Property(p => p.Precio).HasPrecision(18, 2);
         });
     }

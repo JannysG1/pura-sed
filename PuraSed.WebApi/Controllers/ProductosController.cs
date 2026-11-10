@@ -36,6 +36,13 @@ public class ProductosController : ControllerBase
         return Ok(producto);
     }
 
+    [HttpGet("categoria/{categoria}")]
+    public async Task<ActionResult<List<Producto>>> ObtenerPorCategoria(string categoria)
+    {
+        var productos = await _repo.ObtenerPorCategoriaAsync(categoria);
+        return Ok(productos);
+    }
+
     [HttpPost]
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult> Agregar([FromBody] ProductoCreateDTO dto)
@@ -43,23 +50,32 @@ public class ProductosController : ControllerBase
         var producto = new Producto
         {
             Nombre = dto.Nombre,
+            Descripcion = dto.Descripcion,
             Precio = dto.Precio,
+            Categoria = dto.Categoria,
+            ImagenUrl = dto.ImagenUrl,
             Activo = dto.Activo
         };
+
         await _repo.AgregarAsync(producto);
         return CreatedAtAction(nameof(ObtenerPorId), new { id = producto.Id }, producto);
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Admin,Mesero")]
     public async Task<ActionResult> Actualizar(int id, [FromBody] ProductoUpdateDTO dto)
     {
         var producto = new Producto
         {
             Id = id,
             Nombre = dto.Nombre,
+            Descripcion = dto.Descripcion,
             Precio = dto.Precio,
+            Categoria = dto.Categoria,
+            ImagenUrl = dto.ImagenUrl,
             Activo = dto.Activo
         };
+
         bool actualizado = await _repo.ActualizarAsync(producto);
         if (!actualizado)
         {
