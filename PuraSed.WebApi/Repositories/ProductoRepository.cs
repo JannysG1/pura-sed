@@ -71,4 +71,17 @@ public class ProductoRepository
         await _context.SaveChangesAsync();
         return true;
     }
+
+    public async Task<bool> CambiarDisponibilidadAsync(int id, bool activo)
+    {
+        var existente = await _context.Productos.FindAsync(id);
+        if (existente == null)
+        {
+            return false;
+        }
+
+        existente.Activo = activo;
+        await _context.SaveChangesAsync();
+        return true;
+    }
 }
