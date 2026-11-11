@@ -97,6 +97,7 @@ using (var scope = app.Services.CreateScope())
     await context.Database.MigrateAsync();
     await IdentitySeeder.SeedAsync(scope.ServiceProvider, app.Configuration);
     await ProductoSeeder.SeedAsync(context);
+    await MesaSeeder.SeedAsync(context);
 }
 
 app.UseHttpsRedirection();
