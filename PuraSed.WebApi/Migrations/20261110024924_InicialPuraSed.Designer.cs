@@ -11,9 +11,9 @@ using PuraSed.WebApi.Data;
 
 namespace PuraSed.WebApi.Migrations
 {
-    [DbContext(typeof(CafeteriaDbContext))]
-    [Migration("20261109032104_AgregarIdentity")]
-    partial class AgregarIdentity
+    [DbContext(typeof(PuraSedDbContext))]
+    [Migration("20261110024924_InicialPuraSed")]
+    partial class InicialPuraSed
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -238,10 +238,24 @@ namespace PuraSed.WebApi.Migrations
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Categoria")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("ImagenUrl")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(120)
+                        .HasColumnType("nvarchar(120)");
 
                     b.Property<decimal>("Precio")
                         .HasPrecision(18, 2)

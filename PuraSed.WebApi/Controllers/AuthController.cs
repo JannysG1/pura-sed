@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using PuraSed.WebApi.Constants;
 using PuraSed.WebApi.Models;
 
 namespace PuraSed.WebApi.Controllers;
@@ -80,6 +81,7 @@ public class AuthController : ControllerBase
             token = new JwtSecurityTokenHandler().WriteToken(token),
             expira,
             usuario = user.UserName,
+            nombreCompleto = user.NombreCompleto,
             roles
         });
     }
@@ -101,9 +103,11 @@ public class AuthController : ControllerBase
             return BadRequest(new { errores = resultado.Errors.Select(e => e.Description) });
         }
 
-        // El rol lo decide el servidor, nunca el cliente
-        await _userManager.AddToRoleAsync(user, "Usuario");
+        // El rol lo decide el servidor, nunca el cliente (Guía Roles en ASP.NET Core)
+        // En Pura Sed los clientes que se registran obtienen Cliente y Usuario
+        await _userManager.AddToRoleAsync(user, Roles.Cliente);
+        await _userManager.AddToRoleAsync(user, Roles.Usuario);
 
-        return Ok(new { mensaje = "Usuario registrado correctamente", usuario = user.UserName });
+        return Ok(new { mensaje = "Usuario registrado correctamente", usuario = user.UserName, roles = new[] { Roles.Cliente, Roles.Usuario } });
     }
 }
