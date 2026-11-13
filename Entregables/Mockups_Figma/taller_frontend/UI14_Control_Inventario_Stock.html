@@ -3,134 +3,2000 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>UI-14 · Control de inventario | PuraSed</title>
+  <title>Control de Inventario y Bodega | Sereno Moreno · PuraSed</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#121614;--surface:#1f2421;--surface-2:#29312c;--paper:#fffdf9;--ink:#1a201c;--chalk:#f0eee7;--muted:#a7afa8;--line:#3a433d;--gold:#e59f38;--bright:#f8ad00;--green:#94b783;--green-deep:#314b38;--red:#d97758;--red-soft:#f2c5b6;--blue:#6c96a6;--display:"Bebas Neue",Impact,sans-serif;--body:"Space Grotesk",Arial,sans-serif}
-    *{box-sizing:border-box}html{background:var(--bg);color:var(--chalk)}body{margin:0;min-width:320px;background:var(--bg);font-family:var(--body)}button,input,select{font:inherit}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--bright);outline-offset:3px}.shell{min-height:100vh;display:flex;flex-direction:column}
-    .topbar{min-height:78px;padding:14px 28px;display:flex;align-items:center;gap:26px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:12px;min-width:224px}.mark{width:42px;height:42px;display:grid;place-items:center;border:2px solid var(--gold);color:var(--gold);font:28px/1 var(--display)}.brand-name{font:24px/.85 var(--display);letter-spacing:2px}.brand-name small{display:block;margin-top:5px;color:var(--muted);font:11px/1 var(--body)}.station{flex:1}.station h1{margin:0;font:32px/.9 var(--display);letter-spacing:2px}.station p{margin:6px 0 0;color:var(--muted);font-size:13px}.live{display:flex;align-items:center;gap:8px;color:var(--green);font-size:13px;font-weight:600}.dot{width:9px;height:9px;border-radius:50%;background:var(--green)}
-    .page{width:min(1500px,100%);margin:auto;padding:24px 28px 34px}.head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:22px}.context-label{margin:0 0 7px;color:var(--gold);font-size:13px;font-weight:700}.head h2{margin:0;font:42px/.9 var(--display);letter-spacing:2px}.head-note{max-width:390px;color:var(--muted);font-size:13px;line-height:1.45;text-align:right}.head-note strong{color:var(--chalk)}
-    .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:20px}.area-select,.search{height:46px;padding:0 12px;border:1px solid var(--line);background:var(--surface);color:var(--chalk)}.search{width:230px}.control-button{min-height:46px;padding:0 16px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;font-size:13px;font-weight:600}.control-button:hover,.control-button.primary{border-color:var(--gold);background:var(--gold);color:var(--ink)}.control-spacer{flex:1}.sync{color:var(--muted);font-size:12px}
-    .overview{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}.metric{padding:14px 17px;background:var(--surface);border-left:4px solid var(--line);font-variant-numeric:tabular-nums}.metric.alert{border-color:var(--red)}.metric.ready{border-color:var(--green)}.metric.movements{border-color:var(--gold)}.metric-label{color:var(--muted);font-size:13px}.metric-value{display:block;margin-top:4px;font:34px/1 var(--display)}
-    .content{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(360px,.85fr);gap:16px;align-items:start}.panel{background:var(--surface);min-width:0}.panel-head{padding:17px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line)}.panel-head h3{margin:0;font:25px/1 var(--display);letter-spacing:1.3px}.panel-head span{color:var(--muted);font-size:12px}
-    .stock-list{display:grid}.stock-row{display:grid;grid-template-columns:minmax(150px,1.3fr) 90px 110px 110px minmax(145px,.8fr);gap:12px;align-items:center;padding:15px 18px;border-bottom:1px solid #303932}.stock-row:last-child{border-bottom:0}.stock-name{font-size:14px;font-weight:700}.stock-detail{display:block;margin-top:4px;color:var(--muted);font-size:12px}.stock-number{font-variant-numeric:tabular-nums;font-size:16px;font-weight:700}.stock-unit{color:var(--muted);font-size:12px}.stock-level{height:7px;background:#303932}.stock-level i{display:block;height:100%;background:var(--green)}.stock-level.low i{background:var(--gold)}.stock-level.empty i{background:var(--red)}.stock-status{display:inline-flex;align-items:center;gap:6px;color:var(--green);font-size:12px;font-weight:700}.stock-status.low{color:var(--gold)}.stock-status.empty{color:var(--red)}.stock-status::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}.stock-actions{display:flex;gap:7px;justify-content:flex-end}.small-action{min-height:38px;padding:0 10px;border:1px solid #4a544c;background:transparent;color:var(--chalk);cursor:pointer;font-size:12px}.small-action:hover{border-color:var(--gold);color:var(--gold)}.small-action.quick-out:hover{border-color:var(--red);color:var(--red)}
-    .movement-list{display:grid}.movement{display:grid;grid-template-columns:66px 1fr auto;gap:12px;align-items:center;padding:16px 18px;border-bottom:1px solid #303932}.movement:last-child{border-bottom:0}.movement-qty{font:23px/1 var(--display);color:var(--green)}.movement-qty.out{color:var(--red)}.movement-name{font-size:13px;font-weight:700}.movement-meta{display:block;margin-top:4px;color:var(--muted);font-size:12px}.movement-time{color:var(--muted);font-size:11px}
-    .empty{padding:28px 18px;color:var(--muted);text-align:center}.empty strong{display:block;margin-bottom:5px;color:var(--chalk);font:23px/1 var(--display)}
-    .modal-backdrop{position:fixed;inset:0;z-index:5;display:none;place-items:center;padding:20px;background:rgba(18,22,20,.78)}.modal-backdrop.visible{display:grid}.modal{width:min(520px,100%);background:var(--paper);color:var(--ink);padding:24px}.modal-head{display:flex;align-items:start;justify-content:space-between;gap:14px;margin-bottom:20px}.modal h3{margin:0;font:32px/.9 var(--display);letter-spacing:1.2px}.modal-close{width:42px;height:42px;border:1px solid #bbb8ae;background:transparent;color:var(--ink);cursor:pointer;font-size:20px}.modal-close:hover{border-color:var(--red);color:var(--red)}.modal-form{display:grid;gap:14px}.modal-field{display:grid;gap:6px}.modal-field label{font-size:13px;font-weight:700}.modal-field input,.modal-field select{height:46px;padding:0 10px;border:1px solid #c9c7c0;background:#fff;color:var(--ink)}.modal-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}.modal-actions button{min-height:44px;padding:0 15px;border:1px solid #bbb8ae;background:transparent;color:var(--ink);cursor:pointer;font-size:13px;font-weight:700}.modal-actions .save{border-color:var(--ink);background:var(--ink);color:var(--chalk)}.modal-actions .save:hover{border-color:var(--gold);background:var(--gold);color:var(--ink)}
-    .toast{position:fixed;right:24px;bottom:24px;display:none;padding:14px 17px;background:var(--paper);color:var(--ink);font-size:13px}.toast.visible{display:block}
-    @media(max-width:1050px){.content{grid-template-columns:1fr}.stock-row{grid-template-columns:minmax(0,1fr) auto;gap:8px 12px}.stock-name{grid-column:1}.stock-number{grid-column:2;grid-row:1}.stock-row>.stock-unit{grid-column:1}.stock-level{grid-column:1 / -1}.stock-status{grid-column:1}.stock-actions{grid-column:2;grid-row:4}.movement-panel{margin-top:0}}
-    @media(max-width:760px){.topbar{padding:12px 18px}.brand{min-width:auto}.brand-name,.live{display:none}.station h1{font-size:27px}.station p{font-size:12px}.page{padding:20px 16px 28px}.head{align-items:start;flex-direction:column}.head h2{font-size:37px}.head-note{text-align:left}.controls{align-items:stretch}.area-select,.search{width:100%}.control-spacer{display:none}.sync{width:100%}.overview{grid-template-columns:repeat(2,minmax(0,1fr))}.stock-row{grid-template-columns:1fr auto;gap:8px 12px}.stock-name{grid-column:1}.stock-number{grid-column:2;grid-row:1}.stock-row>.stock-unit{grid-column:1}.stock-level{grid-column:1 / -1}.stock-status{grid-column:1}.stock-actions{grid-column:2;grid-row:4}.movement{grid-template-columns:55px 1fr}.movement-time{grid-column:2}.modal-row{grid-template-columns:1fr}}
+    /* ==========================================================================
+       PURASED DESIGN SYSTEM — CONTROL DE INVENTARIO Y BODEGA
+       Normas: Guia_Diseno_UI_UX_PuraSed.md, Impeccable (Craft Floor)
+       Optimización: Sin imágenes pesadas en insumos crudos · Máxima densidad de datos
+       Layout: Anti-solapamiento estricto en botones y acciones táctiles de 44px
+       ========================================================================== */
+
+    :root {
+      /* Basalto Carbón & Muros de Almacén */
+      --color-bg-deep: #0D110F;
+      --color-bg-canvas: #121614;
+      --color-bg-card: #1A201C;
+      --color-bg-elev: #242C27;
+      --color-bg-subtle: #2E3831;
+
+      /* Oro Inti & Ámbar Artesanal */
+      --color-inti-gold: #E59F38;
+      --color-inti-bright: #F8AD00;
+      --color-inti-glow: rgba(229, 159, 56, 0.16);
+      --color-inti-border: rgba(229, 159, 56, 0.35);
+
+      /* Blanco Tiza & Pergamino */
+      --color-text-chalk: #F5EADB;
+      --color-text-muted: #A8B5AA;
+      --color-text-faint: #6E7D72;
+
+      /* Papel Artesanal #FFFDF9 para Vales y Modales */
+      --color-paper-sheet: #FFFDF9;
+      --color-paper-ink: #1B211D;
+      --color-paper-muted: #6B776E;
+      --color-paper-border: #E5DFC8;
+
+      /* Estados Semánticos de Inventario */
+      --status-ok: #94B783;
+      --status-ok-bg: rgba(148, 183, 131, 0.14);
+      --status-low: #E59F38;
+      --status-low-bg: rgba(229, 159, 56, 0.16);
+      --status-empty: #C9533B;
+      --status-empty-bg: rgba(201, 83, 59, 0.18);
+
+      /* Tipografía Oficial */
+      --font-display: "Bebas Neue", Impact, sans-serif;
+      --font-body: "Space Grotesk", system-ui, sans-serif;
+
+      --radius-sm: 2px;
+      --radius-md: 4px;
+      --radius-ticket: 6px;
+      --shadow-elevation: 0 14px 34px -8px rgba(0, 0, 0, 0.65), 0 2px 8px rgba(0, 0, 0, 0.4);
+      --transition-craft: 0.2s cubic-bezier(0.2, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      background: var(--color-bg-deep);
+      color: var(--color-text-chalk);
+      font-size: 16px;
+    }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      background: var(--color-bg-canvas);
+      font-family: var(--font-body);
+      color: var(--color-text-chalk);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+    }
+
+    /* Linograbado oficial Sereno Moreno (recurso-18.png) */
+    .body-watermark {
+      position: fixed;
+      right: -80px;
+      bottom: -60px;
+      width: 580px;
+      height: 580px;
+      background: url("../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/recurso-18.png") no-repeat center right / contain;
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    button, input, select { font: inherit; }
+    button:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 2px solid var(--color-inti-bright);
+      outline-offset: 3px;
+    }
+
+    .shell {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ==========================================================================
+       BARRA SUPERIOR OFICIAL SERENO MORENO
+       ========================================================================== */
+    .topbar {
+      min-height: 84px;
+      padding: 14px 28px;
+      background: var(--color-bg-deep);
+      border-bottom: 1px solid var(--color-bg-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-logo-img {
+      height: 48px;
+      width: auto;
+      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
+    }
+
+    .brand-titles {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 26px;
+      line-height: 0.92;
+      letter-spacing: 2.2px;
+      text-transform: uppercase;
+      color: var(--color-text-chalk);
+    }
+
+    .brand-subtitle {
+      font-size: 11px;
+      color: var(--color-inti-gold);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .station-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(229, 159, 56, 0.08);
+      border: 1px solid var(--color-inti-border);
+      border-radius: var(--radius-sm);
+    }
+
+    .station-badge .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--status-ok);
+      box-shadow: 0 0 10px var(--status-ok);
+      animation: pulse-dot 2.4s infinite ease-in-out;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(0.85); }
+    }
+
+    .station-badge span {
+      font-family: var(--font-display);
+      font-size: 17px;
+      letter-spacing: 1.5px;
+      color: var(--color-text-chalk);
+      text-transform: uppercase;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .nav-link-hub {
+      padding: 8px 16px;
+      background: transparent;
+      border: 1px solid var(--color-bg-subtle);
+      color: var(--color-text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      transition: var(--transition-craft);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .nav-link-hub:hover {
+      border-color: var(--color-inti-gold);
+      color: var(--color-inti-gold);
+    }
+
+    /* Botón Maestro Registrar Entrada (Sin colisiones ni solapamiento) */
+    .btn-register-master {
+      padding: 10px 20px;
+      background: var(--color-inti-gold);
+      color: #0D110F;
+      border: none;
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(229, 159, 56, 0.35);
+      transition: var(--transition-craft);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .btn-register-master:hover {
+      background: var(--color-inti-bright);
+      transform: translateY(-1px);
+    }
+
+    /* ==========================================================================
+       CONTENIDO PRINCIPAL
+       ========================================================================== */
+    .main-container {
+      width: min(1560px, 100%);
+      margin: 0 auto;
+      padding: 24px 28px 48px;
+      flex: 1;
+    }
+
+    .header-context {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+      margin-bottom: 24px;
+      border-bottom: 1px dashed var(--color-bg-subtle);
+      padding-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .context-tag {
+      font-family: var(--font-display);
+      font-size: 15px;
+      letter-spacing: 2px;
+      color: var(--color-inti-gold);
+      text-transform: uppercase;
+      margin: 0 0 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .page-title {
+      font-family: var(--font-display);
+      font-size: 44px;
+      line-height: 0.92;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--color-text-chalk);
+    }
+
+    .norm-box {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-bg-subtle);
+      border-left: 3px solid var(--color-inti-gold);
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      color: var(--color-text-muted);
+      max-width: 520px;
+      line-height: 1.45;
+    }
+
+    .norm-box strong { color: var(--color-text-chalk); }
+
+    /* Barra de Filtros y Herramientas (Espaciado amplio) */
+    .toolbar-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      background: var(--color-bg-card);
+      padding: 12px 18px;
+      border: 1px solid var(--color-bg-subtle);
+      border-radius: var(--radius-sm);
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 6px;
+      background: var(--color-bg-deep);
+      padding: 4px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-bg-subtle);
+    }
+
+    .tab-btn {
+      padding: 8px 14px;
+      background: transparent;
+      border: none;
+      color: var(--color-text-muted);
+      font-family: var(--font-display);
+      font-size: 16px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+      transition: var(--transition-craft);
+      white-space: nowrap;
+    }
+
+    .tab-btn.active {
+      background: var(--color-bg-elev);
+      color: var(--color-inti-gold);
+      font-weight: 700;
+    }
+
+    .search-wrap {
+      flex: 1;
+      min-width: 220px;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 42px;
+      padding: 0 14px 0 38px;
+      background: var(--color-bg-deep);
+      border: 1px solid var(--color-bg-subtle);
+      color: var(--color-text-chalk);
+      font-size: 13px;
+      border-radius: var(--radius-sm);
+      transition: var(--transition-craft);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      fill: var(--color-text-faint);
+      pointer-events: none;
+    }
+
+    .stock-filter-select {
+      height: 42px;
+      padding: 0 14px;
+      background: var(--color-bg-deep);
+      border: 1px solid var(--color-bg-subtle);
+      color: var(--color-text-chalk);
+      font-size: 13px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+    }
+
+    .btn-simulate-order {
+      height: 42px;
+      padding: 0 16px;
+      background: var(--color-bg-elev);
+      border: 1px dashed var(--color-inti-gold);
+      color: var(--color-inti-gold);
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: var(--transition-craft);
+    }
+
+    .btn-simulate-order:hover {
+      background: rgba(229, 159, 56, 0.15);
+      color: var(--color-inti-bright);
+    }
+
+    /* Métricas Resumen */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .metric-card {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-bg-subtle);
+      border-left: 4px solid var(--color-bg-subtle);
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+    }
+
+    .metric-card.warning { border-left-color: var(--status-low); }
+    .metric-card.critical { border-left-color: var(--status-empty); }
+    .metric-card.healthy { border-left-color: var(--status-ok); }
+    .metric-card.audit { border-left-color: var(--color-inti-gold); }
+
+    .metric-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--color-text-muted);
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .metric-number {
+      font-family: var(--font-display);
+      font-size: 38px;
+      line-height: 0.95;
+      letter-spacing: 1px;
+      font-variant-numeric: tabular-nums;
+      color: var(--color-text-chalk);
+    }
+
+    .metric-card.warning .metric-number { color: var(--color-inti-bright); }
+    .metric-card.critical .metric-number { color: var(--status-empty); }
+    .metric-card.healthy .metric-number { color: var(--status-ok); }
+
+    .metric-subtext {
+      font-size: 11px;
+      color: var(--color-text-faint);
+      margin-top: 6px;
+      display: block;
+    }
+
+    /* ==========================================================================
+       LAYOUT EN 2 COLUMNAS (TABLA MAYOR + BITÁCORA)
+       ========================================================================== */
+    .ledger-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.65fr) minmax(320px, 0.95fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .panel-box {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-bg-subtle);
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-elevation);
+    }
+
+    .panel-box-header {
+      padding: 14px 20px;
+      background: var(--color-bg-elev);
+      border-bottom: 1px solid var(--color-bg-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .panel-box-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--color-text-chalk);
+    }
+
+    .panel-box-badge {
+      font-size: 12px;
+      padding: 3px 8px;
+      background: var(--color-bg-subtle);
+      border-radius: var(--radius-sm);
+      color: var(--color-text-muted);
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ==========================================================================
+       TABLA DE INSUMOS OPTIMIZADA (SIN IMÁGENES PESADAS · MÁXIMA DENSIDAD)
+       ========================================================================== */
+    .inventory-table {
+      display: flex;
+      flex-direction: column;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-bg-subtle) transparent;
+    }
+
+    .stock-item-row {
+      display: grid;
+      /* 4 Columnas balanceadas que NUNCA se cortan:
+         1. Insumo y Detalle: minmax(180px, 1.8fr)
+         2. Stock Actual: 90px
+         3. Nivel & Estado Combinado: 145px
+         4. Acciones (Entrada & Agotar): 150px
+      */
+      grid-template-columns: minmax(180px, 1.8fr) 90px 145px 150px;
+      min-width: 580px;
+      gap: 12px;
+      align-items: center;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--color-bg-subtle);
+      background: var(--color-bg-card);
+      transition: background var(--transition-craft);
+      position: relative;
+    }
+
+    .stock-item-row:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Fila Agotada: sombreada con indicador */
+    .stock-item-row.is-exhausted {
+      background: rgba(13, 17, 15, 0.75);
+      opacity: 0.8;
+    }
+
+    .stock-item-row.is-exhausted::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--status-empty);
+    }
+
+    /* Datos del Insumo (Monograma y Badge Tipográfico) */
+    .item-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .item-name-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .item-glyph-badge {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 2px;
+      background: #232B25;
+      border: 1px solid #3A473E;
+      color: var(--color-inti-gold);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .item-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-text-chalk);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .item-meta {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Lectura de Stock */
+    .item-stock-reading {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stock-qty {
+      font-family: var(--font-display);
+      font-size: 26px;
+      line-height: 0.95;
+      letter-spacing: 0.5px;
+      font-variant-numeric: tabular-nums;
+      color: var(--color-text-chalk);
+    }
+
+    .stock-unit {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      font-weight: 500;
+    }
+
+    /* Barra de Nivel & Estado Combinados */
+    .level-gauge-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .level-meta {
+      font-size: 10px;
+      color: var(--color-text-faint);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-variant-numeric: tabular-nums;
+      gap: 4px;
+    }
+
+    .level-bar {
+      height: 7px;
+      background: var(--color-bg-deep);
+      border: 1px solid var(--color-bg-subtle);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .level-fill {
+      display: block;
+      height: 100%;
+      background: var(--status-ok);
+      border-radius: 1px;
+      transition: width 0.3s ease, background-color 0.3s ease;
+    }
+
+    .level-fill.low { background: var(--status-low); }
+    .level-fill.empty { background: var(--status-empty); }
+
+    /* Badges de Estado */
+    .item-badge-status-wrap {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .item-badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 6px;
+      border-radius: 2px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .item-badge-status.ok {
+      background: var(--status-ok-bg);
+      color: var(--status-ok);
+      border: 1px solid rgba(148, 183, 131, 0.3);
+    }
+
+    .item-badge-status.low {
+      background: var(--status-low-bg);
+      color: var(--status-low);
+      border: 1px solid rgba(229, 159, 56, 0.3);
+    }
+
+    .item-badge-status.empty {
+      background: var(--status-empty-bg);
+      color: var(--status-empty);
+      border: 1px solid rgba(201, 83, 59, 0.35);
+    }
+
+    .client-menu-note {
+      font-size: 9px;
+      color: var(--status-empty);
+      margin-top: 2px;
+      font-weight: 600;
+      display: block;
+      white-space: nowrap;
+    }
+
+    /* Acciones de Fila: Ancho Protegido y Cero Solapamiento */
+    .row-actions {
+      display: flex;
+      gap: 6px;
+      justify-content: flex-end;
+      align-items: center;
+      white-space: nowrap;
+      min-width: 145px;
+    }
+
+    .btn-row-action {
+      height: 34px;
+      padding: 0 10px;
+      background: var(--color-bg-deep);
+      border: 1px solid var(--color-bg-subtle);
+      color: var(--color-text-chalk);
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: var(--transition-craft);
+    }
+
+    .btn-row-action:hover {
+      border-color: var(--color-inti-gold);
+      color: var(--color-inti-gold);
+    }
+
+    .btn-row-action.btn-mark-empty:hover {
+      border-color: var(--status-empty);
+      color: var(--status-empty);
+    }
+
+    /* ==========================================================================
+       BITÁCORA DE MOVIMIENTOS
+       ========================================================================== */
+    .ledger-log-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ledger-entry-item {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--color-bg-subtle);
+      display: grid;
+      grid-template-columns: 50px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      background: var(--color-bg-card);
+      transition: background var(--transition-craft);
+    }
+
+    .ledger-entry-item:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .ledger-diff-pill {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 0.5px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .ledger-diff-pill.in { color: var(--status-ok); }
+    .ledger-diff-pill.out { color: var(--status-empty); }
+
+    .ledger-details {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .ledger-product-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-text-chalk);
+    }
+
+    .ledger-motive {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      line-height: 1.3;
+    }
+
+    .ledger-user-tag { color: var(--color-inti-gold); }
+
+    .ledger-timestamp {
+      font-size: 11px;
+      color: var(--color-text-faint);
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+    }
+
+    /* ==========================================================================
+       MODAL DE VALE DE ENTRADA
+       ========================================================================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      place-items: center;
+      padding: 20px;
+      background: rgba(8, 12, 10, 0.88);
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-overlay.active {
+      display: grid;
+      animation: modal-fade-in 0.2s ease-out;
+    }
+
+    @keyframes modal-fade-in {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .warehouse-voucher-modal {
+      width: min(540px, 100%);
+      background: var(--color-paper-sheet);
+      color: var(--color-paper-ink);
+      border-radius: var(--radius-ticket);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.6);
+      padding: 28px;
+      position: relative;
+      border: 1px solid var(--color-paper-border);
+    }
+
+    .voucher-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      border-bottom: 2px dashed #D3CBB7;
+      padding-bottom: 14px;
+    }
+
+    .voucher-stamp {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #B85335;
+      margin-bottom: 2px;
+    }
+
+    .voucher-title {
+      font-family: var(--font-display);
+      font-size: 32px;
+      line-height: 0.9;
+      letter-spacing: 1.8px;
+      color: var(--color-paper-ink);
+      text-transform: uppercase;
+    }
+
+    .btn-voucher-close {
+      width: 38px;
+      height: 38px;
+      border: 1px solid #D5CEBD;
+      background: transparent;
+      color: var(--color-paper-ink);
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+      display: grid;
+      place-items: center;
+    }
+
+    .voucher-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #38423B;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-input, .form-select {
+      height: 44px;
+      padding: 0 12px;
+      background: #FFFFFF;
+      border: 1px solid #C8C0AC;
+      border-radius: var(--radius-sm);
+      color: var(--color-paper-ink);
+      font-size: 14px;
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .form-hint-note {
+      font-size: 11px;
+      color: #6C7A70;
+      margin-top: 2px;
+    }
+
+    .voucher-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 14px;
+      border-top: 1px solid #E5DFC8;
+      padding-top: 16px;
+    }
+
+    .btn-cancel-entry {
+      padding: 10px 18px;
+      background: transparent;
+      border: 1px solid #C8C0AC;
+      color: var(--color-paper-ink);
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+    }
+
+    .btn-save-entry {
+      padding: 10px 22px;
+      background: #1B211D;
+      color: #FFFDF9;
+      border: none;
+      font-family: var(--font-display);
+      font-size: 19px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 700;
+      transition: var(--transition-craft);
+    }
+
+    .btn-save-entry:hover {
+      background: var(--color-inti-gold);
+      color: #0D110F;
+    }
+
+    .toast-bubble {
+      position: fixed;
+      right: 28px;
+      bottom: 28px;
+      z-index: 120;
+      display: none;
+      padding: 14px 20px;
+      background: var(--color-paper-sheet);
+      color: var(--color-paper-ink);
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      border-left: 5px solid var(--color-inti-gold);
+    }
+
+    .toast-bubble.active {
+      display: block;
+      animation: toast-slide 0.25s cubic-bezier(0.2, 0, 0.2, 1);
+    }
+
+    @keyframes toast-slide {
+      from { transform: translateY(18px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* ==========================================================================
+       RESPONSIVE DESIGN (CERO SOLAPAMIENTO EN PANTALLAS PEQUEÑAS)
+       ========================================================================== */
+    @media (max-width: 1150px) {
+      .ledger-layout { grid-template-columns: 1fr; }
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 760px) {
+      .topbar { padding: 12px 18px; }
+      .main-container { padding: 16px 18px 36px; }
+      .metrics-grid { grid-template-columns: 1fr; }
+      .toolbar-row { flex-direction: column; align-items: stretch; }
+      .filter-tabs { width: 100%; overflow-x: auto; }
+      .search-wrap { width: 100%; }
+      .btn-register-master { width: 100%; justify-content: center; }
+    }
   </style>
 </head>
 <body>
-  <main class="shell">
-    <header class="topbar"><div class="brand"><div class="mark" aria-hidden="true">P</div><div class="brand-name">PuraSed<small>Sereno Moreno</small></div></div><div class="station"><h1>Bodega &amp; inventario</h1><p>Control de stock · Tablet de área</p></div><div class="live"><span class="dot"></span>En línea</div></header>
-    <section class="page">
-      <div class="head"><div><p class="context-label">Jueves de noviembre · actualización en tiempo real</p><h2>Control de inventario</h2></div><p class="head-note"><strong>Stock por área, sin valores negativos.</strong><br>Registra entradas y marca agotados antes de que un producto llegue a una comanda.</p></div>
-      <div class="controls"><select class="area-select" id="area-select" aria-label="Área de inventario"><option value="all">Todas las áreas</option><option value="cocina">Cocina &amp; Paila</option><option value="bar">Barra &amp; Fermentos</option></select><input class="search" id="stock-search" type="search" placeholder="Buscar insumo" aria-label="Buscar insumo"><button class="control-button primary" id="new-entry" type="button">Registrar entrada</button><div class="control-spacer"></div><span class="sync">Sincronizado hace unos segundos</span></div>
-      <section class="overview" aria-label="Resumen de inventario"><div class="metric alert"><span class="metric-label">Stock bajo</span><strong class="metric-value" id="low-total">2</strong></div><div class="metric ready"><span class="metric-label">Disponibles</span><strong class="metric-value" id="available-total">5</strong></div><div class="metric movements"><span class="metric-label">Movimientos hoy</span><strong class="metric-value" id="movement-total">8</strong></div><div class="metric"><span class="metric-label">Agotados</span><strong class="metric-value" id="empty-total">1</strong></div></section>
-      <div class="content">
-        <section class="panel" aria-labelledby="stock-title"><header class="panel-head"><h3 id="stock-title">Existencias por insumo</h3><span id="stock-count">8 insumos</span></header><div class="stock-list" id="stock-list">
-          <article class="stock-row" data-area="cocina" data-stock="18" data-min="8" data-name="Papa chaucha"><div><span class="stock-name">Papa chaucha</span><span class="stock-detail">Cocina · fresco</span></div><strong class="stock-number">18 <span class="stock-unit">kg</span></strong><div class="stock-level"><i style="width:82%"></i></div><span class="stock-status">Disponible</span><div class="stock-actions"><button class="small-action add-stock" type="button">Entrada</button><button class="small-action quick-out" type="button">Agotado</button></div></article>
-          <article class="stock-row" data-area="cocina" data-stock="5" data-min="8" data-name="Hongos andinos"><div><span class="stock-name">Hongos andinos</span><span class="stock-detail">Cocina · refrigerado</span></div><strong class="stock-number">5 <span class="stock-unit">kg</span></strong><div class="stock-level low"><i style="width:38%"></i></div><span class="stock-status low">Stock bajo</span><div class="stock-actions"><button class="small-action add-stock" type="button">Entrada</button><button class="small-action quick-out" type="button">Agotado</button></div></article>
-          <article class="stock-row" data-area="cocina" data-stock="0" data-min="6" data-name="Aguacate"><div><span class="stock-name">Aguacate</span><span class="stock-detail">Cocina · fresco</span></div><strong class="stock-number">0 <span class="stock-unit">kg</span></strong><div class="stock-level empty"><i style="width:0%"></i></div><span class="stock-status empty">Agotado</span><div class="stock-actions"><button class="small-action add-stock" type="button">Entrada</button></div></article>
-          <article class="stock-row" data-area="cocina" data-stock="24" data-min="10" data-name="Queso tierno"><div><span class="stock-name">Queso tierno</span><span class="stock-detail">Cocina · lácteos</span></div><strong class="stock-number">24 <span class="stock-unit">porc.</span></strong><div class="stock-level"><i style="width:76%"></i></div><span class="stock-status">Disponible</span><div class="stock-actions"><button class="small-action add-stock" type="button">Entrada</button><button class="small-action quick-out" type="button">Agotado</button></div></article>
-          <article class="stock-row" data-area="bar" data-stock="12" data-min="6" data-name="Maíz morado"><div><span class="stock-name">Maíz morado</span><span class="stock-detail">Barra · fermentos</span></div><strong class="stock-number">12 <span class="stock-unit">kg</span></strong><div class="stock-level"><i style="width:70%"></i></div><span class="stock-status">Disponible</span><div class="stock-actions"><button class="small-action add-stock" type="button">Entrada</button><button class="small-action quick-out" type="button">Agotado</button></div></article>
-          <article class="stock-row" data-area="bar" data-stock="3" data-min="6" data-name="Morocho"><div><span class="stock-name">Morocho</span><span class="stock-detail">Barra · fermentos</span></div><strong class="stock-number">3 <span class="stock-unit">kg</span></strong><div class="stock-level low"><i style="width:31%"></i></div><span class="stock-status low">Stock bajo</span><div class="stock-actions"><button class="small-action add-stock" type="button">Entrada</button><button class="small-action quick-out" type="button">Agotado</button></div></article>
-          <article class="stock-row" data-area="bar" data-stock="9" data-min="4" data-name="Botellas de vidrio"><div><span class="stock-name">Botellas de vidrio</span><span class="stock-detail">Barra · envases</span></div><strong class="stock-number">9 <span class="stock-unit">unid.</span></strong><div class="stock-level"><i style="width:68%"></i></div><span class="stock-status">Disponible</span><div class="stock-actions"><button class="small-action add-stock" type="button">Entrada</button><button class="small-action quick-out" type="button">Agotado</button></div></article>
-          <article class="stock-row" data-area="bar" data-stock="16" data-min="6" data-name="Latas 500 ml"><div><span class="stock-name">Latas 500 ml</span><span class="stock-detail">Barra · envases</span></div><strong class="stock-number">16 <span class="stock-unit">unid.</span></strong><div class="stock-level"><i style="width:88%"></i></div><span class="stock-status">Disponible</span><div class="stock-actions"><button class="small-action add-stock" type="button">Entrada</button><button class="small-action quick-out" type="button">Agotado</button></div></article>
-        </div></section>
-        <section class="panel movement-panel" aria-labelledby="movement-title"><header class="panel-head"><h3 id="movement-title">Movimientos recientes</h3><span>Últimos registros</span></header><div class="movement-list" id="movement-list"><article class="movement"><strong class="movement-qty">+12</strong><div><span class="movement-name">Latas 500 ml</span><span class="movement-meta">Entrada · Barra · Carlos Mena</span></div><time class="movement-time">21:34</time></article><article class="movement"><strong class="movement-qty out">−3</strong><div><span class="movement-name">Morocho</span><span class="movement-meta">Descuento por pedido · SM-183</span></div><time class="movement-time">21:25</time></article><article class="movement"><strong class="movement-qty">+8</strong><div><span class="movement-name">Papa chaucha</span><span class="movement-meta">Entrada · Cocina · Ana Torres</span></div><time class="movement-time">20:50</time></article><article class="movement"><strong class="movement-qty out">−2</strong><div><span class="movement-name">Hongos andinos</span><span class="movement-meta">Descuento por pedido · SM-185</span></div><time class="movement-time">20:42</time></article></div></section>
+  <!-- Linograbado oficial de fondo -->
+  <div class="body-watermark" aria-hidden="true"></div>
+
+  <div class="shell">
+    <!-- Barra Superior Oficial -->
+    <header class="topbar">
+      <div class="brand-section">
+        <img src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/logosm.svg" alt="Sereno Moreno · PuraSed Logo" class="brand-logo-img">
+        <div class="brand-titles">
+          <h1 class="brand-title">PuraSed</h1>
+          <span class="brand-subtitle">Sereno Moreno · Taller Andino</span>
+        </div>
+
+        <div class="station-badge" role="status" aria-label="Almacén y Bodega Central">
+          <span class="dot" aria-hidden="true"></span>
+          <span>Almacén Central &amp; Bodega de Insumos</span>
+        </div>
       </div>
-    </section>
-    <div class="modal-backdrop" id="entry-modal" aria-hidden="true"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="entry-title"><div class="modal-head"><h3 id="entry-title">Registrar entrada</h3><button class="modal-close" id="close-entry" type="button" aria-label="Cerrar">×</button></div><form class="modal-form" id="entry-form"><div class="modal-field"><label for="entry-item">Insumo</label><select id="entry-item" required><option value="">Selecciona un insumo</option><option>Papa chaucha</option><option>Hongos andinos</option><option>Aguacate</option><option>Queso tierno</option><option>Maíz morado</option><option>Morocho</option><option>Botellas de vidrio</option><option>Latas 500 ml</option></select></div><div class="modal-row"><div class="modal-field"><label for="entry-quantity">Cantidad</label><input id="entry-quantity" type="number" min="1" step="0.1" required placeholder="Ej. 12"></div><div class="modal-field"><label for="entry-unit">Unidad</label><select id="entry-unit" required><option>kg</option><option>porciones</option><option>unidades</option></select></div></div><div class="modal-field"><label for="entry-date">Fecha de ingreso</label><input id="entry-date" type="date" required></div><div class="modal-actions"><button id="cancel-entry" type="button">Volver</button><button class="save" type="submit">Guardar entrada</button></div></form></section></div>
-    <div class="toast" id="toast" role="status"></div>
-  </main>
+
+      <div class="topbar-actions">
+        <a href="index.html" class="nav-link-hub" title="Regresar al Hub de Mockups">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          <span>Catálogo</span>
+        </a>
+
+        <!-- Botón Maestro Registrar Entrada con espacio protegido -->
+        <button class="btn-register-master" id="btn-open-modal" type="button" aria-haspopup="dialog" aria-controls="modal-warehouse">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+          <span>+ Registrar Entrada</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="main-container">
+      <!-- Encabezado de Contexto -->
+      <header class="header-context">
+        <div>
+          <p class="context-tag">
+            <span>●</span> Calle Junín &amp; San Marcos · Kardex Operativo de Materia Prima
+          </p>
+          <h2 class="page-title">Control de Inventario &amp; Insumos</h2>
+        </div>
+
+        <div class="norm-box">
+          <strong>Políticas de Almacén Sereno Moreno:</strong><br>
+          • Los insumos marcados como agotados se ocultan automáticamente de la carta del cliente.<br>
+          • Validación estricta: No se admiten registros con saldos nulos o negativos.<br>
+          • Registro automático de consumos sincronizado con comandas de barra y cocina.
+        </div>
+      </header>
+
+      <!-- Barra de Filtros y Herramientas -->
+      <section class="toolbar-row" aria-label="Herramientas de filtrado de inventario">
+        <div class="filter-tabs" role="tablist" aria-label="Filtrar insumos por área">
+          <button class="tab-btn active" role="tab" aria-selected="true" data-filter="all" id="tab-all">Todas las Áreas</button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-filter="cocina" id="tab-cocina">Cocina &amp; Paila</button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-filter="barra" id="tab-barra">Barra &amp; Fermentos</button>
+        </div>
+
+        <div class="search-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <input class="search-input" id="search-input" type="search" placeholder="Buscar insumo (ej. tomate, cebolla, maíz)..." aria-label="Buscar insumo en inventario">
+        </div>
+
+        <select class="stock-filter-select" id="stock-filter" aria-label="Filtrar por nivel de existencia">
+          <option value="all">Todas las existencias</option>
+          <option value="low">Solo Stock Bajo</option>
+          <option value="empty">Solo Agotados</option>
+          <option value="ok">Stock Óptimo</option>
+        </select>
+
+        <!-- Simulación Comanda POS -->
+        <button class="btn-simulate-order" id="btn-simulate-order" type="button" title="Simula el descuento automático que ocurre al cobrar una comanda">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2z"/></svg>
+          <span>Descontar por Comanda</span>
+        </button>
+      </section>
+
+      <!-- Métricas Resumen de Bodega -->
+      <section class="metrics-grid" aria-label="Indicadores clave de inventario">
+        <div class="metric-card warning">
+          <div class="metric-title">Insumos en Nivel Bajo</div>
+          <div class="metric-number" id="metric-low-count">2</div>
+          <span class="metric-subtext">Reponer antes del servicio nocturno</span>
+        </div>
+
+        <div class="metric-card critical">
+          <div class="metric-title">Agotados (Ocultos en Menú)</div>
+          <div class="metric-number" id="metric-empty-count">1</div>
+          <span class="metric-subtext">Ocultos automáticamente en el menú</span>
+        </div>
+
+        <div class="metric-card healthy">
+          <div class="metric-title">Insumos con Stock Óptimo</div>
+          <div class="metric-number" id="metric-ok-count">7</div>
+          <span class="metric-subtext">Existencias seguras en almacén</span>
+        </div>
+
+        <div class="metric-card audit">
+          <div class="metric-title">Movimientos Registrados Hoy</div>
+          <div class="metric-number" id="metric-moves-count">14</div>
+          <span class="metric-subtext">Bitácora verificada · Sin saldos negativos</span>
+        </div>
+      </section>
+
+      <!-- Layout en dos paneles: Tabla Mayor + Bitácora -->
+      <div class="ledger-layout">
+        <!-- Panel 1: Tabla Mayor de Insumos Crudos (Optimizado sin imágenes) -->
+        <section class="panel-box" aria-labelledby="heading-stock-table">
+          <header class="panel-box-header">
+            <h3 class="panel-box-title" id="heading-stock-table">Materia Prima &amp; Existencias</h3>
+            <span class="panel-box-badge" id="stock-counter-badge">10 Insumos</span>
+          </header>
+
+          <div class="inventory-table" id="inventory-table" role="region" aria-label="Listado de existencias de almacén">
+            
+            <!-- 1. Tomate riñón andino (Cocina) -->
+            <article class="stock-item-row" data-id="1" data-area="cocina" data-name="Tomate riñón andino" data-stock="16" data-min="6" data-unit="kg">
+              <div class="item-info">
+                <div class="item-name-row">
+                  <span class="item-glyph-badge">Huerto</span>
+                  <span class="item-name">Tomate riñón andino</span>
+                </div>
+                <div class="item-meta">
+                  <span>Cocina &amp; Paila</span>
+                  <span>·</span>
+                  <span>Cosecha fresca Guayllabamba</span>
+                </div>
+              </div>
+              <div class="item-stock-reading">
+                <span class="stock-qty">16</span>
+                <span class="stock-unit">Kilogramos (kg)</span>
+              </div>
+              <div class="level-gauge-wrap">
+                <div class="level-meta">
+                  <div class="item-badge-status-wrap">
+                    <span class="item-badge-status ok">Óptimo</span>
+                  </div>
+                  <span>Mín: 6 kg</span>
+                </div>
+                <div class="level-bar" role="progressbar" aria-valuenow="16" aria-valuemin="0" aria-valuemax="25">
+                  <div class="level-fill" style="width: 64%;"></div>
+                </div>
+              </div>
+              <div class="row-actions">
+                <button class="btn-row-action btn-entry-quick" type="button" aria-label="Ingresar stock de Tomate riñón">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                  <span>Entrada</span>
+                </button>
+                <button class="btn-row-action btn-mark-empty" type="button" aria-label="Marcar Tomate riñón como agotado">
+                  <span>Agotar</span>
+                </button>
+              </div>
+            </article>
+
+            <!-- 2. Cebolla paiteña colorada (Cocina) -->
+            <article class="stock-item-row" data-id="2" data-area="cocina" data-name="Cebolla paiteña colorada" data-stock="22" data-min="8" data-unit="kg">
+              <div class="item-info">
+                <div class="item-name-row">
+                  <span class="item-glyph-badge">Bulbos</span>
+                  <span class="item-name">Cebolla paiteña colorada</span>
+                </div>
+                <div class="item-meta">
+                  <span>Cocina &amp; Paila</span>
+                  <span>·</span>
+                  <span>Materia prima base de refritos</span>
+                </div>
+              </div>
+              <div class="item-stock-reading">
+                <span class="stock-qty">22</span>
+                <span class="stock-unit">Kilogramos (kg)</span>
+              </div>
+              <div class="level-gauge-wrap">
+                <div class="level-meta">
+                  <div class="item-badge-status-wrap">
+                    <span class="item-badge-status ok">Óptimo</span>
+                  </div>
+                  <span>Mín: 8 kg</span>
+                </div>
+                <div class="level-bar" role="progressbar" aria-valuenow="22" aria-valuemin="0" aria-valuemax="30">
+                  <div class="level-fill" style="width: 73%;"></div>
+                </div>
+              </div>
+              <div class="row-actions">
+                <button class="btn-row-action btn-entry-quick" type="button" aria-label="Ingresar stock de Cebolla paiteña">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                  <span>Entrada</span>
+                </button>
+                <button class="btn-row-action btn-mark-empty" type="button" aria-label="Marcar Cebolla paiteña como agotado">
+                  <span>Agotar</span>
+                </button>
+              </div>
+            </article>
+
+            <!-- 3. Papa chaucha andina pelada (Cocina) -->
+            <article class="stock-item-row" data-id="3" data-area="cocina" data-name="Papa chaucha andina" data-stock="18" data-min="8" data-unit="kg">
+              <div class="item-info">
+                <div class="item-name-row">
+                  <span class="item-glyph-badge">Tubérculo</span>
+                  <span class="item-name">Papa chaucha andina</span>
+                </div>
+                <div class="item-meta">
+                  <span>Cocina &amp; Paila</span>
+                  <span>·</span>
+                  <span>Para locro de papa y guarniciones</span>
+                </div>
+              </div>
+              <div class="item-stock-reading">
+                <span class="stock-qty">18</span>
+                <span class="stock-unit">Kilogramos (kg)</span>
+              </div>
+              <div class="level-gauge-wrap">
+                <div class="level-meta">
+                  <div class="item-badge-status-wrap">
+                    <span class="item-badge-status ok">Óptimo</span>
+                  </div>
+                  <span>Mín: 8 kg</span>
+                </div>
+                <div class="level-bar" role="progressbar" aria-valuenow="18" aria-valuemin="0" aria-valuemax="25">
+                  <div class="level-fill" style="width: 72%;"></div>
+                </div>
+              </div>
+              <div class="row-actions">
+                <button class="btn-row-action btn-entry-quick" type="button" aria-label="Ingresar stock de Papa chaucha">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                  <span>Entrada</span>
+                </button>
+                <button class="btn-row-action btn-mark-empty" type="button" aria-label="Marcar Papa chaucha como agotado">
+                  <span>Agotar</span>
+                </button>
+              </div>
+            </article>
+
+            <!-- 4. Hongos andinos de altura (Cocina - Stock Bajo) -->
+            <article class="stock-item-row" data-id="4" data-area="cocina" data-name="Hongos andinos de altura" data-stock="4.5" data-min="8" data-unit="kg">
+              <div class="item-info">
+                <div class="item-name-row">
+                  <span class="item-glyph-badge">Silvestre</span>
+                  <span class="item-name">Hongos andinos de altura</span>
+                </div>
+                <div class="item-meta">
+                  <span>Cocina &amp; Paila</span>
+                  <span>·</span>
+                  <span>Cámara de frío · Consumo rápido</span>
+                </div>
+              </div>
+              <div class="item-stock-reading">
+                <span class="stock-qty" style="color: var(--color-inti-bright);">4.5</span>
+                <span class="stock-unit">Kilogramos (kg)</span>
+              </div>
+              <div class="level-gauge-wrap">
+                <div class="level-meta">
+                  <div class="item-badge-status-wrap">
+                    <span class="item-badge-status low">Stock Bajo</span>
+                  </div>
+                  <span>Mín: 8 kg</span>
+                </div>
+                <div class="level-bar" role="progressbar" aria-valuenow="4.5" aria-valuemin="0" aria-valuemax="15">
+                  <div class="level-fill low" style="width: 30%;"></div>
+                </div>
+              </div>
+              <div class="row-actions">
+                <button class="btn-row-action btn-entry-quick" type="button" aria-label="Ingresar stock de Hongos andinos">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                  <span>Entrada</span>
+                </button>
+                <button class="btn-row-action btn-mark-empty" type="button" aria-label="Marcar Hongos andinos como agotado">
+                  <span>Agotar</span>
+                </button>
+              </div>
+            </article>
+
+            <!-- 5. Aguacate criollo mantecoso (Cocina - AGOTADO) -->
+            <article class="stock-item-row is-exhausted" data-id="5" data-area="cocina" data-name="Aguacate criollo mantecoso" data-stock="0" data-min="6" data-unit="kg">
+              <div class="item-info">
+                <div class="item-name-row">
+                  <span class="item-glyph-badge">Fresco</span>
+                  <span class="item-name">Aguacate criollo mantecoso</span>
+                </div>
+                <div class="item-meta">
+                  <span>Cocina &amp; Paila</span>
+                  <span>·</span>
+                  <span>Sin existencias en cocina</span>
+                </div>
+              </div>
+              <div class="item-stock-reading">
+                <span class="stock-qty" style="color: var(--status-empty);">0</span>
+                <span class="stock-unit">Kilogramos (kg)</span>
+              </div>
+              <div class="level-gauge-wrap">
+                <div class="level-meta">
+                  <div class="item-badge-status-wrap">
+                    <span class="item-badge-status empty">Agotado</span>
+                    <span class="client-menu-note">Oculto a clientes</span>
+                  </div>
+                  <span>Mín: 6 kg</span>
+                </div>
+                <div class="level-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="12">
+                  <div class="level-fill empty" style="width: 0%;"></div>
+                </div>
+              </div>
+              <div class="row-actions">
+                <button class="btn-row-action btn-entry-quick" type="button" aria-label="Reponer Aguacate criollo">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                  <span>Reponer</span>
+                </button>
+              </div>
+            </article>
+
+            <!-- 6. Queso tierno de hacienda (Cocina) -->
+            <article class="stock-item-row" data-id="6" data-area="cocina" data-name="Queso tierno de hacienda" data-stock="24" data-min="8" data-unit="kg">
+              <div class="item-info">
+                <div class="item-name-row">
+                  <span class="item-glyph-badge">Lácteo</span>
+                  <span class="item-name">Queso tierno de hacienda</span>
+                </div>
+                <div class="item-meta">
+                  <span>Cocina &amp; Paila</span>
+                  <span>·</span>
+                  <span>Para maduro con queso y choclos</span>
+                </div>
+              </div>
+              <div class="item-stock-reading">
+                <span class="stock-qty">24</span>
+                <span class="stock-unit">Kilogramos (kg)</span>
+              </div>
+              <div class="level-gauge-wrap">
+                <div class="level-meta">
+                  <div class="item-badge-status-wrap">
+                    <span class="item-badge-status ok">Óptimo</span>
+                  </div>
+                  <span>Mín: 8 kg</span>
+                </div>
+                <div class="level-bar" role="progressbar" aria-valuenow="24" aria-valuemin="0" aria-valuemax="30">
+                  <div class="level-fill" style="width: 80%;"></div>
+                </div>
+              </div>
+              <div class="row-actions">
+                <button class="btn-row-action btn-entry-quick" type="button" aria-label="Ingresar stock de Queso tierno">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                  <span>Entrada</span>
+                </button>
+                <button class="btn-row-action btn-mark-empty" type="button" aria-label="Marcar Queso tierno como agotado">
+                  <span>Agotar</span>
+                </button>
+              </div>
+            </article>
+
+            <!-- 7. Maíz morado seco de grano (Barra) -->
+            <article class="stock-item-row" data-id="7" data-area="barra" data-name="Maíz morado seco de grano" data-stock="32" data-min="10" data-unit="kg">
+              <div class="item-info">
+                <div class="item-name-row">
+                  <span class="item-glyph-badge">Grano</span>
+                  <span class="item-name">Maíz morado seco de grano</span>
+                </div>
+                <div class="item-meta">
+                  <span>Barra &amp; Fermentos</span>
+                  <span>·</span>
+                  <span>Materia prima de chicha morada</span>
+                </div>
+              </div>
+              <div class="item-stock-reading">
+                <span class="stock-qty">32</span>
+                <span class="stock-unit">Kilogramos (kg)</span>
+              </div>
+              <div class="level-gauge-wrap">
+                <div class="level-meta">
+                  <div class="item-badge-status-wrap">
+                    <span class="item-badge-status ok">Óptimo</span>
+                  </div>
+                  <span>Mín: 10 kg</span>
+                </div>
+                <div class="level-bar" role="progressbar" aria-valuenow="32" aria-valuemin="0" aria-valuemax="40">
+                  <div class="level-fill" style="width: 80%;"></div>
+                </div>
+              </div>
+              <div class="row-actions">
+                <button class="btn-row-action btn-entry-quick" type="button" aria-label="Ingresar stock de Maíz morado">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                  <span>Entrada</span>
+                </button>
+                <button class="btn-row-action btn-mark-empty" type="button" aria-label="Marcar Maíz morado como agotado">
+                  <span>Agotar</span>
+                </button>
+              </div>
+            </article>
+
+            <!-- 8. Morocho andino molido (Barra - Stock Bajo) -->
+            <article class="stock-item-row" data-id="8" data-area="barra" data-name="Morocho andino molido" data-stock="5" data-min="10" data-unit="kg">
+              <div class="item-info">
+                <div class="item-name-row">
+                  <span class="item-glyph-badge">Molienda</span>
+                  <span class="item-name">Morocho andino molido</span>
+                </div>
+                <div class="item-meta">
+                  <span>Barra &amp; Fermentos</span>
+                  <span>·</span>
+                  <span>Para maceración y fermento morocho</span>
+                </div>
+              </div>
+              <div class="item-stock-reading">
+                <span class="stock-qty" style="color: var(--color-inti-bright);">5</span>
+                <span class="stock-unit">Kilogramos (kg)</span>
+              </div>
+              <div class="level-gauge-wrap">
+                <div class="level-meta">
+                  <div class="item-badge-status-wrap">
+                    <span class="item-badge-status low">Stock Bajo</span>
+                  </div>
+                  <span>Mín: 10 kg</span>
+                </div>
+                <div class="level-bar" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="20">
+                  <div class="level-fill low" style="width: 25%;"></div>
+                </div>
+              </div>
+              <div class="row-actions">
+                <button class="btn-row-action btn-entry-quick" type="button" aria-label="Ingresar stock de Morocho andino">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                  <span>Entrada</span>
+                </button>
+                <button class="btn-row-action btn-mark-empty" type="button" aria-label="Marcar Morocho andino como agotado">
+                  <span>Agotar</span>
+                </button>
+              </div>
+            </article>
+
+            <!-- 9. Panela artesanal en bloque (Barra) -->
+            <article class="stock-item-row" data-id="9" data-area="barra" data-name="Panela artesanal en bloque" data-stock="28" data-min="8" data-unit="kg">
+              <div class="item-info">
+                <div class="item-name-row">
+                  <span class="item-glyph-badge">Trapiche</span>
+                  <span class="item-name">Panela artesanal en bloque</span>
+                </div>
+                <div class="item-meta">
+                  <span>Barra &amp; Fermentos</span>
+                  <span>·</span>
+                  <span>Endulzante natural de mostos</span>
+                </div>
+              </div>
+              <div class="item-stock-reading">
+                <span class="stock-qty">28</span>
+                <span class="stock-unit">Kilogramos (kg)</span>
+              </div>
+              <div class="level-gauge-wrap">
+                <div class="level-meta">
+                  <div class="item-badge-status-wrap">
+                    <span class="item-badge-status ok">Óptimo</span>
+                  </div>
+                  <span>Mín: 8 kg</span>
+                </div>
+                <div class="level-bar" role="progressbar" aria-valuenow="28" aria-valuemin="0" aria-valuemax="35">
+                  <div class="level-fill" style="width: 80%;"></div>
+                </div>
+              </div>
+              <div class="row-actions">
+                <button class="btn-row-action btn-entry-quick" type="button" aria-label="Ingresar stock de Panela artesanal">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                  <span>Entrada</span>
+                </button>
+                <button class="btn-row-action btn-mark-empty" type="button" aria-label="Marcar Panela artesanal como agotado">
+                  <span>Agotar</span>
+                </button>
+              </div>
+            </article>
+
+            <!-- 10. Botellas vidrio retornables 750ml (Barra) -->
+            <article class="stock-item-row" data-id="10" data-area="barra" data-name="Botellas de vidrio 750ml" data-stock="48" data-min="15" data-unit="unid">
+              <div class="item-info">
+                <div class="item-name-row">
+                  <span class="item-glyph-badge">Envases</span>
+                  <span class="item-name">Botellas de vidrio 750ml</span>
+                </div>
+                <div class="item-meta">
+                  <span>Barra &amp; Envasado</span>
+                  <span>·</span>
+                  <span>Retornables esterilizadas</span>
+                </div>
+              </div>
+              <div class="item-stock-reading">
+                <span class="stock-qty">48</span>
+                <span class="stock-unit">Unidades (unid)</span>
+              </div>
+              <div class="level-gauge-wrap">
+                <div class="level-meta">
+                  <div class="item-badge-status-wrap">
+                    <span class="item-badge-status ok">Óptimo</span>
+                  </div>
+                  <span>Mín: 15 unid.</span>
+                </div>
+                <div class="level-bar" role="progressbar" aria-valuenow="48" aria-valuemin="0" aria-valuemax="60">
+                  <div class="level-fill" style="width: 80%;"></div>
+                </div>
+              </div>
+              <div class="row-actions">
+                <button class="btn-row-action btn-entry-quick" type="button" aria-label="Ingresar stock de Botellas de vidrio">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                  <span>Entrada</span>
+                </button>
+                <button class="btn-row-action btn-mark-empty" type="button" aria-label="Marcar Botellas de vidrio como agotado">
+                  <span>Agotar</span>
+                </button>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <!-- Panel 2: Bitácora de Movimientos -->
+        <section class="panel-box" aria-labelledby="heading-ledger-log">
+          <header class="panel-box-header">
+            <h3 class="panel-box-title" id="heading-ledger-log">Bitácora en Tiempo Real</h3>
+            <span class="panel-box-badge">Movimientos</span>
+          </header>
+
+          <div class="ledger-log-container" id="ledger-log-container" role="feed" aria-label="Historial de movimientos de bodega">
+            <article class="ledger-entry-item">
+              <div class="ledger-diff-pill in">+12</div>
+              <div class="ledger-details">
+                <span class="ledger-product-name">Maíz morado seco de grano</span>
+                <span class="ledger-motive">Entrada manual · Almacén central · Resp: <strong class="ledger-user-tag">Ana Torres</strong></span>
+              </div>
+              <time class="ledger-timestamp">21:42</time>
+            </article>
+
+            <article class="ledger-entry-item">
+              <div class="ledger-diff-pill out">−2</div>
+              <div class="ledger-details">
+                <span class="ledger-product-name">Tomate riñón andino</span>
+                <span class="ledger-motive">Descuento comanda POS · Comanda <strong class="ledger-user-tag">#SM-194 (Mesa 03)</strong></span>
+              </div>
+              <time class="ledger-timestamp">21:38</time>
+            </article>
+
+            <article class="ledger-entry-item">
+              <div class="ledger-diff-pill out">−3</div>
+              <div class="ledger-details">
+                <span class="ledger-product-name">Hongos andinos de altura</span>
+                <span class="ledger-motive">Descuento comanda POS · Comanda <strong class="ledger-user-tag">#SM-191 (Mesa 01)</strong></span>
+              </div>
+              <time class="ledger-timestamp">21:15</time>
+            </article>
+
+            <article class="ledger-entry-item">
+              <div class="ledger-diff-pill out">0</div>
+              <div class="ledger-details">
+                <span class="ledger-product-name">Aguacate criollo mantecoso</span>
+                <span class="ledger-motive">Marcado agotado en turno · Oculto al cliente</span>
+              </div>
+              <time class="ledger-timestamp">20:48</time>
+            </article>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Modal Físico de Vale de Entrada de Almacén -->
+    <div class="modal-overlay" id="modal-warehouse" role="dialog" aria-modal="true" aria-labelledby="modal-voucher-title">
+      <section class="warehouse-voucher-modal">
+        <header class="voucher-header">
+          <div>
+            <span class="voucher-stamp">Taller Sereno Moreno · Almacén Central</span>
+            <h3 class="voucher-title" id="modal-voucher-title">Registrar Entrada de Stock</h3>
+          </div>
+          <button class="btn-voucher-close" id="btn-close-modal" type="button" aria-label="Cerrar vale de ingreso">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+          </button>
+        </header>
+
+        <form class="voucher-form" id="form-stock-entry">
+          <div class="form-group">
+            <label class="form-label" for="input-item-select">Insumo o Materia Prima *</label>
+            <select class="form-select" id="input-item-select" required>
+              <option value="">-- Seleccionar insumo --</option>
+              <option value="Tomate riñón andino" data-unit="kg">Tomate riñón andino (Cocina &amp; Paila)</option>
+              <option value="Cebolla paiteña colorada" data-unit="kg">Cebolla paiteña colorada (Cocina &amp; Paila)</option>
+              <option value="Papa chaucha andina" data-unit="kg">Papa chaucha andina (Cocina &amp; Paila)</option>
+              <option value="Hongos andinos de altura" data-unit="kg">Hongos andinos de altura (Cocina &amp; Paila)</option>
+              <option value="Aguacate criollo mantecoso" data-unit="kg">Aguacate criollo mantecoso (Cocina &amp; Paila)</option>
+              <option value="Queso tierno de hacienda" data-unit="kg">Queso tierno de hacienda (Cocina &amp; Paila)</option>
+              <option value="Maíz morado seco de grano" data-unit="kg">Maíz morado seco de grano (Barra &amp; Fermentos)</option>
+              <option value="Morocho andino molido" data-unit="kg">Morocho andino molido (Barra &amp; Fermentos)</option>
+              <option value="Panela artesanal en bloque" data-unit="kg">Panela artesanal en bloque (Barra &amp; Fermentos)</option>
+              <option value="Botellas de vidrio 750ml" data-unit="unid">Botellas de vidrio 750ml (Barra &amp; Envases)</option>
+            </select>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="input-quantity">Cantidad a Ingresar *</label>
+              <input class="form-input" id="input-quantity" type="number" min="0.5" step="0.5" placeholder="Ej. 10" required>
+              <p class="form-hint-note">No se permiten cantidades negativas o nulas.</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="input-unit">Unidad de Medida *</label>
+              <select class="form-select" id="input-unit" required>
+                <option value="kg">Kilogramos (kg)</option>
+                <option value="unid">Unidades (unid)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="input-responsible">Responsable *</label>
+              <select class="form-select" id="input-responsible" required>
+                <option value="Ana Torres (Almacén)">Ana Torres (Almacén)</option>
+                <option value="Chef Paila (Cocina)">Chef Paila (Cocina)</option>
+                <option value="Carlos Mena (Barra)">Carlos Mena (Barra)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="input-date">Fecha de Ingreso *</label>
+              <input class="form-input" id="input-date" type="date" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="input-notes">Lote / Proveedor Local</label>
+            <input class="form-input" id="input-notes" type="text" placeholder="Ej. Cosecha Guayllabamba · Guía #0498">
+          </div>
+
+          <footer class="voucher-actions">
+            <button class="btn-cancel-entry" id="btn-cancel-entry" type="button">Descartar</button>
+            <button class="btn-save-entry" type="submit">Guardar en Bodega</button>
+          </footer>
+        </form>
+      </section>
+    </div>
+
+    <!-- Notificación Toast -->
+    <div class="toast-bubble" id="toast-bubble" role="status" aria-live="polite"></div>
+  </div>
+
   <script>
+    /* ==========================================================================
+       PURASED INTERACTION ENGINE — UI-14 CONTROL DE INVENTARIO
+       Gestión de existencias, kardex/bitácora en tiempo real y deducción automática.
+       ========================================================================== */
     (() => {
-      const list = document.querySelector("#stock-list");
-      const modal = document.querySelector("#entry-modal");
-      const form = document.querySelector("#entry-form");
-      const toast = document.querySelector("#toast");
-      const showToast = (message) => { toast.textContent = message; toast.classList.add("visible"); window.setTimeout(() => toast.classList.remove("visible"), 2600); };
-      const closeModal = () => { modal.classList.remove("visible"); modal.setAttribute("aria-hidden", "true"); form.reset(); };
-      const updateSummary = () => {
-        const rows = [...list.querySelectorAll(".stock-row:not([hidden])")];
-        document.querySelector("#stock-count").textContent = rows.length + " insumos";
-        document.querySelector("#low-total").textContent = rows.filter((row) => row.querySelector(".stock-status").classList.contains("low")).length;
-        document.querySelector("#empty-total").textContent = rows.filter((row) => row.querySelector(".stock-status").classList.contains("empty")).length;
-        document.querySelector("#available-total").textContent = rows.filter((row) => !row.querySelector(".stock-status").classList.contains("empty")).length;
+      /**
+       * Genera retroalimentación acústica breve mediante Web Audio API para acciones táctiles de bodega.
+       * @param {number} freq - Frecuencia del tono en Hertz (por defecto 587.33Hz).
+       * @param {number} dur - Duración de la envolvente sonora en segundos.
+       */
+      const playTone = (freq = 587.33, dur = 0.14) => {
+        try {
+          const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+          gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + dur);
+        } catch (_) {}
       };
-      const setEmpty = (row) => {
-        const status = row.querySelector(".stock-status");
-        const level = row.querySelector(".stock-level");
-        const button = row.querySelector(".quick-out");
-        status.className = "stock-status empty";
-        status.textContent = "Agotado";
-        level.className = "stock-level empty";
-        level.querySelector("i").style.width = "0%";
-        if (button) button.remove();
+
+      const modal = document.querySelector("#modal-warehouse");
+      const btnOpenModal = document.querySelector("#btn-open-modal");
+      const btnCloseModal = document.querySelector("#btn-close-modal");
+      const btnCancelEntry = document.querySelector("#btn-cancel-entry");
+      const formEntry = document.querySelector("#form-stock-entry");
+      const inputItemSelect = document.querySelector("#input-item-select");
+      const inputQuantity = document.querySelector("#input-quantity");
+      const inputUnit = document.querySelector("#input-unit");
+      const inputDate = document.querySelector("#input-date");
+      const toast = document.querySelector("#toast-bubble");
+      const searchInput = document.querySelector("#search-input");
+      const filterTabs = document.querySelectorAll(".tab-btn");
+      const stockFilterSelect = document.querySelector("#stock-filter");
+      const inventoryTable = document.querySelector("#inventory-table");
+      const ledgerContainer = document.querySelector("#ledger-log-container");
+      const btnSimulateOrder = document.querySelector("#btn-simulate-order");
+
+      let currentAreaFilter = "all";
+      let currentStockFilter = "all";
+      inputDate.value = new Date().toISOString().slice(0, 10);
+
+      /**
+       * Muestra una notificación flotante estilo pergamino artesanal y reproduce tono de aviso.
+       * @param {string} message - Texto informativo del movimiento o alerta.
+       */
+      const showToast = (message) => {
+        toast.textContent = message;
+        toast.classList.add("active");
+        playTone(659, 0.15);
+        window.setTimeout(() => toast.classList.remove("active"), 3200);
       };
-      const addMovement = (name, quantity, unit, outgoing) => {
-        const movement = document.createElement("article");
-        movement.className = "movement";
-        movement.innerHTML = `<strong class="movement-qty${outgoing ? " out" : ""}">${outgoing ? "−" : "+"}${quantity}</strong><div><span class="movement-name">${name}</span><span class="movement-meta">${outgoing ? "Marcado como agotado" : "Entrada registrada · Administrador de área"}</span></div><time class="movement-time">Ahora</time>`;
-        document.querySelector("#movement-list").prepend(movement);
+
+      /**
+       * Abre el modal de vale de ingreso de almacén y enfoca el campo de cantidad.
+       * @param {string|null} preselectedItem - Nombre del insumo a preseleccionar en el selector (opcional).
+       */
+      const openModal = (preselectedItem = null) => {
+        modal.classList.add("active");
+        if (preselectedItem) {
+          inputItemSelect.value = preselectedItem;
+          const opt = inputItemSelect.querySelector(`option[value="${preselectedItem}"]`);
+          if (opt && opt.dataset.unit) inputUnit.value = opt.dataset.unit;
+        }
+        inputQuantity.focus();
+        playTone(523, 0.08);
       };
-      document.querySelector("#new-entry").addEventListener("click", () => { modal.classList.add("visible"); modal.setAttribute("aria-hidden", "false"); document.querySelector("#entry-item").focus(); });
-      document.querySelector("#close-entry").addEventListener("click", closeModal);
-      document.querySelector("#cancel-entry").addEventListener("click", closeModal);
-      modal.addEventListener("click", (event) => { if (event.target === modal) closeModal(); });
-      document.addEventListener("keydown", (event) => { if (event.key === "Escape" && modal.classList.contains("visible")) closeModal(); });
-      document.querySelector("#area-select").addEventListener("change", (event) => {
-        list.querySelectorAll(".stock-row").forEach((row) => { row.hidden = event.target.value !== "all" && row.dataset.area !== event.target.value; });
-        updateSummary();
+
+      /**
+       * Cierra el modal de vale de ingreso y reinicia los campos del formulario con la fecha actual.
+       */
+      const closeModal = () => {
+        modal.classList.remove("active");
+        formEntry.reset();
+        inputDate.value = new Date().toISOString().slice(0, 10);
+      };
+
+      btnOpenModal.addEventListener("click", () => openModal());
+      btnCloseModal.addEventListener("click", closeModal);
+      btnCancelEntry.addEventListener("click", closeModal);
+
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) closeModal();
       });
-      document.querySelector("#stock-search").addEventListener("input", (event) => {
-        const query = event.target.value.trim().toLowerCase();
-        list.querySelectorAll(".stock-row").forEach((row) => { row.hidden = !row.dataset.name.toLowerCase().includes(query); });
-        updateSummary();
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal.classList.contains("active")) closeModal();
       });
-      list.addEventListener("click", (event) => {
-        const button = event.target.closest("button");
-        if (!button) return;
-        const row = button.closest(".stock-row");
-        if (button.classList.contains("quick-out")) {
-          if (!window.confirm(`¿Marcar ${row.dataset.name} como agotado?`)) return;
-          setEmpty(row);
-          addMovement(row.dataset.name, row.dataset.stock, "", true);
-          updateSummary();
-          showToast(row.dataset.name + " marcado como agotado");
-        } else {
-          modal.classList.add("visible");
-          modal.setAttribute("aria-hidden", "false");
-          document.querySelector("#entry-item").value = row.dataset.name;
-          document.querySelector("#entry-quantity").focus();
+
+      // Sincroniza automáticamente la unidad de medida según el insumo seleccionado en el modal
+      inputItemSelect.addEventListener("change", (e) => {
+        const opt = e.target.selectedOptions[0];
+        if (opt && opt.dataset.unit) inputUnit.value = opt.dataset.unit;
+      });
+
+      /**
+       * Recalcula los totales de insumos en estado 'Stock Bajo', 'Agotado' y 'Óptimo',
+       * actualizando las tarjetas superiores y el badge de cantidad de insumos visibles.
+       */
+      const updateMetrics = () => {
+        const rows = [...inventoryTable.querySelectorAll(".stock-item-row")];
+        const lowRows = rows.filter((r) => r.querySelector(".item-badge-status").classList.contains("low"));
+        const emptyRows = rows.filter((r) => r.classList.contains("is-exhausted"));
+        const okRows = rows.filter((r) => !r.classList.contains("is-exhausted") && !r.querySelector(".item-badge-status").classList.contains("low"));
+
+        document.querySelector("#metric-low-count").textContent = lowRows.length;
+        document.querySelector("#metric-empty-count").textContent = emptyRows.length;
+        document.querySelector("#metric-ok-count").textContent = okRows.length;
+
+        const visibleCount = rows.filter((r) => !r.hidden).length;
+        document.querySelector("#stock-counter-badge").textContent = `${visibleCount} Insumos`;
+      };
+
+      /**
+       * Aplica los filtros combinados de búsqueda por texto, pestaña de área (Cocina/Barra/Todos)
+       * y filtro desplegable de estado de stock sobre las filas de la tabla.
+       */
+      const applyFilters = () => {
+        const query = searchInput.value.trim().toLowerCase();
+        const rows = inventoryTable.querySelectorAll(".stock-item-row");
+
+        rows.forEach((row) => {
+          const matchArea = currentAreaFilter === "all" || row.dataset.area === currentAreaFilter;
+          const matchSearch = row.dataset.name.toLowerCase().includes(query);
+          
+          let matchStock = true;
+          const isExhausted = row.classList.contains("is-exhausted");
+          const isLow = row.querySelector(".item-badge-status").classList.contains("low");
+
+          if (currentStockFilter === "low") matchStock = isLow;
+          else if (currentStockFilter === "empty") matchStock = isExhausted;
+          else if (currentStockFilter === "ok") matchStock = (!isExhausted && !isLow);
+
+          row.hidden = !(matchArea && matchSearch && matchStock);
+        });
+
+        updateMetrics();
+      };
+
+      // Manejadores de interacción para las pestañas de área (Todos, Cocina, Barra)
+      filterTabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          filterTabs.forEach((t) => {
+            t.classList.remove("active");
+            t.setAttribute("aria-selected", "false");
+          });
+          tab.classList.add("active");
+          tab.setAttribute("aria-selected", "true");
+          currentAreaFilter = tab.dataset.filter;
+          applyFilters();
+          playTone(440, 0.08);
+        });
+      });
+
+      searchInput.addEventListener("input", applyFilters);
+      stockFilterSelect.addEventListener("change", (e) => {
+        currentStockFilter = e.target.value;
+        applyFilters();
+      });
+
+      /**
+       * Agrega una nueva entrada de auditoría al inicio de la bitácora en tiempo real.
+       * @param {string} productName - Nombre del insumo involucrado.
+       * @param {number} diff - Cantidad numérica ingresada o descontada.
+       * @param {string} unit - Unidad de medida (kg, unid).
+       * @param {string} motive - Detalle u origen del movimiento (guía de remisión, comanda POS).
+       * @param {boolean} isDeduction - True si representa una salida/consumo, false si es un ingreso.
+       */
+      const addLedgerEntry = (productName, diff, unit, motive, isDeduction = false) => {
+        const entry = document.createElement("article");
+        entry.className = "ledger-entry-item";
+        const sign = isDeduction ? "−" : "+";
+        const diffClass = isDeduction ? "out" : "in";
+        const now = new Date();
+        const timeStr = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+
+        entry.innerHTML = `
+          <div class="ledger-diff-pill ${diffClass}">${sign}${diff}</div>
+          <div class="ledger-details">
+            <span class="ledger-product-name">${productName}</span>
+            <span class="ledger-motive">${motive}</span>
+          </div>
+          <time class="ledger-timestamp">${timeStr}</time>
+        `;
+
+        ledgerContainer.prepend(entry);
+        const movesCounter = document.querySelector("#metric-moves-count");
+        movesCounter.textContent = Number(movesCounter.textContent) + 1;
+      };
+
+      /**
+       * Declara un insumo como agotado: pone el stock a 0, actualiza los estilos visuales a estado vacío,
+       * altera el botón a 'Reponer' y registra el evento en la bitácora.
+       * @param {HTMLElement} row - Fila (.stock-item-row) del insumo a agotar.
+       */
+      const setItemExhausted = (row) => {
+        row.dataset.stock = "0";
+        row.classList.add("is-exhausted");
+        row.querySelector(".stock-qty").textContent = "0";
+        row.querySelector(".stock-qty").style.color = "var(--status-empty)";
+
+        const bar = row.querySelector(".level-fill");
+        bar.className = "level-fill empty";
+        bar.style.width = "0%";
+
+        const badgeWrapper = row.querySelector(".item-badge-status-wrap");
+        badgeWrapper.innerHTML = `
+          <span class="item-badge-status empty">Agotado</span>
+          <span class="client-menu-note">Oculto a clientes</span>
+        `;
+
+        const actionWrapper = row.querySelector(".row-actions");
+        actionWrapper.innerHTML = `
+          <button class="btn-row-action btn-entry-quick" type="button" aria-label="Reponer ${row.dataset.name}">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            <span>Reponer</span>
+          </button>
+        `;
+
+        addLedgerEntry(row.dataset.name, 0, "", "Declarado agotado en turno · Oculto automáticamente al comensal", true);
+        showToast(`"${row.dataset.name}" marcado como agotado.`);
+        updateMetrics();
+      };
+
+      /**
+       * Manejador delegado para clics en la tabla de inventario: gestiona la declaración
+       * manual de agotado o la apertura del vale de ingreso rápido para reposición.
+       */
+      inventoryTable.addEventListener("click", (e) => {
+        const btn = e.target.closest("button");
+        if (!btn) return;
+
+        const row = btn.closest(".stock-item-row");
+        const itemName = row.dataset.name;
+
+        if (btn.classList.contains("btn-mark-empty")) {
+          if (confirm(`¿Declarar "${itemName}" como agotado? Se ocultará inmediatamente del menú del cliente.`)) {
+            setItemExhausted(row);
+          }
+        } else if (btn.classList.contains("btn-entry-quick")) {
+          openModal(itemName);
         }
       });
-      form.addEventListener("submit", (event) => {
-        event.preventDefault();
-        if (!form.reportValidity()) return;
-        const name = document.querySelector("#entry-item").value;
-        const quantity = document.querySelector("#entry-quantity").value;
-        const unit = document.querySelector("#entry-unit").value;
-        const row = [...list.querySelectorAll(".stock-row")].find((item) => item.dataset.name === name);
+
+      /**
+       * Procesa el vale de entrada de almacén: valida la cantidad positiva, incrementa el stock
+       * en el DOM y atributos data, ajusta el indicador de nivel y genera la entrada en la bitácora.
+       */
+      formEntry.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const itemName = inputItemSelect.value;
+        const qty = parseFloat(inputQuantity.value);
+        const unit = inputUnit.value;
+        const responsible = document.querySelector("#input-responsible").value;
+        const notes = document.querySelector("#input-notes").value.trim();
+
+        if (isNaN(qty) || qty <= 0) {
+          alert("Error: La cantidad a ingresar debe ser un valor positivo mayor a cero.");
+          return;
+        }
+
+        const row = [...inventoryTable.querySelectorAll(".stock-item-row")].find((r) => r.dataset.name === itemName);
+
         if (row) {
-          row.dataset.stock = String(Number(row.dataset.stock) + Number(quantity));
-          row.querySelector(".stock-number").innerHTML = `${row.dataset.stock} <span class="stock-unit">${unit}</span>`;
-          row.querySelector(".stock-status").className = "stock-status";
-          row.querySelector(".stock-status").textContent = "Disponible";
-          row.querySelector(".stock-level").className = "stock-level";
-          row.querySelector(".stock-level i").style.width = "70%";
+          const currentStock = parseFloat(row.dataset.stock);
+          const newStock = currentStock + qty;
+          row.dataset.stock = String(newStock);
+
+          const qtyEl = row.querySelector(".stock-qty");
+          qtyEl.textContent = newStock;
+          qtyEl.style.color = "var(--color-text-chalk)";
+
+          const minStock = parseFloat(row.dataset.min);
+          const bar = row.querySelector(".level-fill");
+          const badgeWrapper = row.querySelector(".item-badge-status-wrap");
+
+          row.classList.remove("is-exhausted");
+
+          if (newStock > minStock) {
+            bar.className = "level-fill";
+            bar.style.width = "75%";
+            badgeWrapper.innerHTML = `<span class="item-badge-status ok">Óptimo</span>`;
+          } else {
+            bar.className = "level-fill low";
+            bar.style.width = "28%";
+            badgeWrapper.innerHTML = `<span class="item-badge-status low">Stock Bajo</span>`;
+          }
+
+          const actionWrapper = row.querySelector(".row-actions");
+          if (!actionWrapper.querySelector(".btn-mark-empty")) {
+            actionWrapper.innerHTML = `
+              <button class="btn-row-action btn-entry-quick" type="button" aria-label="Ingresar stock de ${itemName}">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                <span>Entrada</span>
+              </button>
+              <button class="btn-row-action btn-mark-empty" type="button" aria-label="Marcar ${itemName} como agotado">
+                <span>Agotar</span>
+              </button>
+            `;
+          }
+
+          const motive = `Ingreso registrado · Resp: ${responsible}${notes ? ` · ${notes}` : ""}`;
+          addLedgerEntry(itemName, qty, unit, motive, false);
+          closeModal();
+          updateMetrics();
+          showToast(`Ingreso de +${qty} ${unit} registrado para "${itemName}".`);
         }
-        addMovement(name, quantity, unit, false);
-        closeModal();
-        updateSummary();
-        showToast("Entrada registrada y stock actualizado");
       });
-      updateSummary();
+
+      /**
+       * Simula la confirmación de una comanda POS aleatoria, descontando automáticamente
+       * el stock de un insumo disponible y registrando la salida en la bitácora en vivo.
+       */
+      btnSimulateOrder.addEventListener("click", () => {
+        const availableRows = [...inventoryTable.querySelectorAll(".stock-item-row:not(.is-exhausted)")];
+        if (availableRows.length === 0) {
+          showToast("Todos los insumos están agotados.");
+          return;
+        }
+
+        const targetRow = availableRows[Math.floor(Math.random() * availableRows.length)];
+        const currentStock = parseFloat(targetRow.dataset.stock);
+        const deduction = 1;
+
+        if (currentStock <= deduction) {
+          setItemExhausted(targetRow);
+        } else {
+          const newStock = currentStock - deduction;
+          targetRow.dataset.stock = String(newStock);
+          targetRow.querySelector(".stock-qty").textContent = newStock;
+
+          const minStock = parseFloat(targetRow.dataset.min);
+          if (newStock <= minStock) {
+            targetRow.querySelector(".level-fill").className = "level-fill low";
+            targetRow.querySelector(".item-badge-status-wrap").innerHTML = `<span class="item-badge-status low">Stock Bajo</span>`;
+          }
+
+          const randomMesa = Math.floor(Math.random() * 8) + 1;
+          const randomOrder = Math.floor(Math.random() * 40) + 180;
+          addLedgerEntry(
+            targetRow.dataset.name,
+            deduction,
+            targetRow.dataset.unit,
+            `Descuento comanda POS · Comanda #SM-${randomOrder} (Mesa 0${randomMesa})`,
+            true
+          );
+
+          showToast(`Comanda #SM-${randomOrder} descontó -1 ${targetRow.dataset.unit} de "${targetRow.dataset.name}".`);
+          updateMetrics();
+        }
+      });
+
+      // Inicialización de métricas en la carga inicial de la pantalla
+      updateMetrics();
     })();
   </script>
 </body>

@@ -1,0 +1,1155 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Terminal de Servicio · Sereno Moreno</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark-base: #121614;
+      --bg-slate-charcoal: #1F2421;
+      --bg-card: #171C19;
+      --bg-ticket-paper: #FFFDF9;
+      --border-line: rgba(245, 234, 219, 0.12);
+      --border-line-hover: rgba(229, 159, 56, 0.45);
+
+      --text-chalk: #F5EADB;
+      --text-muted: #A8B5AA;
+      --text-faint: #637066;
+      --text-dark-ink: #1A201C;
+      --text-ticket-subtle: #5a645d;
+
+      --gold-inti: #E59F38;
+      --gold-highlight: #F8AD00;
+
+      --status-ready: #94B783;
+      --status-alert: #C9533B;
+      --status-alert-bg: rgba(201, 83, 59, 0.14);
+
+      --font-display: "Bebas Neue", Impact, sans-serif;
+      --font-body: "Space Grotesk", system-ui, -apple-system, sans-serif;
+
+      --touch-min: 44px;
+      --shadow-ticket: 0 16px 36px -6px rgba(0, 0, 0, 0.7), 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      background-color: var(--bg-dark-base);
+      color: var(--text-chalk);
+      font-size: 14px;
+    }
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      background: var(--bg-dark-base);
+      font-family: var(--font-body);
+      color: var(--text-chalk);
+      position: relative;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input { font: inherit; }
+    button { cursor: pointer; color: inherit; -webkit-tap-highlight-color: transparent; }
+    button, a { touch-action: manipulation; }
+    button:focus-visible, input:focus-visible, a:focus-visible {
+      outline: 2px solid var(--gold-inti);
+      outline-offset: 3px;
+    }
+
+    /* Linograbado ancestral sutil de fondo */
+    .bg-watermark {
+      position: fixed;
+      right: -80px;
+      bottom: -60px;
+      width: 560px;
+      height: 560px;
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 0;
+      background: url("../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/recurso-16.png") no-repeat center / contain;
+      filter: invert(1);
+    }
+
+    .shell {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Bar de Estación */
+    .station-topbar {
+      min-height: 72px;
+      padding: 12px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid var(--border-line);
+      background: #0d110f;
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .brand-logo-img {
+      height: 40px;
+      width: auto;
+      display: block;
+    }
+    .station-id {
+      padding-left: 16px;
+      border-left: 1px solid var(--border-line);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .station-name {
+      font-family: var(--font-display);
+      font-size: 19px;
+      letter-spacing: 1.5px;
+      color: var(--gold-inti);
+      line-height: 1;
+    }
+    .station-place {
+      font-size: 10px;
+      letter-spacing: 1.2px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .shift-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      background: rgba(229, 159, 56, 0.08);
+      border: 1px solid rgba(229, 159, 56, 0.25);
+      color: var(--gold-highlight);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .dot-live {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold-highlight);
+      box-shadow: 0 0 8px var(--gold-highlight);
+      animation: pulse 2s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.6; }
+    }
+
+    /* Aviso funcional y amigable para comensales */
+    .diner-notice {
+      background: rgba(31, 36, 33, 0.7);
+      border-bottom: 1px solid var(--border-line);
+      padding: 10px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+    .diner-notice strong {
+      color: var(--gold-inti);
+      font-weight: 600;
+    }
+    .diner-links {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .diner-link {
+      color: var(--gold-inti);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border: 1px solid rgba(229, 159, 56, 0.25);
+      transition: all 0.15s ease;
+    }
+    .diner-link:hover {
+      background: var(--gold-inti);
+      color: var(--text-dark-ink);
+    }
+
+    /* Contenido Principal */
+    .station-main {
+      flex: 1;
+      padding: 28px 32px 36px;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .station-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.85fr;
+      gap: 36px;
+      align-items: start;
+    }
+
+    /* Módulo Izquierdo: Consola Receptiva */
+    .console-module {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    /* Selector Receptivo de Personal */
+    .staff-selector-wrap {
+      background: var(--bg-slate-charcoal);
+      border: 1px solid var(--border-line);
+      padding: 18px 20px;
+    }
+    .staff-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .staff-card {
+      background: var(--bg-dark-base);
+      border: 1px solid var(--border-line);
+      padding: 12px 14px;
+      text-align: left;
+      transition: all 0.15s ease;
+      position: relative;
+    }
+    .staff-card:hover {
+      border-color: var(--border-line-hover);
+      transform: translateY(-2px);
+    }
+    .staff-card.active {
+      border-color: var(--gold-highlight);
+      background: rgba(229, 159, 56, 0.08);
+    }
+    .staff-card.active::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--gold-highlight);
+    }
+    .staff-station-tag {
+      font-size: 9px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--gold-inti);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .staff-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-chalk);
+      line-height: 1.2;
+    }
+    .staff-shift-info {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Panel de Ingreso Táctil (PIN & Clave) */
+    .auth-panel {
+      background: var(--bg-slate-charcoal);
+      border: 1px solid var(--border-line);
+      padding: 26px 28px;
+    }
+
+    .auth-switch-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 22px;
+      border-bottom: 1px solid var(--border-line);
+      padding-bottom: 12px;
+    }
+    .switch-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-family: var(--font-display);
+      font-size: 17px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      min-height: var(--touch-min);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.15s ease;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -13px;
+    }
+    .switch-btn:hover { color: var(--text-chalk); }
+    .switch-btn.active {
+      color: var(--gold-highlight);
+      border-bottom-color: var(--gold-highlight);
+    }
+
+    /* Modo PIN */
+    .pin-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+    .pin-display {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      background: var(--bg-dark-base);
+      border: 1px solid var(--border-line);
+      padding: 16px;
+    }
+    .pin-dots {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      height: 32px;
+    }
+    .pin-dot {
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--border-line);
+      background: transparent;
+      border-radius: 50%;
+      transition: all 0.15s ease;
+    }
+    .pin-dot.filled {
+      background: var(--gold-inti);
+      border-color: var(--gold-highlight);
+      box-shadow: 0 0 10px var(--gold-highlight);
+      transform: scale(1.15);
+    }
+
+    .keypad-matrix {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      width: 100%;
+      max-width: 330px;
+    }
+    .keypad-key {
+      min-height: 54px;
+      background: var(--bg-dark-base);
+      border: 1px solid var(--border-line);
+      color: var(--text-chalk);
+      font-family: var(--font-display);
+      font-size: 26px;
+      letter-spacing: 1px;
+      display: grid;
+      place-items: center;
+      transition: all 0.1s ease;
+      user-select: none;
+    }
+    .keypad-key:hover {
+      background: rgba(229, 159, 56, 0.1);
+      border-color: var(--gold-inti);
+      color: var(--gold-highlight);
+    }
+    .keypad-key:active {
+      background: var(--gold-inti);
+      color: var(--text-dark-ink);
+      transform: scale(0.97);
+    }
+    .keypad-key.key-action {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .keypad-key.key-enter {
+      background: var(--gold-inti);
+      color: var(--text-dark-ink);
+      border-color: var(--gold-inti);
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .keypad-key.key-enter:hover {
+      background: var(--gold-highlight);
+    }
+
+    /* Modo Contraseña */
+    .password-form {
+      display: none;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .field-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .field-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-chalk);
+    }
+    .input-box {
+      width: 100%;
+      min-height: 48px;
+      background: var(--bg-dark-base);
+      border: 1px solid var(--border-line);
+      color: var(--text-chalk);
+      font-family: var(--font-body);
+      font-size: 13.5px;
+      padding: 12px 14px;
+      border-radius: 0;
+      transition: border-color 0.15s ease;
+    }
+    .input-box:focus {
+      border-color: var(--gold-inti);
+    }
+    .pass-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .btn-toggle-eye {
+      position: absolute;
+      right: 8px;
+      min-height: 36px;
+      min-width: 36px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      display: grid;
+      place-items: center;
+    }
+    .btn-toggle-eye:hover { color: var(--gold-inti); }
+
+    .btn-action-primary {
+      background: var(--gold-inti);
+      color: var(--text-dark-ink);
+      border: 1px solid var(--gold-inti);
+      font-family: var(--font-display);
+      font-size: 21px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      line-height: 1;
+      min-height: 50px;
+      padding: 14px 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-weight: 700;
+      transition: all 0.15s ease;
+      margin-top: 4px;
+    }
+    .btn-action-primary:hover {
+      background: var(--gold-highlight);
+      border-color: var(--gold-highlight);
+      transform: translateY(-1px);
+    }
+    .btn-action-primary:active { transform: translateY(0); }
+
+    /* Mensaje de Error */
+    .status-alert-box {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      margin-top: 16px;
+      border-left: 3px solid var(--status-alert);
+      background: var(--status-alert-bg);
+      color: #ffb4a2;
+      font-size: 12px;
+    }
+    .status-alert-box.visible { display: flex; }
+
+    /* Módulo Derecho: El Ticket de Papel Artesanal PuraSed (1.2° rotación) */
+    .ticket-container {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .paper-ticket {
+      background: var(--bg-ticket-paper);
+      color: var(--text-dark-ink);
+      padding: 28px 30px 36px;
+      transform: rotate(1.2deg);
+      box-shadow: var(--shadow-ticket);
+      position: relative;
+      margin: 8px 6px 16px;
+      transition: transform 0.2s ease;
+    }
+    .paper-ticket:hover {
+      transform: rotate(0deg) scale(1.01);
+    }
+    /* Borde troquelado inferior */
+    .paper-ticket::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -8px;
+      height: 9px;
+      background:
+        linear-gradient(135deg, var(--bg-ticket-paper) 25%, transparent 25%) -8px 0/16px 16px,
+        linear-gradient(225deg, var(--bg-ticket-paper) 25%, transparent 25%) -8px 0/16px 16px;
+    }
+    .ticket-head {
+      text-align: center;
+      border-bottom: 1px dashed var(--text-dark-ink);
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+    }
+    .ticket-brand {
+      font-family: var(--font-display);
+      font-size: 26px;
+      letter-spacing: 2px;
+      line-height: 1;
+      text-transform: uppercase;
+      color: var(--text-dark-ink);
+    }
+    .ticket-sub {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-ticket-subtle);
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    .ticket-badge-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      background: rgba(26, 32, 28, 0.05);
+      padding: 8px 12px;
+      border-left: 3px solid var(--gold-inti);
+    }
+    .ticket-station-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      line-height: 1;
+      color: var(--text-dark-ink);
+    }
+    .ticket-code {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--text-ticket-subtle);
+    }
+
+    .ticket-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 11px;
+      padding: 6px 0;
+      border-bottom: 1px dotted rgba(26, 32, 28, 0.15);
+    }
+    .ticket-row span:first-child { color: var(--text-ticket-subtle); }
+    .ticket-row span:last-child { font-weight: 600; color: var(--text-dark-ink); }
+
+    .ticket-target-box {
+      margin-top: 14px;
+      padding: 10px 12px;
+      background: #f4eee2;
+      border: 1px solid #e2d7c5;
+    }
+    .ticket-target-box small {
+      display: block;
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-ticket-subtle);
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+    .ticket-target-box strong {
+      display: block;
+      font-size: 13px;
+      color: #7b3e10;
+    }
+
+    .ticket-foot {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-ticket-subtle);
+      opacity: 0.8;
+      line-height: 1.5;
+    }
+
+    /* Estado de Desbloqueo / Éxito */
+    .unlock-banner {
+      display: none;
+      background: var(--bg-slate-charcoal);
+      border: 1px solid var(--status-ready);
+      padding: 18px;
+      margin-top: 14px;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .unlock-banner.show { display: flex; animation: arrive 0.25s ease; }
+    @keyframes arrive {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: none; }
+    }
+    .unlock-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .unlock-text {
+      font-size: 12px;
+      color: var(--text-chalk);
+    }
+    .unlock-btn {
+      background: var(--status-ready);
+      color: var(--bg-dark-base);
+      border: none;
+      font-family: var(--font-display);
+      font-size: 17px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 10px 18px;
+      min-height: 44px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .unlock-btn:hover { background: #a6c995; }
+
+    /* Footer Institucional */
+    .station-footer {
+      border-top: 1px solid var(--border-line);
+      background: #0d110f;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .station-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+      .paper-ticket {
+        max-width: 440px;
+        margin: 0 auto 16px;
+      }
+    }
+    @media (max-width: 768px) {
+      .station-topbar { padding: 12px 20px; }
+      .topbar-right { display: none; }
+      .diner-notice { padding: 10px 20px; flex-direction: column; align-items: flex-start; }
+      .station-main { padding: 20px; }
+      .staff-grid { grid-template-columns: 1fr 1fr; }
+      .station-footer { padding: 14px 20px; flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 480px) {
+      .staff-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-watermark" aria-hidden="true"></div>
+
+  <div class="shell">
+
+    <!-- Top Bar de Estación -->
+    <header class="station-topbar">
+      <div class="brand-group">
+        <img class="brand-logo-img" src="../../../PuraSed.Client/wwwroot/catalogo_imagenes/drawings/logosm.svg" alt="Sereno Moreno Bar &amp; Mercado" />
+        <div class="station-id">
+          <span class="station-name">Sereno Moreno · Estación Central</span>
+          <span class="station-place">Centro Histórico · Quito · San Marcos</span>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <span class="shift-indicator">
+          <span class="dot-live"></span>
+          Jornada Activa
+        </span>
+        <span id="liveClock" style="font-variant-numeric: tabular-nums;">17:45 · Jueves</span>
+      </div>
+    </header>
+
+    <!-- Aviso para Comensales -->
+    <div class="diner-notice">
+      <span>Terminal para colaboradores. Si eres comensal, tu comanda se activa directo en la mesa o al reservar.</span>
+      <div class="diner-links">
+        <a class="diner-link" href="UI12_Formulario_Publico_Reserva.html">Reservas Comensales →</a>
+        <a class="diner-link" href="01_menu_orbital_pos.html">Menú de Mesa →</a>
+      </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <main class="station-main">
+      <div class="station-grid">
+
+        <!-- Consola Receptiva -->
+        <div class="console-module">
+
+          <!-- Selector Dinámico de Personal -->
+          <section class="staff-selector-wrap" aria-label="Selección de colaborador">
+            <div class="staff-grid" id="staffGrid">
+              <!-- Andrea Morales -->
+              <button type="button" class="staff-card active" data-colab="andrea">
+                <span class="staff-station-tag">Caja &amp; Gestión</span>
+                <div class="staff-name">Andrea Morales</div>
+                <div class="staff-shift-info">Turno Tarde/Noche</div>
+              </button>
+
+              <!-- Camila Vega -->
+              <button type="button" class="staff-card" data-colab="camila">
+                <span class="staff-station-tag">Salón &amp; Mesas</span>
+                <div class="staff-name">Camila Vega</div>
+                <div class="staff-shift-info">Turno Tarde/Noche</div>
+              </button>
+
+              <!-- Diego Torres -->
+              <button type="button" class="staff-card" data-colab="diego">
+                <span class="staff-station-tag">Cocina de Paila</span>
+                <div class="staff-name">Diego Torres</div>
+                <div class="staff-shift-info">Turno Tarde/Noche</div>
+              </button>
+
+              <!-- Lucía Paredes -->
+              <button type="button" class="staff-card" data-colab="lucia">
+                <span class="staff-station-tag">Barra &amp; Fermentos</span>
+                <div class="staff-name">Lucía Paredes</div>
+                <div class="staff-shift-info">Turno Tarde/Noche</div>
+              </button>
+
+              <!-- Nicolás León -->
+              <button type="button" class="staff-card" data-colab="nicolas">
+                <span class="staff-station-tag">Recepción &amp; Sala</span>
+                <div class="staff-name">Nicolás León</div>
+                <div class="staff-shift-info">Turno Tarde/Noche</div>
+              </button>
+
+              <!-- Ángel Chicaiza -->
+              <button type="button" class="staff-card" data-colab="angel">
+                <span class="staff-station-tag">Dirección Técnica</span>
+                <div class="staff-name">Ángel Chicaiza</div>
+                <div class="staff-shift-info">Turno Continuo</div>
+              </button>
+            </div>
+          </section>
+
+          <!-- Consola de Entrada (PIN Táctil o Clave) -->
+          <section class="auth-panel" aria-label="Ingreso de credencial">
+            <div class="auth-switch-bar">
+              <button type="button" class="switch-btn active" id="btnModePin">
+                PIN de Salón
+              </button>
+              <button type="button" class="switch-btn" id="btnModePass">
+                Contraseña
+              </button>
+            </div>
+
+            <!-- Entrada PIN -->
+            <div class="pin-box" id="pinBox">
+              <div class="pin-display">
+                <div class="pin-dots" id="pinDots">
+                  <div class="pin-dot"></div>
+                  <div class="pin-dot"></div>
+                  <div class="pin-dot"></div>
+                  <div class="pin-dot"></div>
+                </div>
+              </div>
+
+              <div class="keypad-matrix" role="group" aria-label="Teclado numérico">
+                <button type="button" class="keypad-key" data-digit="1">1</button>
+                <button type="button" class="keypad-key" data-digit="2">2</button>
+                <button type="button" class="keypad-key" data-digit="3">3</button>
+                <button type="button" class="keypad-key" data-digit="4">4</button>
+                <button type="button" class="keypad-key" data-digit="5">5</button>
+                <button type="button" class="keypad-key" data-digit="6">6</button>
+                <button type="button" class="keypad-key" data-digit="7">7</button>
+                <button type="button" class="keypad-key" data-digit="8">8</button>
+                <button type="button" class="keypad-key" data-digit="9">9</button>
+                <button type="button" class="keypad-key key-action" id="keyClear">BORRAR</button>
+                <button type="button" class="keypad-key" data-digit="0">0</button>
+                <button type="button" class="keypad-key key-enter" id="keyEnter">ENTRAR</button>
+              </div>
+            </div>
+
+            <!-- Entrada Contraseña -->
+            <form class="password-form" id="passForm" onsubmit="event.preventDefault(); validatePassword();">
+              <div class="field-row">
+                <label class="field-label" for="userField">Usuario o Correo</label>
+                <input class="input-box" id="userField" type="text" autocomplete="username" value="andrea.morales" required />
+              </div>
+              <div class="field-row">
+                <label class="field-label" for="passField">Contraseña</label>
+                <div class="pass-input-wrap">
+                  <input class="input-box" id="passField" type="password" autocomplete="current-password" value="SerenoAdmin2026*" required />
+                  <button type="button" class="btn-toggle-eye" id="togglePass" aria-label="Ver u ocultar contraseña">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <button type="submit" class="btn-action-primary">
+                DESBLOQUEAR ESTACIÓN →
+              </button>
+            </form>
+
+            <div class="status-alert-box" id="alertBox" role="alert">
+              PIN no reconocido para esta estación. Intente nuevamente.
+            </div>
+
+            <!-- Banner de Estación Desbloqueada -->
+            <div class="unlock-banner" id="unlockBanner">
+              <div class="unlock-row">
+                <div>
+                  <strong style="color: var(--status-ready); font-size: 14px;" id="unlockGreeting">Estación Desbloqueada</strong>
+                  <div class="unlock-text" id="unlockDesc">Bienvenido al puesto de trabajo</div>
+                </div>
+                <a class="unlock-btn" id="unlockAction" href="06_Modulo_Caja_Administracion.html">
+                  ABRIR ESTACIÓN →
+                </a>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- Módulo Derecho: Papeleta de Turno Artesanal -->
+        <aside class="ticket-container">
+          <article class="paper-ticket" id="liveTicket">
+            <div class="ticket-head">
+              <div class="ticket-brand">SERENO MORENO</div>
+              <div class="ticket-sub">Papeleta de Turno Activo</div>
+            </div>
+
+            <div class="ticket-badge-row">
+              <div>
+                <span style="font-size: 8.5px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-ticket-subtle); display: block;">ESTACIÓN</span>
+                <span class="ticket-station-title" id="ticketStation">PUNTO DE CAJA</span>
+              </div>
+              <span class="ticket-code" id="ticketColabCode">SM-ADM-01</span>
+            </div>
+
+            <div class="ticket-row">
+              <span>Colaborador:</span>
+              <span id="ticketColabName">Andrea Morales</span>
+            </div>
+            <div class="ticket-row">
+              <span>Turno:</span>
+              <span>Tarde / Noche (17:00 a 02:00)</span>
+            </div>
+            <div class="ticket-row">
+              <span>Mesa / Puesto:</span>
+              <span id="ticketStationDetail">Caja Principal y Cierres</span>
+            </div>
+            <div class="ticket-row">
+              <span>Estado:</span>
+              <span id="ticketStatusText" style="color: #8c531b;">Esperando autenticación</span>
+            </div>
+
+            <div class="ticket-target-box">
+              <small>ÁREA OPERATIVA ASIGNADA:</small>
+              <strong id="ticketTargetArea">Punto de Caja y Liquidación</strong>
+            </div>
+
+            <div class="ticket-foot">
+              «LA CASA EN TUS MANOS» · QUITO PATRIMONIAL<br>
+              USO EXCLUSIVO DE PERSONAL
+            </div>
+          </article>
+        </aside>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="station-footer">
+      <span>Sereno Moreno · Bar, Mercado y Memoria · Centro Histórico de Quito</span>
+      <span>Terminal de Servicio</span>
+    </footer>
+
+  </div>
+
+  <script>
+    const STAFF = {
+      andrea: {
+        name: 'Andrea Morales',
+        station: 'PUNTO DE CAJA',
+        code: 'SM-ADM-01',
+        detail: 'Caja Principal y Cierres',
+        area: 'Punto de Caja y Liquidación',
+        destiny: '06_Modulo_Caja_Administracion.html',
+        pin: '1024',
+        user: 'andrea.morales',
+        pass: 'SerenoAdmin2026*'
+      },
+      camila: {
+        name: 'Camila Vega',
+        station: 'SALÓN & MESAS',
+        code: 'SM-MSR-02',
+        detail: 'Toma de Comandas en Salón',
+        area: 'Mapa de Mesas y Agenda de Salón',
+        destiny: 'UI13_Mapa_Mesas_Agenda.html',
+        pin: '4421',
+        user: 'camila.vega',
+        pass: 'MeseroVega2026#'
+      },
+      diego: {
+        name: 'Diego Torres',
+        station: 'COCINA DE PAILA',
+        code: 'SM-COC-03',
+        detail: 'KDS Cocina y Fogón',
+        area: 'KDS Pantalla de Cocina',
+        destiny: 'UI11_KDS_Cocina_Paila.html',
+        pin: '8832',
+        user: 'diego.torres',
+        pass: 'CocinaPaila2026!'
+      },
+      lucia: {
+        name: 'Lucía Paredes',
+        station: 'BARRA & FERMENTOS',
+        code: 'SM-BAR-04',
+        detail: 'KDD Barra y Mucha Chicha',
+        area: 'KDD Pantalla de Barra',
+        destiny: 'UI10_KDD_Barra_Fermentos.html',
+        pin: '3319',
+        user: 'lucia.paredes',
+        pass: 'BarraChicha2026$'
+      },
+      nicolas: {
+        name: 'Nicolás León',
+        station: 'RECEPCIÓN & SALA',
+        code: 'SM-AST-05',
+        detail: 'Control de Reservas y Entrada',
+        area: 'Agenda de Reservas y Mesas',
+        destiny: 'UI13_Mapa_Mesas_Agenda.html',
+        pin: '7720',
+        user: 'nicolas.leon',
+        pass: 'AsistenteLeon2026*'
+      },
+      angel: {
+        name: 'Ángel Chicaiza',
+        station: 'DIRECCIÓN TÉCNICA',
+        code: 'SM-SUP-00',
+        detail: 'Soporte y Control Global',
+        area: 'Panel de Administración Integral',
+        destiny: '06_Modulo_Caja_Administracion.html',
+        pin: '9900',
+        user: 'angel.chicaiza',
+        pass: 'SuperTI2026@Security'
+      }
+    };
+
+    let activeKey = 'andrea';
+    let pinInput = '';
+
+    const $ = s => document.querySelector(s);
+    const $$ = s => [...document.querySelectorAll(s)];
+
+    // Reloj en vivo
+    function liveTime() {
+      const d = new Date();
+      const h = String(d.getHours()).padStart(2, '0');
+      const m = String(d.getMinutes()).padStart(2, '0');
+      $('#liveClock').textContent = `${h}:${m} · Jueves`;
+    }
+    setInterval(liveTime, 1000);
+    liveTime();
+
+    // Actualizar Colaborador
+    function selectStaff(key) {
+      activeKey = key;
+      const s = STAFF[key];
+      if (!s) return;
+
+      $$('.staff-card').forEach(b => b.classList.toggle('active', b.dataset.colab === key));
+
+      // Actualizar Ticket
+      $('#ticketStation').textContent = s.station;
+      $('#ticketColabCode').textContent = s.code;
+      $('#ticketColabName').textContent = s.name;
+      $('#ticketStationDetail').textContent = s.detail;
+      $('#ticketTargetArea').textContent = s.area;
+      $('#ticketStatusText').textContent = 'Esperando autenticación';
+      $('#ticketStatusText').style.color = '#8c531b';
+
+      // Actualizar campos de formulario
+      $('#userField').value = s.user;
+      $('#passField').value = s.pass;
+
+      // Reset de PIN y alertas
+      pinInput = '';
+      refreshPinDots();
+      $('#alertBox').classList.remove('visible');
+      $('#unlockBanner').classList.remove('show');
+    }
+
+    $$('.staff-card').forEach(card => {
+      card.addEventListener('click', () => selectStaff(card.dataset.colab));
+    });
+
+    // Switch PIN / Contraseña
+    $('#btnModePin').addEventListener('click', () => {
+      $('#btnModePin').classList.add('active');
+      $('#btnModePass').classList.remove('active');
+      $('#pinBox').style.display = 'flex';
+      $('#passForm').style.display = 'none';
+      $('#alertBox').classList.remove('visible');
+    });
+
+    $('#btnModePass').addEventListener('click', () => {
+      $('#btnModePass').classList.add('active');
+      $('#btnModePin').classList.remove('active');
+      $('#pinBox').style.display = 'none';
+      $('#passForm').style.display = 'flex';
+      $('#alertBox').classList.remove('visible');
+    });
+
+    // Lógica de PIN
+    function refreshPinDots() {
+      const dots = $$('#pinDots .pin-dot');
+      dots.forEach((d, i) => d.classList.toggle('filled', i < pinInput.length));
+    }
+
+    $$('.keypad-key[data-digit]').forEach(k => {
+      k.addEventListener('click', () => {
+        if (pinInput.length < 4) {
+          pinInput += k.dataset.digit;
+          refreshPinDots();
+          if (pinInput.length === 4) {
+            setTimeout(checkPin, 180);
+          }
+        }
+      });
+    });
+
+    $('#keyClear').addEventListener('click', () => {
+      pinInput = '';
+      refreshPinDots();
+      $('#alertBox').classList.remove('visible');
+      $('#unlockBanner').classList.remove('show');
+    });
+
+    $('#keyEnter').addEventListener('click', () => {
+      if (pinInput.length === 4) {
+        checkPin();
+      } else {
+        showAlert('Ingresa los 4 dígitos de tu PIN.');
+      }
+    });
+
+    // Soporte teclado físico
+    document.addEventListener('keydown', e => {
+      if ($('#btnModePin').classList.contains('active')) {
+        if (e.key >= '0' && e.key <= '9') {
+          if (pinInput.length < 4) {
+            pinInput += e.key;
+            refreshPinDots();
+            if (pinInput.length === 4) setTimeout(checkPin, 180);
+          }
+        } else if (e.key === 'Backspace') {
+          pinInput = pinInput.slice(0, -1);
+          refreshPinDots();
+        } else if (e.key === 'Enter') {
+          if (pinInput.length === 4) checkPin();
+        }
+      }
+    });
+
+    function checkPin() {
+      const s = STAFF[activeKey];
+      if (pinInput === s.pin) {
+        grantAccess(s);
+      } else {
+        showAlert('PIN no reconocido para esta estación. Intente nuevamente.');
+        pinInput = '';
+        refreshPinDots();
+      }
+    }
+
+    function validatePassword() {
+      const s = STAFF[activeKey];
+      const u = $('#userField').value.trim();
+      const p = $('#passField').value;
+      if (u === s.user && p === s.pass) {
+        grantAccess(s);
+      } else {
+        showAlert('Credenciales incorrectas. Verifique su usuario y contraseña.');
+      }
+    }
+
+    function grantAccess(s) {
+      $('#alertBox').classList.remove('visible');
+      $('#ticketStatusText').textContent = 'Estación Activa';
+      $('#ticketStatusText').style.color = 'var(--status-ready)';
+
+      $('#unlockGreeting').textContent = `¡Estación Desbloqueada, ${s.name}!`;
+      $('#unlockDesc').textContent = `Puesto asignado: ${s.station} · ${s.detail}`;
+      $('#unlockAction').setAttribute('href', s.destiny);
+      $('#unlockBanner').classList.add('show');
+
+      // Si hace clic en enter o completa su PIN, auto-scroll suave hacia el banner
+      $('#unlockBanner').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function showAlert(msg) {
+      $('#alertBox').textContent = msg;
+      $('#alertBox').classList.add('visible');
+      $('#unlockBanner').classList.remove('show');
+    }
+
+    // Toggle ver contraseña
+    $('#togglePass').addEventListener('click', () => {
+      const isP = $('#passField').type === 'password';
+      $('#passField').type = isP ? 'text' : 'password';
+    });
+  </script>
+</body>
+</html>

@@ -1,6 +1,143 @@
 @PuraSed.WebApi_HostAddress = http://localhost:5107
 
-GET {{PuraSed.WebApi_HostAddress}}/weatherforecast/
+### =========================================================================
+### PURA SED - CERVECERÍA & BAR PICANTERÍA (SERENO MORENO)
+### API DE AUTENTICACIÓN JWT, ROLES (Admin, Mesero, Cliente) Y MENÚ
+### =========================================================================
+
+### 1. Intentar acceder al Menú sin token (Debe responder 401 Unauthorized)
+GET {{PuraSed.WebApi_HostAddress}}/api/Productos
 Accept: application/json
 
-###
+### 2. Login con usuario Admin sembrado (admin / Admin123)
+# @name loginAdmin
+POST {{PuraSed.WebApi_HostAddress}}/api/Auth/login
+Content-Type: application/json
+
+{
+  "usuario": "admin",
+  "password": "Admin123"
+}
+
+### 3. Login con email del Admin (admin@purased.com / Admin123)
+POST {{PuraSed.WebApi_HostAddress}}/api/Auth/login
+Content-Type: application/json
+
+{
+  "usuario": "admin@purased.com",
+  "password": "Admin123"
+}
+
+### 4. Login con usuario Mesero (mesero / Mesero123)
+# @name loginMesero
+POST {{PuraSed.WebApi_HostAddress}}/api/Auth/login
+Content-Type: application/json
+
+{
+  "usuario": "mesero",
+  "password": "Mesero123"
+}
+
+### 5. Login con usuario Cliente (cliente / Cliente123)
+# @name loginCliente
+POST {{PuraSed.WebApi_HostAddress}}/api/Auth/login
+Content-Type: application/json
+
+{
+  "usuario": "cliente",
+  "password": "Cliente123"
+}
+
+### 6. Consultar Catálogo Completo de Cervecería/Picantería con Token Admin (200 OK)
+@tokenAdmin = {{loginAdmin.response.body.token}}
+GET {{PuraSed.WebApi_HostAddress}}/api/Productos
+Authorization: Bearer {{tokenAdmin}}
+Accept: application/json
+
+### 7. Consultar Menú filtrado por Categoría: "Fermentos Vivos" (Mucha Chicha)
+GET {{PuraSed.WebApi_HostAddress}}/api/Productos/categoria/Fermentos Vivos
+Authorization: Bearer {{tokenAdmin}}
+Accept: application/json
+
+### 8. Consultar Menú filtrado por Categoría: "Cervecería Artesanal" (Sereno Moreno)
+GET {{PuraSed.WebApi_HostAddress}}/api/Productos/categoria/Cervecería Artesanal
+Authorization: Bearer {{tokenAdmin}}
+Accept: application/json
+
+### 9. Consultar Menú filtrado por Categoría: "Cocina de Paila" (Picantería)
+GET {{PuraSed.WebApi_HostAddress}}/api/Productos/categoria/Cocina de Paila
+Authorization: Bearer {{tokenAdmin}}
+Accept: application/json
+
+### 10. Consultar un producto por ID (Ej: ID 1 Mucha Chicha)
+GET {{PuraSed.WebApi_HostAddress}}/api/Productos/1
+Authorization: Bearer {{tokenAdmin}}
+Accept: application/json
+
+### 11. Crear Nuevo Ítem en el Menú como Admin (201 Created)
+POST {{PuraSed.WebApi_HostAddress}}/api/Productos
+Authorization: Bearer {{tokenAdmin}}
+Content-Type: application/json
+
+{
+  "nombre": "Cerveza Artesanal Sereno Red Ale Andina",
+  "descripcion": "Cerveza roja artesanal con malta caramelo y toques de frutos del bosque. 5.5% ABV.",
+  "precio": 5.25,
+  "categoria": "Cervecería Artesanal",
+  "imagenUrl": "/catalogo_imagenes/si_hay_si_hay/vaso_artesanal_float.png",
+  "activo": true
+}
+
+### 12. Actualizar Ítem del Menú como Mesero (204 NoContent)
+@tokenMesero = {{loginMesero.response.body.token}}
+PUT {{PuraSed.WebApi_HostAddress}}/api/Productos/9
+Authorization: Bearer {{tokenMesero}}
+Content-Type: application/json
+
+{
+  "nombre": "Locrito de Papa Especial",
+  "descripcion": "Locro cremoso de papa chola con doble queso de hoja, cuero crocante y aguacate.",
+  "precio": 6.00,
+  "categoria": "Cocina de Paila",
+  "imagenUrl": "/catalogo_imagenes/pida_no_mas/locrito_de_papa_5.50_float.png",
+  "activo": true
+}
+
+### 13. Cliente consulta el menú (200 OK)
+@tokenCliente = {{loginCliente.response.body.token}}
+GET {{PuraSed.WebApi_HostAddress}}/api/Productos
+Authorization: Bearer {{tokenCliente}}
+Accept: application/json
+
+### 14. Cliente intenta crear producto en el menú (403 Forbidden - Verificación de Roles)
+POST {{PuraSed.WebApi_HostAddress}}/api/Productos
+Authorization: Bearer {{tokenCliente}}
+Content-Type: application/json
+
+{
+  "nombre": "Intento No Permitido por Cliente",
+  "descripcion": "No tiene permisos",
+  "precio": 99.99,
+  "categoria": "Cervecería Artesanal",
+  "activo": true
+}
+
+### 15. Registro de nuevo usuario cliente (200 OK)
+POST {{PuraSed.WebApi_HostAddress}}/api/Auth/register
+Content-Type: application/json
+
+{
+  "usuario": "nuevo_comensal",
+  "email": "comensal@purased.com",
+  "password": "Comensal123",
+  "nombreCompleto": "Juan Comensal Andino"
+}
+
+### 16. Login con el usuario recién registrado
+POST {{PuraSed.WebApi_HostAddress}}/api/Auth/login
+Content-Type: application/json
+
+{
+  "usuario": "nuevo_comensal",
+  "password": "Comensal123"
+}
