@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PuraSed.WebApi.Constants;
 using PuraSed.WebApi.DTOs;
 using PuraSed.WebApi.Models;
-using PuraSed.WebApi.Repositories;
+using PuraSed.WebApi.Services.Interfaces;
 
 namespace PuraSed.WebApi.Controllers;
 
@@ -12,26 +12,26 @@ namespace PuraSed.WebApi.Controllers;
 [ApiController]
 public class ProductosController : ControllerBase
 {
-    private readonly ProductoRepository _repo;
+    private readonly IProductoServicio _service;
 
-    public ProductosController(ProductoRepository repo)
+    public ProductosController(IProductoServicio service)
     {
-        _repo = repo;
+        _service = service;
+    }
+
+    private bool DebeMostrarSoloDisponibles()
+    {
+        return User.Identity?.IsAuthenticated != true
+            || User.IsInRole(Roles.Cliente);
     }
 
     [HttpGet]
     [AllowAnonymous]
     public async Task<ActionResult<List<Producto>>> ObtenerTodos()
     {
-        var productos = await _repo.ObtenerTodosAsync();
+        var productos = await _service.ObtenerTodosAsync(
+            DebeMostrarSoloDisponibles());
 
-        // HU-10: Si el usuario es un cliente o no está autenticado, solo mostramos los productos disponibles (no agotados)
-        if (User.Identity == null || !User.Identity.IsAuthenticated || User.IsInRole(Roles.Cliente))
-        {
-            return Ok(productos.Where(p => p.Activo).ToList());
-        }
-
-        // Para el personal (Admin, Mesero, Cocina, Bar), se devuelven todos para que puedan ver los agotados sombreados
         return Ok(productos);
     }
 
@@ -39,23 +39,25 @@ public class ProductosController : ControllerBase
     [AllowAnonymous]
     public async Task<ActionResult<Producto>> ObtenerPorId(int id)
     {
-        var producto = await _repo.BuscarPorIdAsync(id);
+        var producto = await _service.BuscarPorIdAsync(
+            id, DebeMostrarSoloDisponibles());
+
         if (producto == null)
         {
             return NotFound();
         }
+
         return Ok(producto);
     }
 
     [HttpGet("categoria/{categoria}")]
     [AllowAnonymous]
-    public async Task<ActionResult<List<Producto>>> ObtenerPorCategoria(string categoria)
+    public async Task<ActionResult<List<Producto>>> ObtenerPorCategoria(
+        string categoria)
     {
-        var productos = await _repo.ObtenerPorCategoriaAsync(categoria);
-        if (User.Identity == null || !User.Identity.IsAuthenticated || User.IsInRole(Roles.Cliente))
-        {
-            return Ok(productos.Where(p => p.Activo).ToList());
-        }
+        var productos = await _service.ObtenerPorCategoriaAsync(
+            categoria, DebeMostrarSoloDisponibles());
+
         return Ok(productos);
     }
 
@@ -73,7 +75,7 @@ public class ProductosController : ControllerBase
             Activo = dto.Activo
         };
 
-        await _repo.AgregarAsync(producto);
+        await _service.AgregarAsync(producto);
         return CreatedAtAction(nameof(ObtenerPorId), new { id = producto.Id }, producto);
     }
 
@@ -92,7 +94,7 @@ public class ProductosController : ControllerBase
             Activo = dto.Activo
         };
 
-        bool actualizado = await _repo.ActualizarAsync(producto);
+        bool actualizado = await _service.ActualizarAsync(producto);
         if (!actualizado)
         {
             return NotFound();
@@ -107,7 +109,7 @@ public class ProductosController : ControllerBase
     [Authorize(Roles = Roles.GestionInventario)]
     public async Task<ActionResult> CambiarDisponibilidad(int id, [FromQuery] bool activo)
     {
-        bool cambiado = await _repo.CambiarDisponibilidadAsync(id, activo);
+        bool cambiado = await _service.CambiarDisponibilidadAsync(id, activo);
         if (!cambiado)
         {
             return NotFound(new { mensaje = "Producto no encontrado." });
@@ -119,7 +121,7 @@ public class ProductosController : ControllerBase
     [Authorize(Roles = Roles.GestionMenu)]
     public async Task<ActionResult> Eliminar(int id)
     {
-        bool eliminado = await _repo.EliminarPorIdAsync(id);
+        bool eliminado = await _service.EliminarPorIdAsync(id);
         if (!eliminado)
         {
             return NotFound();
