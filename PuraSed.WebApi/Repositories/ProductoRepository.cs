@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using PuraSed.WebApi.Data;
 using PuraSed.WebApi.Models;
-
+using PuraSed.WebApi.Repositories.Interfaces;
 namespace PuraSed.WebApi.Repositories;
 
-public class ProductoRepository
+public class ProductoRepository : IProductoRepository
 {
     private readonly PuraSedDbContext _context;
 

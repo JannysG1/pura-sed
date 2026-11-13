@@ -1,113 +1,68 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using PuraSed.WebApi.Constants;
-using PuraSed.WebApi.Models;
+using PuraSed.WebApi.DTOs;
+using PuraSed.WebApi.Services.Interfaces;
 
 namespace PuraSed.WebApi.Controllers;
-
-public record LoginRequest(string Usuario, string Password);
-public record RegisterRequest(string Usuario, string Email, string Password, string NombreCompleto);
 
 [ApiController]
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IConfiguration _config;
+    private readonly IAuthService _authService;
 
-    public AuthController(UserManager<ApplicationUser> userManager, IConfiguration config)
+    public AuthController(IAuthService authService)
     {
-        _userManager = userManager;
-        _config = config;
+        _authService = authService;
     }
 
     [AllowAnonymous]
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginRequest request)
+    public async Task<IActionResult> Login(
+        [FromBody] LoginRequest request)
     {
-        var user = await _userManager.FindByNameAsync(request.Usuario)
-            ?? await _userManager.FindByEmailAsync(request.Usuario);
+        var resultado = await _authService.LoginAsync(request);
 
-        if (user == null)
+        if (!resultado.Exitoso)
         {
-            return Unauthorized(new { mensaje = "Usuario o contraseña incorrectos" });
+            return Unauthorized(new
+            {
+                mensaje = resultado.Mensaje
+            });
         }
 
-        if (await _userManager.IsLockedOutAsync(user))
-        {
-            return Unauthorized(new { mensaje = "Cuenta bloqueada temporalmente. Intenta más tarde." });
-        }
-
-        if (!await _userManager.CheckPasswordAsync(user, request.Password))
-        {
-            await _userManager.AccessFailedAsync(user);
-            return Unauthorized(new { mensaje = "Usuario o contraseña incorrectos" });
-        }
-
-        await _userManager.ResetAccessFailedCountAsync(user);
-
-        var roles = await _userManager.GetRolesAsync(user);
-
-        var claims = new List<Claim>
-        {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-            new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
-
-        foreach (var rol in roles)
-        {
-            claims.Add(new Claim(ClaimTypes.Role, rol));
-        }
-
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-        var expira = DateTime.UtcNow.AddHours(1);
-
-        var token = new JwtSecurityToken(
-            issuer: _config["Jwt:Issuer"],
-            audience: _config["Jwt:Audience"],
-            claims: claims,
-            expires: expira,
-            signingCredentials: creds);
-
-        return Ok(new
-        {
-            token = new JwtSecurityTokenHandler().WriteToken(token),
-            expira,
-            usuario = user.UserName,
-            nombreCompleto = user.NombreCompleto,
-            roles
-        });
+        return Ok(resultado.Datos);
     }
 
     [AllowAnonymous]
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+    public async Task<IActionResult> Register(
+        [FromBody] RegisterRequest request)
     {
-        var user = new ApplicationUser
-        {
-            UserName = request.Usuario,
-            Email = request.Email,
-            NombreCompleto = request.NombreCompleto
-        };
+        var resultado = await _authService.RegistrarAsync(request);
 
-        var resultado = await _userManager.CreateAsync(user, request.Password);
-        if (!resultado.Succeeded)
+        if (!resultado.Exitoso)
         {
-            return BadRequest(new { errores = resultado.Errors.Select(e => e.Description) });
+            if (resultado.UsuarioCreado)
+            {
+                return StatusCode(500, new
+                {
+                    mensaje = resultado.Mensaje
+                });
+            }
+
+            return BadRequest(new
+            {
+                mensaje = resultado.Mensaje,
+                errores = resultado.Errores
+            });
         }
 
-        // El rol lo decide el servidor, nunca el cliente (Guía Roles en ASP.NET Core)
-        // En Pura Sed los clientes que se registran obtienen Cliente y Usuario
-        await _userManager.AddToRoleAsync(user, Roles.Cliente);
-        await _userManager.AddToRoleAsync(user, Roles.Usuario);
-
-        return Ok(new { mensaje = "Usuario registrado correctamente", usuario = user.UserName, roles = new[] { Roles.Cliente, Roles.Usuario } });
+        return Ok(new
+        {
+            mensaje = resultado.Mensaje,
+            usuario = resultado.Usuario,
+            roles = resultado.Roles
+        });
     }
 }

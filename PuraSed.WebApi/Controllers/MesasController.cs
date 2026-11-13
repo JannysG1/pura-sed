@@ -1,76 +1,83 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using PuraSed.WebApi.Constants;
-using PuraSed.WebApi.Data;
 using PuraSed.WebApi.DTOs;
 using PuraSed.WebApi.Models;
+using PuraSed.WebApi.Services.Interfaces;
 
 namespace PuraSed.WebApi.Controllers;
 
-[Authorize]
+[Authorize(Roles = Roles.OperativoMesas)]
 [Route("api/[controller]")]
 [ApiController]
 public class MesasController : ControllerBase
 {
-    private readonly PuraSedDbContext _context;
+    private readonly IMesaServicio _servicio;
 
-    public MesasController(PuraSedDbContext context)
+    public MesasController(IMesaServicio servicio)
     {
-        _context = context;
+        _servicio = servicio;
     }
 
-    /// <summary>
-    /// Consulta el estado de todas las mesas del local.
-    /// Permitido a: Todo el personal operativo (Mesero, Asistente, Admin, SuperAdmin).
-    /// </summary>
     [HttpGet]
-    [Authorize(Roles = Roles.OperativoMesas)]
     public async Task<ActionResult<List<Mesa>>> ObtenerTodas()
     {
-        var mesas = await _context.Mesas.OrderBy(m => m.Numero).ToListAsync();
+        var mesas = await _servicio.ObtenerTodasAsync();
+
         return Ok(mesas);
     }
 
-    /// <summary>
-    /// Consulta el estado de una mesa por número.
-    /// </summary>
     [HttpGet("{numero}")]
-    [Authorize(Roles = Roles.OperativoMesas)]
     public async Task<ActionResult<Mesa>> ObtenerPorNumero(int numero)
     {
-        var mesa = await _context.Mesas.FirstOrDefaultAsync(m => m.Numero == numero);
+        var mesa = await _servicio.BuscarPorNumeroAsync(numero);
+
         if (mesa == null)
         {
-            return NotFound(new { mensaje = $"Mesa {numero} no encontrada." });
+            return NotFound(new
+            {
+                mensaje = $"Mesa {numero} no encontrada."
+            });
         }
+
         return Ok(mesa);
     }
 
-    /// <summary>
-    /// Actualiza el estado de la mesa (Disponible, Ocupada, Reservada) y mesero asignado.
-    /// </summary>
     [HttpPatch("{numero}/estado")]
-    [Authorize(Roles = Roles.OperativoMesas)]
-    public async Task<ActionResult> ActualizarEstado(int numero, [FromBody] ActualizarEstadoMesaDTO dto)
+    public async Task<ActionResult> ActualizarEstado(
+        int numero,
+        [FromBody] ActualizarEstadoMesaDTO dto)
     {
-        var mesa = await _context.Mesas.FirstOrDefaultAsync(m => m.Numero == numero);
-        if (mesa == null)
+        try
         {
-            return NotFound(new { mensaje = $"Mesa {numero} no encontrada." });
-        }
+            bool actualizado = await _servicio.ActualizarEstadoAsync(
+                numero,
+                dto.Estado,
+                dto.MeseroAsignadoId,
+                dto.MeseroAsignadoNombre);
 
-        mesa.Estado = dto.Estado;
-        if (!string.IsNullOrEmpty(dto.MeseroAsignadoId))
-        {
-            mesa.MeseroAsignadoId = dto.MeseroAsignadoId;
-        }
-        if (!string.IsNullOrEmpty(dto.MeseroAsignadoNombre))
-        {
-            mesa.MeseroAsignadoNombre = dto.MeseroAsignadoNombre;
-        }
+            if (!actualizado)
+            {
+                return NotFound(new
+                {
+                    mensaje = $"Mesa {numero} no encontrada."
+                });
+            }
 
-        await _context.SaveChangesAsync();
-        return Ok(new { mensaje = $"Mesa {numero} actualizada a '{dto.Estado}'.", mesa });
+            var mesa = await _servicio.BuscarPorNumeroAsync(numero);
+
+            return Ok(new
+            {
+                mensaje = $"Mesa {numero} actualizada.",
+                mesa
+            });
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(new
+            {
+                mensaje = ex.Message
+            });
+        }
     }
 }

@@ -7,6 +7,9 @@ using Microsoft.OpenApi;
 using PuraSed.WebApi.Data;
 using PuraSed.WebApi.Models;
 using PuraSed.WebApi.Repositories;
+using PuraSed.WebApi.Repositories.Interfaces;
+using PuraSed.WebApi.Services;
+using PuraSed.WebApi.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,7 +49,13 @@ builder.Services
     .AddEntityFrameworkStores<PuraSedDbContext>();
 
 // Repositorio Scoped para interactuar con DbContext por petición
-builder.Services.AddScoped<ProductoRepository>();
+builder.Services.AddScoped<IProductoServicio,ProductoServicio>();
+builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped< IValidacionUsuarioService,ValidacionUsuarioService>();
+builder.Services.AddScoped<IMesaRepository, MesaRepository>();
+builder.Services.AddScoped<IMesaServicio, MesaServicio>();
 
 // Autenticación: "los usuarios se identifican con un JWT"
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

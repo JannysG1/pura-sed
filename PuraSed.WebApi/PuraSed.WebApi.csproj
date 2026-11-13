@@ -4,6 +4,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>87a7a7c3-9cef-4a97-b03b-e6c0e0c1f5e6</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +18,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.14" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.3.1" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.23.0" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.14" />
   </ItemGroup>
 
 </Project>
